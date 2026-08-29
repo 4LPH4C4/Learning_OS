@@ -1,0 +1,39 @@
+schema_version: 1
+id: ai-for-beginners
+title: AI for Beginners
+description: Microsoft 공식 AI 입문 과정의 학습 경로
+category: ai
+source_type: github
+status: active
+schedule:
+  priority: 70
+  target_date: null
+prerequisites: []
+skills:
+  - artificial-intelligence
+  - machine-learning
+content_sources:
+  - id: microsoft-ai-for-beginners
+    type: github
+    repository_url: https://github.com/microsoft/AI-For-Beginners.git
+    branch: main
+    local_path: microsoft/AI-For-Beginners
+    sparse_paths:
+      - lessons/1-Intro
+      - images
+modules:
+  - id: introduction
+    title: Introduction to AI
+    order: 1
+    lessons:
+      - id: introduction-to-ai
+        title: Introduction to AI
+        type: external_markdown
+        content_path: lessons/1-Intro/README.md
+        duration_minutes: 30
+        source_id: microsoft-ai-for-beginners
+        required: true
+        skills:
+          - artificial-intelligence
+completion_criteria:
+  type: all_required_lessons

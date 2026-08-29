@@ -1,0 +1,50 @@
+schema_version: 1
+id: pspo-i
+title: PSPO I
+description: Scrum Theory와 Scrum Values를 제품 책임자 관점에서 이해하는 준비 과정
+category: product-management
+source_type: local
+status: active
+schedule:
+  target_date: 2026-10-04
+  priority: 100
+  estimated_hours: 10
+  weekly_target_hours: 2.5
+prerequisites:
+  - 제품 개발 팀에서의 기본 협업 경험
+skills:
+  - scrum
+  - product-ownership
+  - empiricism
+content_sources:
+  - id: local-content
+    type: local
+    base_path: .
+completion_criteria:
+  type: all_required_lessons
+modules:
+  - id: scrum-foundations
+    title: Scrum 기초
+    order: 1
+    lessons:
+      - id: scrum-theory-and-empiricism
+        title: Scrum Theory와 경험주의
+        type: markdown
+        duration_minutes: 30
+        content_path: lessons/scrum-theory-and-empiricism.md
+        required: true
+        skills: [scrum, empiricism]
+      - id: scrum-values-in-action
+        title: Scrum Values를 행동으로 옮기기
+        type: markdown
+        duration_minutes: 25
+        content_path: lessons/scrum-values-in-action.md
+        required: true
+        skills: [scrum, product-ownership]
+      - id: product-owner-scenario
+        title: Product Owner 시나리오 워크숍
+        type: markdown
+        duration_minutes: 25
+        content_path: lessons/product-owner-scenario.md
+        required: true
+        skills: [product-ownership, scrum]

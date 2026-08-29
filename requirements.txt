@@ -1,0 +1,4 @@
+streamlit==1.62.0
+PyYAML==6.0.3
+jupyterlab==4.6.3
+pandas==3.0.5

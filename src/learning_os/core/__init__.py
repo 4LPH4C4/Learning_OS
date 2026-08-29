@@ -1,0 +1,1 @@
+"""Course-independent learning domain."""

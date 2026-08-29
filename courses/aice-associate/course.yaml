@@ -1,0 +1,50 @@
+schema_version: 1
+id: aice-associate
+title: AICE Associate
+description: Python과 pandas로 데이터 분석 기초를 익히는 AICE Associate 준비 과정
+category: ai-data
+source_type: local
+status: active
+schedule:
+  target_date: 2026-10-31
+  priority: 90
+  estimated_hours: 12
+  weekly_target_hours: 3
+prerequisites:
+  - Python 기초 문법과 CSV의 기본 개념
+skills:
+  - python
+  - pandas
+  - data-analysis
+content_sources:
+  - id: local-content
+    type: local
+    base_path: .
+completion_criteria:
+  type: all_required_lessons
+modules:
+  - id: data-analysis-basics
+    title: 데이터 분석 기초
+    order: 1
+    lessons:
+      - id: pandas-first-steps
+        title: "pandas 첫걸음: 표 데이터 읽고 요약하기"
+        type: markdown
+        duration_minutes: 25
+        content_path: lessons/pandas-first-steps.md
+        required: true
+        skills: [python, pandas]
+      - id: pandas-basics-lab
+        title: pandas 기초 실습 노트북
+        type: notebook
+        duration_minutes: 35
+        notebook_path: notebooks/pandas-basics.ipynb
+        required: true
+        skills: [pandas, data-analysis]
+      - id: data-cleaning-checklist
+        title: 데이터 정제 체크리스트
+        type: markdown
+        duration_minutes: 20
+        content_path: lessons/data-cleaning-checklist.md
+        required: true
+        skills: [data-analysis]
