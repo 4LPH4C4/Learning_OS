@@ -34,6 +34,7 @@ class LearningRepository:
             )
         }
         skill_ids.update(question.skill_id for question in question_items)
+        course_ids = tuple(course.id for course in course_items)
         now = utc_now()
         with self.connection:
             self.connection.executemany(
@@ -49,6 +50,17 @@ class LearningRepository:
                     for skill_id in sorted(skill_ids)
                 ],
             )
+            if course_ids:
+                placeholders = ", ".join("?" for _ in course_ids)
+                self.connection.execute(
+                    f"DELETE FROM lesson_skills WHERE course_id IN ({placeholders})",
+                    course_ids,
+                )
+                self.connection.execute(
+                    f"UPDATE quiz_questions SET active=0, updated_at=? "
+                    f"WHERE course_id IN ({placeholders})",
+                    (now, *course_ids),
+                )
             self.connection.executemany(
                 """
                 INSERT OR IGNORE INTO lesson_skills(course_id, lesson_id, skill_id)

@@ -23,12 +23,12 @@ Python 3.11 이상이 필요하다. Windows는 `start.bat`, macOS/Linux는 `./st
 
 | Course | 상태 | Phase 2 학습 자료 |
 |---|---|---|
-| PSPO I | active | Scrum Lesson 3개, 독창 scenario Quiz 6개, 80문항/60분 profile |
-| AICE Associate | active | pandas Markdown/Notebook, Quiz 6개, 90분 profile |
+| PSPO I | active | 7개 모듈·16개 Lesson, 독창 scenario 80문항, 80문항/60분 full mock |
+| AICE Associate | active | 5개 모듈·17개 Lesson, 실행 가능한 Notebook 2개, 독창 문항 28개, 14문항/90분 mock |
 | AI for Beginners | active | Microsoft 공식 원본 Lesson, 개념 점검 4개 |
 | SQLD | active | 데이터 모델링 Lesson, Quiz 6개, 50문항/90분 profile |
 
-Mock profile의 목표 문항 수가 현재 문항 은행보다 크면 보유 문항만 출제한다. 실제 시험 문항은 복제하지 않는다.
+PSPO는 Scrum.org가 공개한 12개 Focus Area를 모두 추적하고, Vision·Product Goal·가치 실험·Backlog ordering·forecast·이해관계자 협업 산출물을 직접 만든다. AICE는 공식 30/30/40 배점 구조에 맞춰 데이터 분석·전처리·AI 모델링을 배우고 synthetic tabular data로 전체 파이프라인을 실행한다. 실제 비공개 시험 문항은 복제하지 않으며 모든 학습 문항에 공식 자료나 API 문서 출처를 연결한다.
 
 ## Architecture
 
@@ -46,9 +46,9 @@ Mock profile의 목표 문항 수가 현재 문항 은행보다 크면 보유 �
 
 - 단일 사용자·로컬 실행을 기준으로 하며 클라우드 동기화는 없다.
 - AI Tutor의 실제 Provider는 아직 연결하지 않았고 기본값은 disabled다.
-- 초기 문항 은행은 학습 흐름 검증용 22문항이며, 전체 시험 규모 콘텐츠는 실제 학습과 함께 확장한다.
+- 전체 문항 은행은 118문항이다. PSPO는 80문항 전체 모의고사를 지원하며 AICE는 공식 14문항 시험의 두 배 분량을 제공한다. AI for Beginners와 SQLD 문항은 아직 소규모다.
 - PDF는 Course 안에 보관하고 열기/저장을 지원하지만 OCR·본문 검색은 아직 하지 않는다.
 
 ## 오늘 첫 학습
 
-Dashboard에서 PSPO I의 `Scrum Theory와 경험주의`를 읽거나 Review의 PSPO Quick Quiz를 시작한다. 답을 제출할 때 자신감을 함께 기록하면 다음 Review 날짜와 Skill mastery가 자동으로 계산된다.
+Dashboard에서 PSPO I의 `PSPO I 평가 구조와 합격 전략` 또는 AICE의 `Associate 시험 직전 체크리스트`부터 시작한다. 답을 제출할 때 자신감을 함께 기록하면 다음 Review 날짜와 Skill mastery가 자동으로 계산된다.

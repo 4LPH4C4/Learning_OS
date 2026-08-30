@@ -1,14 +1,14 @@
 schema_version: 1
 id: aice-associate
 title: AICE Associate
-description: Python과 pandas로 데이터 분석 기초를 익히는 AICE Associate 준비 과정
+description: 공식 시험 범위와 실무형 tabular ML pipeline을 완주하는 과정
 category: ai-data
 source_type: local
 status: active
 schedule:
   target_date: 2026-10-31
   priority: 90
-  estimated_hours: 12
+  estimated_hours: 18
   weekly_target_hours: 3
 prerequisites:
   - Python 기초 문법과 CSV의 기본 개념
@@ -16,6 +16,13 @@ skills:
   - python
   - pandas
   - data-analysis
+  - data-quality
+  - data-visualization
+  - data-preprocessing
+  - machine-learning
+  - model-evaluation
+  - deep-learning
+  - ml-reproducibility
 content_sources:
   - id: local-content
     type: local
@@ -24,10 +31,22 @@ completion_criteria:
   type: all_required_lessons
 quiz_settings:
   mock_exam:
-    question_count: 6
+    question_count: 14
     duration_minutes: 90
     target_score: 80
 modules:
+  - id: associate-orientation
+    title: Associate 시험 안내
+    order: 0
+    lessons:
+      - id: associate-exam-overview
+        title: Associate 시험 직전 체크리스트
+        type: markdown
+        duration_minutes: 15
+        content_path: lessons/associate-exam-overview.md
+        language: ko
+        required: true
+        skills: [python, data-quality, model-evaluation]
   - id: data-analysis-basics
     title: 데이터 분석 기초
     order: 1
@@ -39,7 +58,7 @@ modules:
         content_path: lessons/pandas-first-steps.md
         language: ko
         required: true
-        skills: [python, pandas]
+        skills: [python, data-quality, data-visualization]
       - id: pandas-basics-lab
         title: pandas 기초 실습 노트북
         type: notebook
@@ -47,7 +66,7 @@ modules:
         notebook_path: notebooks/pandas-basics.ipynb
         language: ko
         required: true
-        skills: [pandas, data-analysis]
+        skills: [pandas, data-visualization]
       - id: data-cleaning-checklist
         title: 데이터 정제 체크리스트
         type: markdown
@@ -55,4 +74,120 @@ modules:
         content_path: lessons/data-cleaning-checklist.md
         language: ko
         required: true
-        skills: [data-analysis]
+        skills: [data-quality, data-preprocessing]
+  - id: exploratory-analysis
+    title: 탐색적 데이터 분석
+    order: 2
+    lessons:
+      - id: exploratory-analysis-with-pandas
+        title: pandas로 분포와 관계 탐색하기
+        type: markdown
+        duration_minutes: 30
+        content_path: lessons/exploratory-analysis-with-pandas.md
+        language: ko
+        required: true
+        skills: [pandas, data-visualization]
+      - id: visualization-for-decisions
+        title: 의사결정을 돕는 데이터 시각화
+        type: markdown
+        duration_minutes: 25
+        content_path: lessons/visualization-for-decisions.md
+        language: ko
+        required: true
+        skills: [data-visualization]
+  - id: preprocessing-and-modeling
+    title: 전처리와 모델링
+    order: 3
+    lessons:
+      - id: preprocessing-for-tabular-data
+        title: 범주형·수치형 데이터 전처리
+        type: markdown
+        duration_minutes: 35
+        content_path: lessons/preprocessing-for-tabular-data.md
+        language: ko
+        required: true
+        skills: [python, data-preprocessing, ml-reproducibility]
+      - id: baseline-model-and-evaluation
+        title: 기준 모델 만들기와 성능 평가
+        type: markdown
+        duration_minutes: 35
+        content_path: lessons/baseline-model-and-evaluation.md
+        language: ko
+        required: true
+        skills: [python, machine-learning, model-evaluation]
+  - id: associate-capstone
+    title: Associate 실전 프로젝트
+    order: 4
+    lessons:
+      - id: python-environment-and-loading
+        title: Python 환경과 데이터 로딩
+        type: markdown
+        duration_minutes: 20
+        content_path: lessons/python-environment-and-loading.md
+        language: ko
+        required: true
+        skills: [python, data-quality]
+      - id: data-schema-and-quality
+        title: 데이터 구성과 품질 점검
+        type: markdown
+        duration_minutes: 25
+        content_path: lessons/data-schema-and-quality.md
+        language: ko
+        required: true
+        skills: [pandas, data-quality]
+      - id: missing-and-outlier-treatment
+        title: 결측치와 이상치 처리
+        type: markdown
+        duration_minutes: 25
+        content_path: lessons/missing-and-outlier-treatment.md
+        language: ko
+        required: true
+        skills: [pandas, data-quality, data-preprocessing]
+      - id: encoding-and-scaling
+        title: 인코딩과 스케일링
+        type: markdown
+        duration_minutes: 25
+        content_path: lessons/encoding-and-scaling.md
+        language: ko
+        required: true
+        skills: [python, data-preprocessing]
+      - id: leakage-and-reproducibility
+        title: 누수 방지와 재현성
+        type: markdown
+        duration_minutes: 20
+        content_path: lessons/leakage-and-reproducibility.md
+        language: ko
+        required: true
+        skills: [python, ml-reproducibility]
+      - id: classification-and-regression
+        title: 분류와 회귀 모델링
+        type: markdown
+        duration_minutes: 35
+        content_path: lessons/classification-and-regression.md
+        language: ko
+        required: true
+        skills: [python, machine-learning]
+      - id: neural-network-simulation
+        title: 딥러닝 기초와 모델 시뮬레이션
+        type: markdown
+        duration_minutes: 25
+        content_path: lessons/neural-network-simulation.md
+        language: ko
+        required: true
+        skills: [python, deep-learning]
+      - id: model-improvement-and-graphing
+        title: 모델 개선과 결과 그래프
+        type: markdown
+        duration_minutes: 30
+        content_path: lessons/model-improvement-and-graphing.md
+        language: ko
+        required: true
+        skills: [python, model-evaluation, data-visualization]
+      - id: associate-end-to-end-lab
+        title: Associate end-to-end 실전 랩
+        type: notebook
+        duration_minutes: 60
+        notebook_path: notebooks/associate-end-to-end.ipynb
+        language: ko
+        required: true
+        skills: [python, pandas, machine-learning, model-evaluation, ml-reproducibility]

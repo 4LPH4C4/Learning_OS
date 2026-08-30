@@ -1,21 +1,28 @@
 schema_version: 1
 id: pspo-i
-title: PSPO I
-description: Scrum Theory와 Scrum Values를 제품 책임자 관점에서 이해하는 준비 과정
+title: PSPO I — Professional Product Ownership
+description: Scrum.org PSPO I 공식 범위를 완주하고, 제품 비전·가치 검증·백로그·이해관계자 협업을 실제 제품 운영에 적용하는 과정
 category: product-management
 source_type: local
 status: active
 schedule:
   target_date: 2026-10-04
   priority: 100
-  estimated_hours: 10
-  weekly_target_hours: 2.5
+  estimated_hours: 18
+  weekly_target_hours: 4.5
 prerequisites:
-  - 제품 개발 팀에서의 기본 협업 경험
+  - Scrum Guide를 읽을 수 있는 수준의 영어 독해력
+  - 제품 또는 서비스 개발의 기본 협업 경험
 skills:
-  - scrum
-  - product-ownership
+  - scrum-framework
   - empiricism
+  - product-ownership
+  - product-strategy
+  - product-value
+  - product-backlog-management
+  - stakeholder-collaboration
+  - forecasting
+  - self-management
 content_sources:
   - id: local-content
     type: local
@@ -28,31 +35,159 @@ quiz_settings:
     duration_minutes: 60
     target_score: 90
 modules:
-  - id: scrum-foundations
-    title: Scrum 기초
+  - id: assessment-orientation
+    title: 시험 이해와 학습 전략
     order: 1
+    lessons:
+      - id: assessment-blueprint
+        title: PSPO I 평가 구조와 합격 전략
+        type: markdown
+        duration_minutes: 35
+        content_path: lessons/assessment-blueprint.md
+        language: ko
+        required: true
+        skills: [product-ownership]
+  - id: scrum-foundations
+    title: Scrum의 이론과 책임
+    order: 2
     lessons:
       - id: scrum-theory-and-empiricism
         title: Scrum Theory와 경험주의
         type: markdown
-        duration_minutes: 30
+        duration_minutes: 45
         content_path: lessons/scrum-theory-and-empiricism.md
         language: ko
         required: true
-        skills: [scrum, empiricism]
+        skills: [scrum-framework, empiricism]
       - id: scrum-values-in-action
         title: Scrum Values를 행동으로 옮기기
         type: markdown
-        duration_minutes: 25
+        duration_minutes: 35
         content_path: lessons/scrum-values-in-action.md
         language: ko
         required: true
-        skills: [scrum, product-ownership]
+        skills: [scrum-framework, product-ownership]
+      - id: scrum-team-accountabilities
+        title: Scrum Team의 책임과 자기관리
+        type: markdown
+        duration_minutes: 45
+        content_path: lessons/scrum-team-accountabilities.md
+        language: ko
+        required: true
+        skills: [scrum-framework, self-management]
+  - id: scrum-events-artifacts
+    title: Events, Artifacts, Commitments
+    order: 3
+    lessons:
+      - id: scrum-events
+        title: Scrum Events와 검사·적응
+        type: markdown
+        duration_minutes: 50
+        content_path: lessons/scrum-events.md
+        language: ko
+        required: true
+        skills: [scrum-framework, empiricism]
+      - id: artifacts-commitments-done
+        title: Artifacts, Commitments, Definition of Done
+        type: markdown
+        duration_minutes: 50
+        content_path: lessons/artifacts-commitments-done.md
+        language: ko
+        required: true
+        skills: [scrum-framework, product-backlog-management]
+  - id: product-direction-value
+    title: 제품 방향과 가치
+    order: 4
+    lessons:
+      - id: product-vision-strategy-goal
+        title: Product Vision, Strategy, Product Goal
+        type: markdown
+        duration_minutes: 55
+        content_path: lessons/product-vision-strategy-goal.md
+        language: ko
+        required: true
+        skills: [product-strategy, product-ownership]
+      - id: product-value-and-evidence
+        title: 제품 가치와 증거 기반 의사결정
+        type: markdown
+        duration_minutes: 55
+        content_path: lessons/product-value-and-evidence.md
+        language: ko
+        required: true
+        skills: [product-value, empiricism]
+      - id: customers-stakeholders-discovery
+        title: 고객 발견과 이해관계자 협업
+        type: markdown
+        duration_minutes: 55
+        content_path: lessons/customers-stakeholders-discovery.md
+        language: ko
+        required: true
+        skills: [stakeholder-collaboration, product-value]
+  - id: backlog-value-flow
+    title: Product Backlog으로 가치 흐름 만들기
+    order: 5
+    lessons:
+      - id: product-backlog-management
+        title: Product Backlog 관리의 책임
+        type: markdown
+        duration_minutes: 50
+        content_path: lessons/product-backlog-management.md
+        language: ko
+        required: true
+        skills: [product-backlog-management, product-ownership]
+      - id: refinement-ordering-slicing
+        title: Refinement, Ordering, Value Slicing
+        type: markdown
+        duration_minutes: 60
+        content_path: lessons/refinement-ordering-slicing.md
+        language: ko
+        required: true
+        skills: [product-backlog-management, product-value]
+  - id: forecasting-delivery
+    title: 예측, 릴리스, 학습
+    order: 6
+    lessons:
+      - id: forecasting-release-planning
+        title: 경험적 예측과 릴리스 계획
+        type: markdown
+        duration_minutes: 55
+        content_path: lessons/forecasting-release-planning.md
+        language: ko
+        required: true
+        skills: [forecasting, empiricism]
+      - id: sprint-review-adaptation
+        title: Sprint Review로 제품 방향 적응하기
+        type: markdown
+        duration_minutes: 45
+        content_path: lessons/sprint-review-adaptation.md
+        language: ko
+        required: true
+        skills: [stakeholder-collaboration, empiricism]
+  - id: professional-practice
+    title: Professional Product Owner 실전
+    order: 7
+    lessons:
+      - id: product-owner-leadership
+        title: 권한, 리더십, 자기관리 팀
+        type: markdown
+        duration_minutes: 50
+        content_path: lessons/product-owner-leadership.md
+        language: ko
+        required: true
+        skills: [product-ownership, self-management]
       - id: product-owner-scenario
         title: Product Owner 시나리오 워크숍
         type: markdown
-        duration_minutes: 25
+        duration_minutes: 60
         content_path: lessons/product-owner-scenario.md
         language: ko
         required: true
-        skills: [product-ownership, scrum]
+        skills: [product-ownership, stakeholder-collaboration]
+      - id: capstone-product-operating-system
+        title: 캡스톤 — 제품 운영 시스템 설계
+        type: markdown
+        duration_minutes: 90
+        content_path: lessons/capstone-product-operating-system.md
+        language: ko
+        required: true
+        skills: [product-strategy, product-value, product-backlog-management, forecasting]

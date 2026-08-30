@@ -161,6 +161,36 @@ def test_attempt_persists_review_and_practice_idempotently(tmp_path: Path) -> No
     assert row["answered_count"] == 1 and row["correct_count"] == 0
 
 
+def test_catalog_resync_deactivates_removed_questions_and_replaces_lesson_skills(
+    tmp_path: Path,
+) -> None:
+    course, questions = load_questions(tmp_path)
+    learning, _ = repository(tmp_path)
+    learning.sync_catalog([course], questions)
+
+    lesson = replace(course.modules[0].lessons[0], skills=("data-quality",))
+    module = replace(course.modules[0], lessons=(lesson,))
+    updated_course = replace(
+        course,
+        skills=(*course.skills, "data-quality"),
+        modules=(module,),
+    )
+    learning.sync_catalog([updated_course], questions[:1])
+
+    question_rows = learning.connection.execute(
+        "SELECT question_id, active FROM quiz_questions ORDER BY question_id"
+    ).fetchall()
+    skill_rows = learning.connection.execute(
+        "SELECT skill_id FROM lesson_skills WHERE course_id=? AND lesson_id=?",
+        (course.id, lesson.id),
+    ).fetchall()
+    assert [(row["question_id"], row["active"]) for row in question_rows] == [
+        ("dataframe-shape", 1),
+        ("missing-count", 0),
+    ]
+    assert [row["skill_id"] for row in skill_rows] == ["data-quality"]
+
+
 def test_notes_settings_insights_and_mastery(tmp_path: Path) -> None:
     course, questions = load_questions(tmp_path)
     learning, progress = repository(tmp_path)

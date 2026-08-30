@@ -87,8 +87,8 @@ def test_course_question_banks_have_expected_counts_no_issues_and_sqld_is_active
     courses = {course.id: course for course in catalog.courses}
     expected_counts = {
         "ai-for-beginners": 4,
-        "aice-associate": 6,
-        "pspo-i": 6,
+        "aice-associate": 28,
+        "pspo-i": 80,
         "sqld": 6,
     }
 
@@ -98,5 +98,5 @@ def test_course_question_banks_have_expected_counts_no_issues_and_sqld_is_active
         assert len(load_question_file(courses[course_id])) == expected
 
     question_catalog = discover_questions(catalog.courses)
-    assert len(question_catalog.questions) == 22
+    assert len(question_catalog.questions) == 118
     assert question_catalog.issues == ()

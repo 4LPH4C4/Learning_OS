@@ -257,15 +257,22 @@ Skill은 Course ID와 독립된 stable ID를 가진다. 같은 `machine-learning
 
 - 목표: 시험 합격과 Python/Data/ML 실습 역량 강화
 - 학습 패턴: Concept → Example → Guided Exercise → Independent Exercise → Answer Check → Quiz
-- MVP: Pandas Basics Markdown과 실행 가능한 Notebook
-- Phase 2: preprocessing, ML models, classification/regression metrics, deep learning basics, answer validation
+- 공식 규격: 14문항, 90분, 80점 이상, Python 실기·제한적 오픈북
+- 공식 배점: 데이터 분석 30점, 데이터 전처리 30점, AI 모델링 40점
+- 구현 범위: 5개 모듈, 필수 Lesson 17개, 독창 문항 28개, 실행 가능한 Notebook 2개
+- 실무 범위: 품질 점검, EDA, leakage 방지, 재현 가능한 pipeline, metric/threshold 선택, 결과 설명
+- 공식 기준: `https://aice.study/info/aice/asso`
 
 ### 9.2 PSPO I
 
 - 공식 Scrum Guide와 공개 Scrum.org Focus Area를 우선 source로 사용한다.
 - scenario 문제는 정답, 정답 이유, 오답 이유, 관련 Scrum principle을 포함한다.
 - 실제 시험 문제는 복제하지 않는다.
-- MVP: Scrum Theory와 Scrum Values 첫 Lesson, 독창적 scenario 예시
+- 공식 규격: 80문항, 60분, 합격선 85%. Course 학습 목표는 90%다.
+- 구현 범위: 7개 모듈, 필수 Lesson 16개, 독창 문항 80개와 full mock
+- 공식 12개 Focus Area를 Lesson과 문항에 모두 연결한다.
+- 실무 산출물: Vision, Product Goal, Value Experiment, Backlog ordering/slicing, Stakeholder map, 확률적 forecast, Sprint Review decision board, 통합 capstone
+- 공식 기준: `https://www.scrum.org/resources/suggested-reading-professional-scrum-product-owner`
 
 ### 9.3 Microsoft AI-For-Beginners
 

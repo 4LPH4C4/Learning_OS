@@ -213,6 +213,15 @@ Phase 1은 예측 모델이나 weakness 계산 없이 재현 가능한 규칙을
 
 AICE와 PSPO 콘텐츠는 공개 syllabus와 공식 가이드를 바탕으로 직접 작성한다. 실제 시험 문항은 복제하지 않는다. Microsoft repository 콘텐츠는 복사하지 않고 원본 repository와 license를 유지한다.
 
+Phase 2 콘텐츠 확장 결과는 다음과 같다.
+
+| Course | 완성 범위 |
+|---|---|
+| AICE Associate | 5개 모듈, 17개 Lesson, 실행 가능한 Notebook 2개, 출처가 연결된 독창 문항 28개 |
+| PSPO I | 공식 12개 Focus Area, 7개 모듈, 16개 Lesson, 출처가 연결된 독창 문항 80개와 full mock |
+
+두 Course는 시험 범위 암기에 그치지 않는다. AICE는 재현 가능한 tabular ML pipeline을 실행하고, PSPO는 제품 방향·가치 검증·Backlog·예측·이해관계자 의사결정 산출물을 작성해야 완료된다.
+
 ## 6. 실행 순서
 
 ### Step 0 — Bootstrap과 계약 고정
@@ -348,7 +357,7 @@ Phase 2는 실사용 피드백을 우선 반영하되 기본 순서는 아래와
 | ID | 완료 조건 | 구현/검증 |
 |---|---|---|
 | P2-01 | v1 DB를 손실 없이 upgrade | migration `002_phase2_learning.sql`, migration 회귀 테스트 |
-| P2-02 | Course 독립 Quiz와 confidence 저장 | 4개 `questions.yaml`, 22문항 loader, `quiz_attempts` |
+| P2-02 | Course 독립 Quiz와 confidence 저장 | 4개 `questions.yaml`, 118문항 loader, `quiz_attempts` |
 | P2-03 | 1/2/4/7/14/30일 Review | `schedule_review`, 규칙 parameterized test |
 | P2-04 | Practice/Mock Exam | Course profile, session/attempt 저장, 결과 UI |
 | P2-05 | Curriculum Scheduler | deadline·priority·progress·weakness와 사용자 계획 조정 |

@@ -1,114 +1,1233 @@
 schema_version: 1
 course_id: pspo-i
 questions:
-  - id: sprint-goal-change-request
-    lesson_id: product-owner-scenario
+  # 01-05 Assessment blueprint
+  - id: exam-format-count-time
+    lesson_id: assessment-blueprint
     skill_id: product-ownership
-    topic: Sprint Goal과 변경
-    difficulty: 3
+    topic: 평가 구조
+    difficulty: 1
     type: single_choice
-    prompt: 결제 실패율 개선을 Sprint Goal로 삼은 팀에 영업팀이 특정 고객의 신규 기능을 즉시 넣어 달라고 요청했다. Product Owner의 첫 행동으로 가장 적절한 것은 무엇인가?
+    prompt: PSPO I의 공식 평가 구조로 옳은 것은 무엇인가?
     options:
-      - {id: accept-request, text: 요청자를 만족시키기 위해 즉시 현재 Sprint에 추가한다}
-      - {id: make-transparent, text: 요청의 근거와 가치, Sprint Goal 영향을 투명하게 만들고 팀과 검토한다}
-      - {id: defer-forever, text: Sprint 중 요청은 모두 무시하고 기록하지 않는다}
-      - {id: ask-manager, text: 개발 관리자에게 우선순위 결정을 넘긴다}
-    correct_answers: [make-transparent]
-    explanation: Scrum은 투명성을 바탕으로 검사하고 적응한다. PO는 근거와 영향을 드러내고 팀과 함께 목표를 보호할 방법을 찾는다.
-    incorrect_explanations:
-      accept-request: 단일 요청만으로 즉시 범위를 바꾸면 Sprint Goal과 가치 판단이 불투명해진다.
-      defer-forever: 요청을 숨기는 것은 투명성과 적응을 막는다.
-      ask-manager: Product Backlog의 가치와 순서에 대한 책임을 다른 역할에 위임할 수 없다.
-    source_ref: https://scrumguides.org/scrum-guide.html
-  - id: product-backlog-order-evidence
-    lesson_id: product-owner-scenario
+      - {id: eighty-sixty, text: "80문항, 60분, 합격선 85%"}
+      - {id: sixty-eighty, text: "60문항, 80분, 합격선 80%"}
+      - {id: hundred-ninety, text: "100문항, 90분, 합격선 70%"}
+    correct_answers: [eighty-sixty]
+    explanation: 공식 안내는 80문항, 60분, 합격선 85%다. 이 코스는 안전 여유를 위해 90%를 학습 목표로 둔다.
+    source_ref: https://www.scrum.org/assessments/professional-scrum-product-owner-i-certification
+  - id: exam-official-formats
+    lesson_id: assessment-blueprint
     skill_id: product-ownership
-    topic: Product Backlog 우선순위
-    difficulty: 3
+    topic: 평가 구조
+    difficulty: 1
     type: multiple_choice
-    prompt: 다음 Sprint의 Backlog 순서를 조정할 때 Product Owner가 확인하면 좋은 근거를 모두 고르시오.
+    prompt: PSPO I 공식 문항 형식에 포함되는 것을 모두 고르시오.
     options:
-      - {id: user-impact, text: 영향을 받는 사용자와 문제의 빈도}
-      - {id: value-risk, text: 기대 가치와 기술·운영 위험}
-      - {id: loudest-voice, text: 가장 크게 주장한 사람의 직급}
-      - {id: learning-signal, text: 이전 Increment에서 얻은 사용 및 품질 신호}
-    correct_answers: [user-impact, value-risk, learning-signal]
-    explanation: 우선순위는 가치와 위험, 사용자 영향, 검사에서 얻은 학습 신호를 근거로 조정한다.
-    incorrect_explanations:
-      loudest-voice: 직급이나 목소리 크기는 제품 가치의 신뢰할 만한 근거가 아니다.
+      - {id: mc, text: Multiple Choice}
+      - {id: ma, text: Multiple Answer}
+      - {id: tf, text: True/False}
+      - {id: essay, text: 장문 Essay 채점}
+    correct_answers: [mc, ma, tf]
+    explanation: 공식 형식은 Multiple Choice, Multiple Answer, True/False이며 장문 Essay는 포함되지 않는다.
+    source_ref: https://www.scrum.org/assessments/professional-scrum-product-owner-i-certification
+  - id: exam-open-assessment-use
+    lesson_id: assessment-blueprint
+    skill_id: product-ownership
+    topic: 시험 준비
+    difficulty: 2
+    type: single_choice
+    prompt: Product Owner Open에서 여러 번 높은 점수를 받았다. 다음 준비로 가장 적절한 것은?
+    options:
+      - {id: ready, text: 공개 평가와 인증 시험 난도가 같으므로 즉시 응시한다}
+      - {id: deepen, text: Scrum Guide와 공식 Focus Area를 시나리오에 적용하고 시간 제한 모의고사를 병행한다}
+      - {id: dumps, text: 비공개 시험 기억 문항을 수집한다}
+      - {id: memorize, text: 정답 위치만 암기한다}
+    correct_answers: [deepen]
+    explanation: Scrum.org는 Open Assessment가 전문 인증 시험과 같은 난도가 아니라고 안내한다. 개념 적용과 시간 훈련이 더 필요하다.
+    source_ref: https://www.scrum.org/open-assessments
+  - id: exam-required-vs-practice
+    lesson_id: assessment-blueprint
+    skill_id: scrum-framework
+    topic: Scrum과 보조 관행
+    difficulty: 2
+    type: multiple_choice
+    prompt: Scrum Guide가 필수로 요구하지 않는 보조 관행을 모두 고르시오.
+    options:
+      - {id: stories, text: User Stories}
+      - {id: points, text: Story Points}
+      - {id: product-backlog, text: Product Backlog}
+      - {id: burndown, text: Burn-down chart}
+    correct_answers: [stories, points, burndown]
+    explanation: User Story, Story Point, Burn-down은 선택 가능한 기법이다. Product Backlog는 Scrum Artifact다.
     source_ref: https://scrumguides.org/scrum-guide.html
-  - id: empiricism-feedback-loop
+  - id: exam-scenario-first-check
+    lesson_id: assessment-blueprint
+    skill_id: product-ownership
+    topic: 문제 해결 전략
+    difficulty: 2
+    type: single_choice
+    prompt: 역할이 뒤섞인 짧은 시험 시나리오를 읽었을 때 가장 먼저 확인할 것은?
+    options:
+      - {id: accountability, text: 누가 해당 결과에 accountable한가}
+      - {id: longest, text: 가장 긴 선택지가 무엇인가}
+      - {id: company, text: 현재 회사에서 관행적으로 누가 하는가}
+      - {id: title, text: 등장인물 중 직급이 가장 높은 사람은 누구인가}
+    correct_answers: [accountability]
+    explanation: Scrum의 accountability와 목적을 먼저 식별하면 회사 관행이나 직급에 끌리지 않고 답을 판단할 수 있다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 06-10 Empiricism
+  - id: empiricism-three-pillars
     lesson_id: scrum-theory-and-empiricism
     skill_id: empiricism
     topic: 경험주의
-    difficulty: 2
-    type: single_choice
-    prompt: 출시한 실험의 전환율이 예상보다 낮았다. 경험주의에 맞는 Product Owner의 대응은 무엇인가?
-    options:
-      - {id: hide-result, text: 목표 달성처럼 보이도록 결과를 보고서에서 제외한다}
-      - {id: inspect-adapt, text: 결과를 투명하게 공유하고 원인을 검사한 뒤 다음 실험을 조정한다}
-      - {id: freeze-plan, text: 초기 계획이 맞다고 보고 같은 기능을 계속 확장한다}
-      - {id: blame-team, text: 담당자를 찾아 책임을 묻고 학습 논의를 끝낸다}
-    correct_answers: [inspect-adapt]
-    explanation: 경험주의는 투명성, 검사, 적응의 반복이다. 불편한 결과도 숨기지 않아야 올바른 적응이 가능하다.
-    incorrect_explanations:
-      hide-result: 정보 은폐는 투명성을 훼손한다.
-      freeze-plan: 새로운 관찰에 맞춰 계획을 적응시키지 못한다.
-      blame-team: 비난은 원인 학습과 협업을 방해한다.
-    source_ref: https://scrumguides.org/scrum-guide.html
-  - id: scrum-value-courage
-    lesson_id: scrum-values-in-action
-    skill_id: scrum
-    topic: Scrum Values
-    difficulty: 2
-    type: single_choice
-    prompt: 품질 위험을 발견했지만 일정 지연이 걱정될 때, Scrum Values 중 위험을 공개하고 필요한 대화를 시작하는 태도와 가장 가까운 것은 무엇인가?
-    options:
-      - {id: courage, text: 용기(Courage)}
-      - {id: focus, text: 집중(Focus)}
-      - {id: respect, text: 존중(Respect)}
-      - {id: openness, text: 개방성(Openness)}
-    correct_answers: [courage]
-    explanation: 불편한 위험을 드러내고 올바른 일을 선택하는 데는 용기가 필요하다. 개방성은 그 행동을 돕는 가치이기도 하다.
-    incorrect_explanations:
-      focus: 목표에 집중하는 것만으로 위험 공개의 태도를 설명하지 못한다.
-      respect: 동료를 존중하는 것과 위험을 말할 용기는 관련 있지만 같은 개념은 아니다.
-      openness: 개방성은 정보를 공유하는 가치이고, 위험을 감수하고 말하는 핵심 태도는 용기다.
-    source_ref: https://scrumguides.org/scrum-guide.html
-  - id: definition-of-done-quality
-    lesson_id: scrum-values-in-action
-    skill_id: scrum
-    topic: Definition of Done
-    difficulty: 3
+    difficulty: 1
     type: multiple_choice
-    prompt: Increment가 실제로 사용 가능한지 판단하기 위한 Definition of Done의 역할로 옳은 것을 모두 고르시오.
+    prompt: 경험주의의 세 기둥을 모두 고르시오.
     options:
-      - {id: shared-quality-bar, text: 팀이 충족해야 할 공통 품질 기준을 제공한다}
-      - {id: transparency, text: 완료 상태의 의미를 투명하게 만든다}
-      - {id: optional-checklist, text: 시간이 부족하면 생략해도 되는 선택적 체크리스트다}
-      - {id: stakeholder-approval-only, text: 한 명의 이해관계자 승인만으로 완료를 대신한다}
-    correct_answers: [shared-quality-bar, transparency]
-    explanation: Definition of Done은 Increment의 품질과 완료 상태에 대한 공통 이해를 만든다. 시간이 부족해도 완료 기준을 낮추는 근거가 되지 않는다.
-    incorrect_explanations:
-      optional-checklist: 완료 기준을 생략하면 Increment의 품질과 투명성이 깨진다.
-      stakeholder-approval-only: 개인 승인만으로 팀의 완료 기준을 대체할 수 없다.
+      - {id: transparency, text: Transparency}
+      - {id: inspection, text: Inspection}
+      - {id: adaptation, text: Adaptation}
+      - {id: prediction, text: 완전한 Prediction}
+    correct_answers: [transparency, inspection, adaptation]
+    explanation: Scrum 경험주의의 세 기둥은 투명성, 검사, 적응이다.
     source_ref: https://scrumguides.org/scrum-guide.html
-  - id: scrum-team-accountability
+  - id: empiricism-hidden-churn
     lesson_id: scrum-theory-and-empiricism
-    skill_id: scrum
-    topic: Scrum Team 책임
+    skill_id: empiricism
+    topic: 투명성과 가치
+    difficulty: 3
+    type: single_choice
+    prompt: 가입률은 상승했지만 해지율 악화를 보고서에서 숨겼다. 가장 먼저 훼손된 경험주의 기반은?
+    options:
+      - {id: transparency, text: Transparency}
+      - {id: timebox, text: Sprint timebox}
+      - {id: sizing, text: Item sizing}
+      - {id: release, text: Release cadence}
+    correct_answers: [transparency]
+    explanation: 중요한 반대 evidence를 숨기면 검사가 잘못되고 적응도 왜곡된다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: empiricism-inspect-no-adapt
+    lesson_id: scrum-theory-and-empiricism
+    skill_id: empiricism
+    topic: 검사와 적응
+    difficulty: 3
+    type: single_choice
+    prompt: 팀은 매주 지표를 검토하지만 초기 roadmap을 한 번도 바꾸지 않는다. 가장 적절한 개선은?
+    options:
+      - {id: adapt, text: 관찰이 가정을 반박하면 Backlog와 계획을 신속히 적응한다}
+      - {id: more-reports, text: 같은 보고서를 더 자주 만든다}
+      - {id: freeze, text: 계획 준수를 위해 반대 지표를 제외한다}
+      - {id: cancel-events, text: 검사가 불편하므로 Event를 없앤다}
+    correct_answers: [adapt]
+    explanation: 검사는 실제 적응으로 이어질 때 경험적 통제에 기여한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: empiricism-complex-market
+    lesson_id: scrum-theory-and-empiricism
+    skill_id: empiricism
+    topic: 복잡성
+    difficulty: 3
+    type: single_choice
+    prompt: 고객 행동을 예측하기 어려운 신제품에서 위험을 줄이는 접근은?
+    options:
+      - {id: increment, text: 작은 Done Increment를 전달해 가정을 자주 검사한다}
+      - {id: full-spec, text: 1년치 상세 범위를 먼저 동결한다}
+      - {id: no-release, text: 모든 기능이 완성될 때까지 사용자를 만나지 않는다}
+      - {id: opinion, text: 가장 높은 직급자의 직관만 따른다}
+    correct_answers: [increment]
+    explanation: 반복적·점진적 전달은 실제 경험으로 불확실성을 줄이고 빠른 적응을 가능하게 한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: empiricism-scope-during-sprint
+    lesson_id: scrum-theory-and-empiricism
+    skill_id: empiricism
+    topic: Sprint 적응
     difficulty: 4
     type: single_choice
-    prompt: Product Owner가 개발자에게 Product Backlog의 기술적 순서를 직접 지시하고, Scrum Master가 품질을 승인하는 구조가 생겼다. 가장 적절한 개선은 무엇인가?
+    prompt: Sprint 중 예상과 다른 기술 학습이 생겼다. Scrum에 맞는 대응은?
     options:
-      - {id: restore-accountabilities, text: 각 책임을 존중하고 Product Goal과 품질 기준을 함께 투명하게 조율한다}
-      - {id: po-controls-all, text: PO가 제품과 기술의 모든 결정을 단독으로 맡는다}
-      - {id: sm-approves-quality, text: Scrum Master가 모든 Increment를 승인해야 한다}
-      - {id: remove-events, text: 충돌을 피하기 위해 Scrum Event를 줄인다}
-    correct_answers: [restore-accountabilities]
-    explanation: Scrum Team은 가치 창출을 위해 협력하며, 역할의 책임을 혼합하지 않고 투명한 대화로 조율해야 한다.
-    incorrect_explanations:
-      po-controls-all: PO의 제품 가치 책임이 개발자의 기술적 판단을 대체하지 않는다.
-      sm-approves-quality: 품질은 개발자 책임과 Definition of Done으로 관리한다.
-      remove-events: Event를 없애면 검사와 적응의 기회가 줄어든다.
+      - {id: negotiate, text: Sprint Goal을 해치지 않도록 PO와 Developers가 범위를 재협상한다}
+      - {id: fixed, text: 최초 Sprint Backlog는 절대 바꿀 수 없다}
+      - {id: po-plan, text: PO가 Developers의 상세 계획을 다시 작성한다}
+      - {id: lower-dod, text: 일정 유지를 위해 Definition of Done을 낮춘다}
+    correct_answers: [negotiate]
+    explanation: 학습에 따라 scope를 명확히 하고 재협상할 수 있지만 Sprint Goal과 품질은 보호해야 한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 11-15 Scrum Values
+  - id: values-five
+    lesson_id: scrum-values-in-action
+    skill_id: scrum-framework
+    topic: Scrum Values
+    difficulty: 1
+    type: multiple_choice
+    prompt: Scrum Values에 포함되는 것을 모두 고르시오.
+    options:
+      - {id: focus, text: Focus}
+      - {id: openness, text: Openness}
+      - {id: courage, text: Courage}
+      - {id: utilization, text: Resource Utilization}
+    correct_answers: [focus, openness, courage]
+    explanation: Scrum Values는 Commitment, Focus, Openness, Respect, Courage다. 자원 활용률은 포함되지 않는다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: values-commitment-meaning
+    lesson_id: scrum-values-in-action
+    skill_id: scrum-framework
+    topic: Commitment
+    difficulty: 3
+    type: single_choice
+    prompt: Scrum Value인 Commitment를 가장 잘 설명한 것은?
+    options:
+      - {id: goals, text: 팀이 목표 달성과 서로의 지원에 헌신한다}
+      - {id: fixed-scope, text: Sprint 시작 시 선택한 모든 Item을 무조건 완료한다}
+      - {id: overtime, text: 예측이 틀리면 항상 초과 근무한다}
+      - {id: individual, text: 각 개인의 작업량 계약을 지킨다}
+    correct_answers: [goals]
+    explanation: Commitment는 목표와 팀에 대한 헌신이지 고정 scope나 초과 근무 약속이 아니다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: values-courage-quality
+    lesson_id: scrum-values-in-action
+    skill_id: scrum-framework
+    topic: Courage
+    difficulty: 2
+    type: single_choice
+    prompt: 출시 압박 속에서 보안 기준 미충족을 공개하고 Done이 아니라고 말하는 행동과 가장 가까운 Value는?
+    options:
+      - {id: courage, text: Courage}
+      - {id: focus, text: Focus}
+      - {id: respect, text: Respect}
+      - {id: forecasting, text: Forecasting}
+    correct_answers: [courage]
+    explanation: 불편한 사실을 말하고 옳은 품질 판단을 지키는 데 courage가 필요하다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: values-respect-expertise
+    lesson_id: scrum-values-in-action
+    skill_id: scrum-framework
+    topic: Respect
+    difficulty: 3
+    type: multiple_choice
+    prompt: Respect를 실제로 보여 주는 행동을 모두 고르시오.
+    options:
+      - {id: tech, text: Developers가 구현 방법을 결정할 전문성을 존중한다}
+      - {id: value, text: PO의 가치 ordering accountability를 존중한다}
+      - {id: avoid, text: 갈등을 피하려고 위험을 숨긴다}
+      - {id: assign, text: PO가 개인별 작업을 일방 배정한다}
+    correct_answers: [tech, value]
+    explanation: 서로의 accountability와 전문성을 존중하는 것이 핵심이며 위험 은폐나 미세 관리는 아니다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: values-openness-forecast
+    lesson_id: scrum-values-in-action
+    skill_id: scrum-framework
+    topic: Openness
+    difficulty: 3
+    type: single_choice
+    prompt: 출시 forecast의 불확실성이 커졌다. Openness에 가장 맞는 PO의 행동은?
+    options:
+      - {id: expose, text: 가정과 범위, 신뢰 수준, 다음 갱신 시점을 공개한다}
+      - {id: certainty, text: 신뢰를 위해 단일 날짜를 확정처럼 발표한다}
+      - {id: hide, text: 이해관계자가 묻기 전까지 위험을 숨긴다}
+      - {id: blame, text: Developers의 개인 성과 문제로 돌린다}
+    correct_answers: [expose]
+    explanation: 불확실성과 근거를 투명하게 공개해야 함께 검사하고 적응할 수 있다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 16-20 Scrum Team and self-management
+  - id: team-po-accountability
+    lesson_id: scrum-team-accountabilities
+    skill_id: product-ownership
+    topic: Product Owner 책임
+    difficulty: 2
+    type: multiple_choice
+    prompt: Product Owner의 효과적인 Product Backlog 관리 책임에 포함되는 것을 모두 고르시오.
+    options:
+      - {id: goal, text: Product Goal 개발과 명시적 소통}
+      - {id: ordering, text: Product Backlog Item 정렬}
+      - {id: tech-task, text: 개인별 기술 작업 배정}
+      - {id: transparent, text: Backlog가 투명하고 이해되도록 보장}
+    correct_answers: [goal, ordering, transparent]
+    explanation: PO는 Goal, Item 명확성·정렬, Backlog 투명성에 accountable하다. 개인 작업 배정은 자기관리를 침해한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: team-delegate-remains-accountable
+    lesson_id: scrum-team-accountabilities
+    skill_id: product-ownership
+    topic: 위임과 책임
+    difficulty: 3
+    type: single_choice
+    prompt: PO가 분석가에게 Backlog Item 초안 작성을 맡겼다. 결과에 대한 accountability는 누구에게 남는가?
+    options:
+      - {id: po, text: Product Owner}
+      - {id: analyst, text: 분석가}
+      - {id: sm, text: Scrum Master}
+      - {id: committee, text: 이해관계자 위원회}
+    correct_answers: [po]
+    explanation: PO는 Backlog 관리 작업을 위임할 수 있지만 accountability는 계속 PO에게 남는다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: team-sizing-owner
+    lesson_id: scrum-team-accountabilities
+    skill_id: self-management
+    topic: Sizing
+    difficulty: 2
+    type: single_choice
+    prompt: Product Backlog Item의 크기를 최종적으로 산정할 책임은 누구에게 있는가?
+    options:
+      - {id: developers, text: 일을 수행할 Developers}
+      - {id: po, text: Product Owner 단독}
+      - {id: sm, text: Scrum Master 단독}
+      - {id: sales, text: 영업 책임자}
+    correct_answers: [developers]
+    explanation: 실제 일을 수행할 Developers가 sizing에 책임지며 PO는 이해와 trade-off를 돕는다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: team-daily-scrum-owner
+    lesson_id: scrum-team-accountabilities
+    skill_id: self-management
+    topic: Daily Scrum
+    difficulty: 2
+    type: single_choice
+    prompt: Daily Scrum의 주된 참여자와 목적을 바르게 설명한 것은?
+    options:
+      - {id: developers, text: Developers가 Sprint Goal 진척을 검사하고 계획을 적응한다}
+      - {id: po-report, text: Developers가 PO에게 개인 상태를 보고한다}
+      - {id: sm-assign, text: Scrum Master가 당일 작업을 배정한다}
+      - {id: stakeholder, text: 이해관계자가 Increment를 승인한다}
+    correct_answers: [developers]
+    explanation: Daily Scrum은 Developers가 자기관리하며 Sprint Goal을 향한 계획을 적응하는 15분 Event다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: team-cancel-sprint
+    lesson_id: scrum-team-accountabilities
+    skill_id: product-ownership
+    topic: Sprint 취소
+    difficulty: 4
+    type: single_choice
+    prompt: 규제 변화로 Sprint Goal이 더 이상 가치가 없게 됐다. Sprint를 취소할 권한은 누구에게 있는가?
+    options:
+      - {id: po, text: Product Owner}
+      - {id: developers, text: Developers 다수결}
+      - {id: sm, text: Scrum Master}
+      - {id: sponsor, text: 후원자 단독}
+    correct_answers: [po]
+    explanation: Sprint Goal이 obsolete해지면 Product Owner만 Sprint를 취소할 권한이 있다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 21-25 Scrum Events
+  - id: events-sprint-container
+    lesson_id: scrum-events
+    skill_id: scrum-framework
+    topic: Sprint
+    difficulty: 1
+    type: single_choice
+    prompt: 다른 Scrum Events를 담는 container 역할을 하는 Event는?
+    options:
+      - {id: sprint, text: Sprint}
+      - {id: review, text: Sprint Review}
+      - {id: planning, text: Sprint Planning}
+      - {id: retro, text: Sprint Retrospective}
+    correct_answers: [sprint]
+    explanation: Sprint는 아이디어를 가치로 전환하는 한 달 이하의 고정 길이 Event이며 다른 Events를 담는다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: events-planning-topics
+    lesson_id: scrum-events
+    skill_id: scrum-framework
+    topic: Sprint Planning
+    difficulty: 2
+    type: multiple_choice
+    prompt: Sprint Planning에서 다루는 공식 주제를 모두 고르시오.
+    options:
+      - {id: why, text: 이 Sprint가 왜 가치 있는가}
+      - {id: what, text: 이번 Sprint에 무엇을 할 수 있는가}
+      - {id: how, text: 선택한 일을 어떻게 수행할 것인가}
+      - {id: rating, text: 개인별 성과 등급은 무엇인가}
+    correct_answers: [why, what, how]
+    explanation: Sprint Planning은 Why, What, How 세 주제를 다루며 개인 평가 회의가 아니다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: events-review-purpose
+    lesson_id: scrum-events
+    skill_id: stakeholder-collaboration
+    topic: Sprint Review
+    difficulty: 3
+    type: single_choice
+    prompt: Sprint Review를 기능 시연과 승인만으로 진행하고 있다. 가장 중요한 개선은?
+    options:
+      - {id: inspect-adapt, text: 결과와 환경 변화를 이해관계자와 검사하고 미래 적응을 결정한다}
+      - {id: signoff, text: PO의 완료 승인 서명을 추가한다}
+      - {id: status, text: 개인별 작업 시간을 보고한다}
+      - {id: retro, text: 팀 내부 process 개선만 논의한다}
+    correct_answers: [inspect-adapt]
+    explanation: Sprint Review의 목적은 Sprint 결과를 검사하고 향후 적응을 결정하는 것이다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: events-retro-purpose
+    lesson_id: scrum-events
+    skill_id: self-management
+    topic: Sprint Retrospective
+    difficulty: 2
+    type: single_choice
+    prompt: Sprint Retrospective의 핵심 목적은?
+    options:
+      - {id: effectiveness, text: 품질과 효과성을 높일 방법을 계획한다}
+      - {id: backlog-order, text: PO의 Backlog ordering을 승인한다}
+      - {id: release-gate, text: Increment release를 허가한다}
+      - {id: customer-demo, text: 고객에게 기능을 판매한다}
+    correct_answers: [effectiveness]
+    explanation: Retrospective는 Scrum Team이 지난 Sprint를 검사하고 품질·효과성 개선을 계획하는 Event다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: events-refinement-status
+    lesson_id: scrum-events
+    skill_id: product-backlog-management
+    topic: Refinement
+    difficulty: 3
+    type: single_choice
+    prompt: Product Backlog Refinement를 정확히 설명한 것은?
+    options:
+      - {id: activity, text: Item을 나누고 더 명확히 하는 지속 활동이며 공식 Scrum Event는 아니다}
+      - {id: event, text: 매주 4시간으로 고정된 공식 Event다}
+      - {id: po-only, text: PO만 참여할 수 있는 승인 회의다}
+      - {id: frozen, text: Sprint 중에는 할 수 없다}
+    correct_answers: [activity]
+    explanation: Refinement는 지속적으로 세부 정보를 추가하는 활동이며 고정된 공식 Event가 아니다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 26-30 Artifacts, commitments, Done
+  - id: artifacts-pairs
+    lesson_id: artifacts-commitments-done
+    skill_id: scrum-framework
+    topic: Artifacts와 Commitments
+    difficulty: 2
+    type: multiple_choice
+    prompt: 올바른 Artifact와 Commitment의 연결을 모두 고르시오.
+    options:
+      - {id: pb-pg, text: Product Backlog — Product Goal}
+      - {id: sb-sg, text: Sprint Backlog — Sprint Goal}
+      - {id: inc-dod, text: Increment — Definition of Done}
+      - {id: pb-dod, text: Product Backlog — Definition of Done}
+    correct_answers: [pb-pg, sb-sg, inc-dod]
+    explanation: 각 Artifact는 Product Goal, Sprint Goal, Definition of Done이라는 commitment를 가진다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: artifacts-not-done
+    lesson_id: artifacts-commitments-done
+    skill_id: scrum-framework
+    topic: Definition of Done
+    difficulty: 3
+    type: single_choice
+    prompt: 핵심 Item이 기능 테스트는 통과했지만 조직의 보안 DoD를 충족하지 못했다. 어떻게 처리해야 하는가?
+    options:
+      - {id: backlog, text: Increment 일부로 보지 않고 향후 고려를 위해 Product Backlog로 돌린다}
+      - {id: ninety, text: 90% Done Increment로 발표한다}
+      - {id: lower, text: PO가 이번만 DoD를 낮춘다}
+      - {id: approve, text: 이해관계자 한 명이 승인하면 Done으로 본다}
+    correct_answers: [backlog]
+    explanation: DoD를 충족하지 못한 작업은 Increment 일부가 아니며 Sprint Review에서 완료로 제시할 수 없다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: artifacts-multiple-teams-dod
+    lesson_id: artifacts-commitments-done
+    skill_id: scrum-framework
+    topic: Definition of Done
+    difficulty: 4
+    type: single_choice
+    prompt: 여러 Scrum Team이 같은 제품을 함께 개발할 때 Definition of Done은 어떻게 해야 하는가?
+    options:
+      - {id: shared, text: 같은 제품에 맞는 동일한 DoD를 상호 정의하고 준수한다}
+      - {id: hidden, text: 각 팀이 서로 모르게 다른 완료 의미를 쓴다}
+      - {id: po-only, text: PO가 혼자 작성해 배포한다}
+      - {id: none, text: 통합 시점까지 DoD를 두지 않는다}
+    correct_answers: [shared]
+    explanation: 같은 제품을 만드는 팀들은 Increment의 투명성을 위해 동일한 DoD를 상호 정의하고 준수해야 한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: artifacts-release-before-review
+    lesson_id: artifacts-commitments-done
+    skill_id: scrum-framework
+    topic: Increment
+    difficulty: 3
+    type: single_choice
+    prompt: Sprint 중 고객에게 유용한 Done Increment가 준비됐다. Scrum은 언제 release하도록 요구하는가?
+    options:
+      - {id: whenever-value, text: 가치와 맥락에 따라 Sprint Review 전에도 전달할 수 있다}
+      - {id: review-only, text: Sprint Review가 끝난 직후에만 가능하다}
+      - {id: sprint-end, text: Sprint 마지막 날에만 가능하다}
+      - {id: annual, text: 연간 release window에서만 가능하다}
+    correct_answers: [whenever-value]
+    explanation: Sprint Review는 release gate가 아니며 Done Increment는 Sprint 중에도 전달할 수 있다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: artifacts-sprint-backlog-owner
+    lesson_id: artifacts-commitments-done
+    skill_id: self-management
+    topic: Sprint Backlog
+    difficulty: 2
+    type: single_choice
+    prompt: Sprint Backlog를 만들고 Sprint 동안 적응하는 주체는?
+    options:
+      - {id: developers, text: Developers}
+      - {id: po, text: Product Owner}
+      - {id: sm, text: Scrum Master}
+      - {id: pmo, text: PMO}
+    correct_answers: [developers]
+    explanation: Sprint Backlog는 Developers에 의한 Developers를 위한 계획이다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 31-35 Product vision, strategy, goal
+  - id: direction-vision-status
+    lesson_id: product-vision-strategy-goal
+    skill_id: product-strategy
+    topic: Product Vision
+    difficulty: 3
+    type: single_choice
+    prompt: Product Vision과 Scrum의 관계를 가장 정확히 설명한 것은?
+    options:
+      - {id: complementary, text: 유용한 방향 설정 기법이지만 Scrum의 필수 Artifact나 Commitment는 아니다}
+      - {id: artifact, text: 네 번째 공식 Artifact다}
+      - {id: sprint, text: 매 Sprint 하나씩 반드시 교체한다}
+      - {id: dod, text: Definition of Done과 같은 의미다}
+    correct_answers: [complementary]
+    explanation: Vision은 제품 방향을 돕는 보조 기법이며 Scrum의 공식 commitment는 Product Goal이다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: direction-good-product-goal
+    lesson_id: product-vision-strategy-goal
+    skill_id: product-strategy
+    topic: Product Goal
+    difficulty: 3
+    type: single_choice
+    prompt: 다음 중 더 효과적인 Product Goal은?
+    options:
+      - {id: outcome, text: "현장 상담원의 고객 확인 시간을 5분에서 2분으로 줄인다"}
+      - {id: features, text: "화면 12개와 API 20개를 만든다"}
+      - {id: tasks, text: "모든 팀원이 바쁘게 일한다"}
+      - {id: vague, text: "세계 최고의 제품이 된다"}
+    correct_answers: [outcome]
+    explanation: 고객·사용자 outcome을 관찰할 수 있는 목표가 방향과 검사 기준을 제공한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: direction-one-goal
+    lesson_id: product-vision-strategy-goal
+    skill_id: product-strategy
+    topic: Product Goal
+    difficulty: 2
+    type: single_choice
+    prompt: Scrum Team은 새로운 Product Goal을 언제 채택하는가?
+    options:
+      - {id: achieved-abandoned, text: 현재 Product Goal을 달성하거나 포기한 뒤}
+      - {id: every-sprint, text: 매 Sprint 시작 시 자동으로}
+      - {id: stakeholder-request, text: 이해관계자 요청이 올 때마다 병렬로}
+      - {id: daily, text: Daily Scrum마다}
+    correct_answers: [achieved-abandoned]
+    explanation: Scrum Team은 한 번에 하나의 Product Goal에 집중하며 달성하거나 포기한 뒤 다음 목표를 택한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: direction-goal-collaboration
+    lesson_id: product-vision-strategy-goal
+    skill_id: product-ownership
+    topic: Product Goal 책임
+    difficulty: 3
+    type: single_choice
+    prompt: Product Goal은 누가 어떻게 개발하는가?
+    options:
+      - {id: po-accountable, text: PO가 개발과 소통에 accountable하며 Scrum Team·이해관계자와 협업할 수 있다}
+      - {id: po-alone, text: PO가 반드시 아무 입력 없이 혼자 작성한다}
+      - {id: committee, text: 위원회가 다수결로 책임을 공유한다}
+      - {id: developers-only, text: Developers만 작성하고 PO는 볼 수 없다}
+    correct_answers: [po-accountable]
+    explanation: PO의 accountability는 고립된 작업을 뜻하지 않으며 다양한 입력과 협업을 활용할 수 있다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: direction-strategy-evidence
+    lesson_id: product-vision-strategy-goal
+    skill_id: product-strategy
+    topic: Business Strategy
+    difficulty: 4
+    type: single_choice
+    prompt: 시장 evidence가 핵심 전략 가정을 반복해서 반박한다. PO의 가장 적절한 대응은?
+    options:
+      - {id: inspect, text: strategy와 Product Goal을 검사하고 필요하면 적응 또는 포기한다}
+      - {id: sunk, text: 이미 투자했으므로 원래 계획을 끝까지 유지한다}
+      - {id: hide, text: 지표를 숨겨 조직의 신뢰를 지킨다}
+      - {id: add-scope, text: 모든 이해관계자 기능을 동시에 추가한다}
+    correct_answers: [inspect]
+    explanation: Business strategy도 Increment와 시장 feedback을 통해 경험적으로 검사하고 적응해야 한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+
+  # 36-40 Product value and evidence
+  - id: value-output-outcome
+    lesson_id: product-value-and-evidence
+    skill_id: product-value
+    topic: Output과 Outcome
+    difficulty: 2
+    type: single_choice
+    prompt: 제품 outcome에 해당하는 것은?
+    options:
+      - {id: time, text: 사용자의 첫 성공 검색 시간이 40% 감소했다}
+      - {id: screens, text: 화면 8개를 배포했다}
+      - {id: points, text: Story Point 50점을 완료했다}
+      - {id: hours, text: 개발 시간이 600시간이었다}
+    correct_answers: [time]
+    explanation: outcome은 제품으로 인한 사용자 행동·상태 변화이며 나머지는 output 또는 effort다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: value-velocity-not-value
+    lesson_id: product-value-and-evidence
+    skill_id: product-value
+    topic: 가치 측정
+    difficulty: 3
+    type: single_choice
+    prompt: 팀의 Velocity가 30% 올랐다. 이 정보만으로 확실히 말할 수 있는 것은?
+    options:
+      - {id: not-value, text: 제품 가치가 30% 올랐다고 결론낼 수 없다}
+      - {id: value, text: 고객 가치가 정확히 30% 올랐다}
+      - {id: compare, text: 다른 팀보다 생산성이 높다}
+      - {id: profit, text: 이익도 같은 비율로 올랐다}
+    correct_answers: [not-value]
+    explanation: Velocity는 가치나 팀 간 생산성 지표가 아니며 실제 customer outcome evidence가 필요하다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: value-guardrail
+    lesson_id: product-value-and-evidence
+    skill_id: product-value
+    topic: 가치 지표
+    difficulty: 3
+    type: multiple_choice
+    prompt: 가입 전환율을 높이는 실험의 guardrail로 유용한 지표를 모두 고르시오.
+    options:
+      - {id: churn, text: 7일 내 해지율}
+      - {id: support, text: 가입 관련 지원 문의율}
+      - {id: code, text: 작성한 코드 줄 수}
+      - {id: refund, text: 환불률}
+    correct_answers: [churn, support, refund]
+    explanation: Guardrail은 primary metric 개선 과정에서 고객·사업의 부작용을 감시한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: value-failed-experiment
+    lesson_id: product-value-and-evidence
+    skill_id: empiricism
+    topic: 실험과 학습
+    difficulty: 4
+    type: single_choice
+    prompt: 작은 실험이 가치 가설을 반박했다. 가장 가치 있는 다음 행동은?
+    options:
+      - {id: adapt, text: evidence를 공개하고 계속·변경·중단을 결정해 Backlog를 적응한다}
+      - {id: scale, text: 결과를 무시하고 전 고객에게 확대한다}
+      - {id: hide, text: 실패로 보이지 않게 지표를 삭제한다}
+      - {id: punish, text: 실험 담당자를 평가 절하한다}
+    correct_answers: [adapt]
+    explanation: 작은 비용으로 가정을 반박한 것은 유용한 학습이며 다음 투자 결정을 적응해야 한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: value-maximization
+    lesson_id: product-value-and-evidence
+    skill_id: product-value
+    topic: 가치 극대화
+    difficulty: 3
+    type: multiple_choice
+    prompt: 제품 가치 극대화에 기여할 수 있는 행동을 모두 고르시오.
+    options:
+      - {id: evidence, text: 실제 사용 evidence로 가정을 검증한다}
+      - {id: opportunity, text: 선택하지 않은 일의 opportunity cost를 고려한다}
+      - {id: output, text: 가치와 무관하게 기능 수만 최대화한다}
+      - {id: feedback, text: 작은 Increment로 feedback 주기를 줄인다}
+    correct_answers: [evidence, opportunity, feedback]
+    explanation: 가치는 기능량이 아니라 evidence 기반 선택과 빠른 학습·전달로 극대화한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+
+  # 41-45 Customers and stakeholders
+  - id: stakeholders-request-vs-problem
+    lesson_id: customers-stakeholders-discovery
+    skill_id: stakeholder-collaboration
+    topic: 고객 발견
+    difficulty: 3
+    type: single_choice
+    prompt: 고객이 엑셀 내보내기 기능을 요구했다. 가치 있는 첫 행동은?
+    options:
+      - {id: discover, text: 고객이 해결하려는 실제 job과 최근 사례를 탐색한다}
+      - {id: promise, text: 즉시 다음 Sprint 제공을 약속한다}
+      - {id: ignore, text: 고객은 solution을 말했으므로 무시한다}
+      - {id: vote, text: 모든 고객에게 기능명만 놓고 투표시킨다}
+    correct_answers: [discover]
+    explanation: Solution 요청 뒤의 문제와 맥락을 이해해야 더 작고 가치 있는 해법을 검증할 수 있다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: stakeholders-po-decision
+    lesson_id: customers-stakeholders-discovery
+    skill_id: product-ownership
+    topic: 이해관계자 협업
+    difficulty: 3
+    type: single_choice
+    prompt: 세 부서장이 각자 요청을 1순위로 올리라고 요구한다. 가장 적절한 PO의 행동은?
+    options:
+      - {id: decide, text: Goal과 가치 evidence로 의견을 통합하고 하나의 ordering을 결정한다}
+      - {id: three, text: 세 요청을 모두 공동 1순위로 만든다}
+      - {id: senior, text: 직급이 가장 높은 사람의 요청만 따른다}
+      - {id: committee, text: 최종 accountability를 위원회에 넘긴다}
+    correct_answers: [decide]
+    explanation: PO는 폭넓게 협업하되 하나의 Product Backlog ordering에 대한 accountability를 유지한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: stakeholders-contact-timing
+    lesson_id: customers-stakeholders-discovery
+    skill_id: stakeholder-collaboration
+    topic: 지속적 협업
+    difficulty: 2
+    type: single_choice
+    prompt: Scrum Team이 이해관계자와 협업할 수 있는 시점은?
+    options:
+      - {id: anytime, text: Sprint Review뿐 아니라 제품 학습에 필요할 때 지속적으로}
+      - {id: review-only, text: Sprint Review 중에만}
+      - {id: planning-only, text: Sprint Planning 중에만}
+      - {id: after-release, text: 전체 release가 끝난 뒤에만}
+    correct_answers: [anytime]
+    explanation: Sprint Review는 공식 협업 기회지만 고객·이해관계자 학습은 필요할 때 언제든 수행할 수 있다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: stakeholders-developer-access
+    lesson_id: customers-stakeholders-discovery
+    skill_id: stakeholder-collaboration
+    topic: 고객 협업
+    difficulty: 3
+    type: single_choice
+    prompt: PO가 모든 고객 대화를 독점해 Developers는 요청 문서만 본다. 더 나은 접근은?
+    options:
+      - {id: access, text: Developers도 고객 문제와 evidence를 직접 접하게 하고 PO는 결정 책임을 유지한다}
+      - {id: gate, text: 오해 방지를 위해 PO만 고객을 만난다}
+      - {id: transfer, text: Product Backlog ordering을 Developers에게 완전히 넘긴다}
+      - {id: no-customer, text: 고객 feedback 없이 내부 효율만 최적화한다}
+    correct_answers: [access]
+    explanation: 직접적인 고객 맥락은 해결책 품질을 높이며 PO의 accountability와 양립한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: stakeholders-review-invite
+    lesson_id: customers-stakeholders-discovery
+    skill_id: stakeholder-collaboration
+    topic: 주요 이해관계자
+    difficulty: 4
+    type: multiple_choice
+    prompt: Sprint Review의 주요 이해관계자를 선택할 때 고려할 질문을 모두 고르시오.
+    options:
+      - {id: evidence, text: 제품 방향 적응에 필요한 고유 evidence를 제공하는가}
+      - {id: affected, text: 제품 결과에 영향을 받거나 중요한 제약을 아는가}
+      - {id: title, text: 직급이 높기만 하면 되는가}
+      - {id: decision, text: 다음 제품 결정을 함께 검사하는 데 기여하는가}
+    correct_answers: [evidence, affected, decision]
+    explanation: 초대 목적은 직급이 아니라 제품 결과와 미래 적응에 필요한 정보·협업이다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 46-50 Product Backlog management
+  - id: backlog-definition
+    lesson_id: product-backlog-management
+    skill_id: product-backlog-management
+    topic: Product Backlog
+    difficulty: 1
+    type: single_choice
+    prompt: Product Backlog를 가장 정확히 설명한 것은?
+    options:
+      - {id: emergent, text: 제품 개선에 필요한 것의 emergent하고 정렬된 단일 목록}
+      - {id: frozen, text: 프로젝트 시작 시 확정되는 변경 불가 요구사항 문서}
+      - {id: team-lists, text: 팀별로 독립된 여러 우선순위 목록}
+      - {id: sprint-plan, text: Developers의 이번 Sprint 상세 계획}
+    correct_answers: [emergent]
+    explanation: Product Backlog는 제품 작업의 유일한 원천이며 계속 나타나고 정렬된다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: backlog-one-product
+    lesson_id: product-backlog-management
+    skill_id: product-backlog-management
+    topic: 복수 Scrum Team
+    difficulty: 3
+    type: single_choice
+    prompt: 세 Scrum Team이 같은 제품을 개발한다. 올바른 구조는?
+    options:
+      - {id: shared, text: 하나의 Product Goal, Product Backlog, Product Owner를 공유한다}
+      - {id: separate, text: 팀마다 다른 PO와 Backlog로 같은 제품의 가치를 최적화한다}
+      - {id: committee, text: PO 위원회만 있고 책임자는 두지 않는다}
+      - {id: no-goal, text: 통합 팀이므로 Product Goal은 필요 없다}
+    correct_answers: [shared]
+    explanation: 같은 제품을 만드는 팀은 전체 가치 투명성을 위해 하나의 Goal, Backlog, PO를 공유한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: backlog-who-writes
+    lesson_id: product-backlog-management
+    skill_id: product-backlog-management
+    topic: Item 작성
+    difficulty: 2
+    type: single_choice
+    prompt: Product Backlog Item은 누가 작성할 수 있는가?
+    options:
+      - {id: anyone-delegated, text: PO가 책임을 유지하면서 필요한 사람이 작성에 기여할 수 있다}
+      - {id: po-only, text: PO만 키보드로 입력할 수 있다}
+      - {id: sm-only, text: Scrum Master만 작성한다}
+      - {id: customer-only, text: 고객이 완성된 사양으로 전달한다}
+    correct_answers: [anyone-delegated]
+    explanation: 작업은 위임·협업할 수 있지만 효과적인 Backlog 관리의 accountability는 PO에게 남는다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: backlog-detail-level
+    lesson_id: product-backlog-management
+    skill_id: product-backlog-management
+    topic: Backlog 투명성
+    difficulty: 3
+    type: single_choice
+    prompt: 1년 뒤 후보 Item까지 모두 같은 수준으로 상세화하느라 현재 Sprint 준비가 늦어진다. 개선은?
+    options:
+      - {id: progressive, text: 가까운 중요한 Item을 더 작고 명확하게 하고 먼 Item은 거칠게 유지한다}
+      - {id: all-detail, text: 모든 Item의 완전한 사양 전까지 개발을 중단한다}
+      - {id: no-refine, text: 어떤 Item도 미리 대화하지 않는다}
+      - {id: freeze, text: 1년간 Backlog 변경을 금지한다}
+    correct_answers: [progressive]
+    explanation: Backlog는 emergent하며 가까운 Item이 일반적으로 더 명확하고 상세해진다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: backlog-transparency
+    lesson_id: product-backlog-management
+    skill_id: product-backlog-management
+    topic: Backlog 투명성
+    difficulty: 4
+    type: multiple_choice
+    prompt: 상위 Backlog Item의 투명성을 높이는 정보로 유용한 것을 모두 고르시오.
+    options:
+      - {id: problem, text: 해결할 사용자 문제와 기대 outcome}
+      - {id: evidence, text: 관련 evidence와 가정}
+      - {id: rationale, text: Product Goal 연결과 ordering 근거}
+      - {id: hours, text: PO가 정한 개인별 구현 시간}
+    correct_answers: [problem, evidence, rationale]
+    explanation: 가치·evidence·Goal 연결은 shared understanding을 높인다. 개인 작업 시간 지시는 PO 책임이 아니다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 51-55 Refinement, ordering, slicing
+  - id: refinement-sizing
+    lesson_id: refinement-ordering-slicing
+    skill_id: self-management
+    topic: Refinement와 Sizing
+    difficulty: 3
+    type: single_choice
+    prompt: PO가 중요한 Item을 3 Story Point로 확정해 Developers에게 통보했다. 가장 적절한 개선은?
+    options:
+      - {id: developers-size, text: PO는 가치와 trade-off를 설명하고 실제 일을 할 Developers가 sizing한다}
+      - {id: keep, text: 가치 책임이 있으므로 PO가 size도 최종 결정한다}
+      - {id: stakeholder, text: 고객이 size를 정한다}
+      - {id: no-size, text: 어떤 맥락에서도 크기를 논의할 수 없다}
+    correct_answers: [developers-size]
+    explanation: Developers가 sizing에 책임지며 PO는 이해와 trade-off에 영향을 줄 수 있다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: ordering-factors
+    lesson_id: refinement-ordering-slicing
+    skill_id: product-backlog-management
+    topic: Backlog Ordering
+    difficulty: 3
+    type: multiple_choice
+    prompt: Product Backlog ordering에 고려할 수 있는 요인을 모두 고르시오.
+    options:
+      - {id: value, text: 기대 가치와 Product Goal 적합성}
+      - {id: risk, text: 위험 감소와 학습 가치}
+      - {id: time, text: 시간 민감성과 opportunity cost}
+      - {id: loud, text: 요청자의 목소리 크기만}
+    correct_answers: [value, risk, time]
+    explanation: Ordering은 가치, 전략, 위험·학습, 시간, 크기 등 여러 요인을 투명하게 판단한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: slicing-vertical
+    lesson_id: refinement-ordering-slicing
+    skill_id: product-backlog-management
+    topic: Value Slicing
+    difficulty: 3
+    type: single_choice
+    prompt: 전체 환불 시스템을 빠르게 검증할 첫 value slice로 가장 좋은 것은?
+    options:
+      - {id: end-to-end, text: 상담원이 단일 주문의 전액 환불을 end-to-end 처리한다}
+      - {id: db, text: 모든 환불용 데이터베이스 테이블만 만든다}
+      - {id: api, text: 모든 경우를 위한 API 계층만 완성한다}
+      - {id: ui, text: 동작하지 않는 전체 화면만 그린다}
+    correct_answers: [end-to-end]
+    explanation: 작은 end-to-end 흐름은 실제 사용자 가치와 운영 evidence를 더 일찍 제공한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: ordering-score-tool
+    lesson_id: refinement-ordering-slicing
+    skill_id: product-backlog-management
+    topic: Ordering 기법
+    difficulty: 4
+    type: single_choice
+    prompt: 가중 점수 모델이 Item A를 1위로 계산했다. PO는 어떻게 해야 하는가?
+    options:
+      - {id: judgment, text: 점수를 대화 도구로 쓰고 evidence·가정·맥락을 검사해 ordering을 결정한다}
+      - {id: automatic, text: 계산 결과를 어떤 상황에서도 자동 적용한다}
+      - {id: discard, text: 정량 정보는 Scrum에서 금지되므로 버린다}
+      - {id: committee, text: 책임을 점수 모델 소유자에게 넘긴다}
+    correct_answers: [judgment]
+    explanation: 보조 기법은 판단의 투명성을 돕지만 PO의 accountability와 경험적 적응을 대체하지 않는다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: refinement-definition-ready
+    lesson_id: refinement-ordering-slicing
+    skill_id: product-backlog-management
+    topic: Definition of Ready
+    difficulty: 3
+    type: single_choice
+    prompt: Definition of Ready와 Scrum의 관계는?
+    options:
+      - {id: optional, text: 맥락에 따라 쓸 수 있는 보조 기법이며 Scrum의 공식 commitment는 아니다}
+      - {id: commitment, text: Product Backlog의 공식 commitment다}
+      - {id: dod, text: Definition of Done과 완전히 같다}
+      - {id: mandatory, text: 모든 Scrum Team에 의무다}
+    correct_answers: [optional]
+    explanation: Definition of Ready는 선택적 관행이며 공식 commitments는 Product Goal, Sprint Goal, DoD다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 56-60 Forecasting and release planning
+  - id: forecast-vs-commitment
+    lesson_id: forecasting-release-planning
+    skill_id: forecasting
+    topic: Forecast
+    difficulty: 3
+    type: single_choice
+    prompt: 복잡한 제품에서 경험적 forecast를 가장 잘 설명한 것은?
+    options:
+      - {id: update, text: 현재 evidence와 가정을 바탕으로 하며 새 정보에 따라 갱신한다}
+      - {id: guarantee, text: 불확실성을 제거한 고정 scope·date 보장이다}
+      - {id: wish, text: 데이터 없이 낙관적인 날짜를 정하는 것이다}
+      - {id: contract, text: Sprint Backlog의 모든 Item을 완료한다는 commitment다}
+    correct_answers: [update]
+    explanation: Forecast는 현재 evidence에 기반한 예상이며 학습에 따라 적응한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: forecast-useful-data
+    lesson_id: forecasting-release-planning
+    skill_id: forecasting
+    topic: Delivery Evidence
+    difficulty: 3
+    type: multiple_choice
+    prompt: 경험적 release forecast에 유용한 evidence를 모두 고르시오.
+    options:
+      - {id: throughput, text: 과거 throughput}
+      - {id: cycle, text: cycle time 분포}
+      - {id: done, text: 일관된 Definition of Done}
+      - {id: optimism, text: 후원자의 낙관 정도만}
+    correct_answers: [throughput, cycle, done]
+    explanation: 실제 흐름 데이터와 일관된 Done 의미가 forecast의 신뢰 기반이다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: forecast-confidence
+    lesson_id: forecasting-release-planning
+    skill_id: forecasting
+    topic: 불확실성 소통
+    difficulty: 4
+    type: single_choice
+    prompt: 이해관계자가 출시일을 묻지만 범위 불확실성이 크다. 가장 투명한 답은?
+    options:
+      - {id: range, text: 기준 범위와 50·85·95% 시나리오, 가정, 다음 갱신 시점을 제시한다}
+      - {id: exact, text: 신뢰를 위해 가장 빠른 단일 날짜만 확정한다}
+      - {id: refuse, text: Scrum은 계획하지 않으므로 답하지 않는다}
+      - {id: blame, text: 지연 가능성을 Developers 탓으로 돌린다}
+    correct_answers: [range]
+    explanation: 범위·확률·가정·갱신 시점을 함께 공개하면 불확실성을 숨기지 않고 의사결정을 돕는다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: forecast-release-cadence
+    lesson_id: forecasting-release-planning
+    skill_id: forecasting
+    topic: Release Planning
+    difficulty: 3
+    type: multiple_choice
+    prompt: Scrum의 Increment와 release에 대해 옳은 것을 모두 고르시오.
+    options:
+      - {id: usable, text: 매 Sprint 최소 하나의 usable Increment를 만든다}
+      - {id: before-review, text: Done Increment는 Sprint Review 전에도 전달할 수 있다}
+      - {id: external-every-sprint, text: 외부 고객에게 매 Sprint 반드시 release해야 한다}
+      - {id: multiple, text: Sprint 안에 여러 Increment를 만들 수 있다}
+    correct_answers: [usable, before-review, multiple]
+    explanation: Usable Increment는 매 Sprint 필요하지만 외부 release 시점은 가치와 맥락에 따른다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: forecast-fixed-date-scope
+    lesson_id: forecasting-release-planning
+    skill_id: forecasting
+    topic: Release Trade-off
+    difficulty: 4
+    type: single_choice
+    prompt: 법적 시행일은 고정됐지만 모든 희망 기능을 끝낼 가능성이 낮다. PO의 최선의 접근은?
+    options:
+      - {id: minimum, text: 필수 outcome과 제약을 정하고 범위를 재정렬해 작은 Done Increment로 위험을 줄인다}
+      - {id: overtime, text: 전체 scope를 유지하고 무기한 초과 근무를 약속한다}
+      - {id: lower-dod, text: 일정 때문에 품질 기준을 낮춘다}
+      - {id: hide, text: 시행 직전까지 위험을 공개하지 않는다}
+    correct_answers: [minimum]
+    explanation: 고정 제약 안에서 가치·위험을 투명하게 정렬하고 Done을 지키는 것이 현실적이다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+
+  # 61-65 Sprint Review and adaptation
+  - id: review-working-session
+    lesson_id: sprint-review-adaptation
+    skill_id: stakeholder-collaboration
+    topic: Sprint Review
+    difficulty: 3
+    type: single_choice
+    prompt: 효과적인 Sprint Review의 모습은?
+    options:
+      - {id: collaborate, text: Done Increment와 Goal 진척, 환경 변화를 함께 검사해 다음 적응을 결정한다}
+      - {id: demo, text: 팀이 말하고 이해관계자는 질문 없이 박수친다}
+      - {id: approval, text: PO가 Item별 완료를 승인하거나 거절한다}
+      - {id: status, text: 개인별 투입 시간을 보고한다}
+    correct_answers: [collaborate]
+    explanation: Review는 제품 결과와 미래 방향을 위한 collaborative working session이다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: review-evidence-set
+    lesson_id: sprint-review-adaptation
+    skill_id: empiricism
+    topic: Review Evidence
+    difficulty: 3
+    type: multiple_choice
+    prompt: Sprint Review에서 함께 검사할 가치가 있는 evidence를 모두 고르시오.
+    options:
+      - {id: increment, text: Done Increment}
+      - {id: outcome, text: Product Goal outcome 지표와 고객 feedback}
+      - {id: market, text: 시장·규제·기술 변화}
+      - {id: utilization, text: 개인별 자원 활용률 순위}
+    correct_answers: [increment, outcome, market]
+    explanation: Review는 결과, 가치, 외부 환경을 함께 검사해 제품 방향을 적응한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: review-feedback-conflict
+    lesson_id: sprint-review-adaptation
+    skill_id: product-ownership
+    topic: Feedback 의사결정
+    difficulty: 4
+    type: single_choice
+    prompt: Review에서 서로 충돌하는 세 가지 feedback이 나왔다. PO는 어떻게 해야 하는가?
+    options:
+      - {id: integrate, text: Product Goal과 evidence, 전체 가치로 검사해 ordering을 결정한다}
+      - {id: all, text: 모두 즉시 최상위 Item으로 수락한다}
+      - {id: vote, text: accountability를 참석자 다수결에 넘긴다}
+      - {id: ignore, text: feedback은 계획을 방해하므로 전부 무시한다}
+    correct_answers: [integrate]
+    explanation: Feedback은 중요한 입력이며 PO는 이를 전체 가치 관점에서 통합해 명확히 결정한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: review-vs-retro
+    lesson_id: sprint-review-adaptation
+    skill_id: scrum-framework
+    topic: Events 구분
+    difficulty: 2
+    type: single_choice
+    prompt: Sprint Review와 Retrospective의 차이를 바르게 설명한 것은?
+    options:
+      - {id: product-team, text: Review는 제품 결과·방향을, Retrospective는 팀 품질·효과성을 주로 검사한다}
+      - {id: same, text: 목적과 참여자가 완전히 같은 회의다}
+      - {id: approval, text: Review는 승인을, Retrospective는 개인 평가를 한다}
+      - {id: optional, text: 둘 다 선택 사항이다}
+    correct_answers: [product-team]
+    explanation: 두 Event 모두 검사·적응을 지원하지만 검사 대상과 목적이 다르다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: review-no-key-stakeholders
+    lesson_id: sprint-review-adaptation
+    skill_id: stakeholder-collaboration
+    topic: Sprint Review 설계
+    difficulty: 4
+    type: single_choice
+    prompt: 주요 고객이 Review에 오지 않아 내부 가정만 반복된다. PO의 적절한 행동은?
+    options:
+      - {id: engage, text: 제품 적응에 필요한 사람과 evidence를 식별해 참여 방식과 시점을 개선한다}
+      - {id: continue, text: 참석자와 무관하게 같은 발표를 계속한다}
+      - {id: cancel, text: 모든 고객이 참석하지 않으면 Sprint Review를 영구 취소한다}
+      - {id: proxy, text: PO의 추측을 고객 evidence로 간주한다}
+    correct_answers: [engage]
+    explanation: PO는 key stakeholders와 효과적으로 협업하도록 Review를 설계하되 다른 지속적 접점도 활용할 수 있다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 66-70 Product Owner leadership
+  - id: leadership-po-one-person
+    lesson_id: product-owner-leadership
+    skill_id: product-ownership
+    topic: Product Owner 권한
+    difficulty: 2
+    type: single_choice
+    prompt: Product Owner accountability에 대한 옳은 설명은?
+    options:
+      - {id: one, text: Product Owner는 한 사람이며 조직은 Backlog에 드러난 결정을 존중해야 한다}
+      - {id: committee, text: 이해관계자 위원회가 공동 Product Owner여야 한다}
+      - {id: proxy, text: PO는 결정 없이 요청만 전달한다}
+      - {id: technical, text: PO가 모든 기술 결정을 승인한다}
+    correct_answers: [one]
+    explanation: PO는 위원회가 아닌 한 사람이며 조직은 PO의 결정을 존중해야 한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: leadership-order-taker
+    lesson_id: product-owner-leadership
+    skill_id: product-ownership
+    topic: PO Anti-pattern
+    difficulty: 3
+    type: single_choice
+    prompt: PO가 영업 이메일을 그대로 Backlog에 복사하고 가치 판단을 하지 않는다. 이 anti-pattern의 핵심 문제는?
+    options:
+      - {id: accountability, text: 제품 가치 극대화와 ordering accountability를 수행하지 않는다}
+      - {id: typing, text: Item을 직접 입력했다}
+      - {id: email, text: 이메일 도구를 사용했다}
+      - {id: stakeholders, text: 이해관계자의 의견을 들었다}
+    correct_answers: [accountability]
+    explanation: 의견 수렴은 필요하지만 PO는 요청을 문제·evidence·Goal에 따라 통합하고 결정해야 한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: leadership-self-management-boundary
+    lesson_id: product-owner-leadership
+    skill_id: self-management
+    topic: 자기관리
+    difficulty: 3
+    type: multiple_choice
+    prompt: 자기관리 Scrum Team을 돕는 PO 행동을 모두 고르시오.
+    options:
+      - {id: outcome, text: 문제와 기대 outcome, 제약을 명확히 한다}
+      - {id: rationale, text: ordering rationale를 투명하게 공유한다}
+      - {id: assign, text: Developers 개인별 task와 방법을 배정한다}
+      - {id: access, text: 고객과 evidence에 접근할 수 있게 한다}
+    correct_answers: [outcome, rationale, access]
+    explanation: 명확한 방향·evidence·접근은 자기관리를 지원하며 개인 작업 지시는 침해한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: leadership-disagreement
+    lesson_id: product-owner-leadership
+    skill_id: product-ownership
+    topic: 제품 의사결정
+    difficulty: 4
+    type: single_choice
+    prompt: Developers와 PO가 기술 위험이 큰 가치 기회를 두고 의견이 다르다. 가장 전문적인 접근은?
+    options:
+      - {id: options, text: Goal, evidence, risk와 선택지를 함께 탐색하고 각 accountability에 맞게 결정한다}
+      - {id: po-tech, text: PO가 가치 책임을 근거로 기술 해법도 단독 결정한다}
+      - {id: dev-value, text: Developers가 기술 책임을 근거로 Product Backlog ordering도 단독 결정한다}
+      - {id: avoid, text: 갈등을 피하려고 결정을 무기한 연기한다}
+    correct_answers: [options]
+    explanation: 협업해 trade-off를 투명하게 하되 가치 ordering과 기술 판단의 accountability를 존중한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: leadership-organizational-respect
+    lesson_id: product-owner-leadership
+    skill_id: product-ownership
+    topic: 조직과 PO
+    difficulty: 4
+    type: single_choice
+    prompt: 임원들이 PO를 거치지 않고 Developers에게 Backlog 순서를 매일 바꾸라고 지시한다. 우선 개선할 것은?
+    options:
+      - {id: respect, text: 하나의 PO decision path와 Goal·ordering 기준을 조직적으로 존중하게 한다}
+      - {id: hide, text: Developers가 지시를 PO에게 숨긴다}
+      - {id: many-po, text: 임원 모두를 Product Owner로 지정한다}
+      - {id: no-backlog, text: 충돌을 피하려고 Product Backlog를 없앤다}
+    correct_answers: [respect]
+    explanation: 조직이 PO 결정을 존중해야 투명한 하나의 ordering과 빠른 적응이 가능하다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+
+  # 71-75 Integrated scenarios
+  - id: scenario-vip-mid-sprint
+    lesson_id: product-owner-scenario
+    skill_id: product-ownership
+    topic: Sprint Goal과 변경
+    difficulty: 4
+    type: single_choice
+    prompt: Sprint 중 VIP 고객이 긴급 기능을 요구했지만 Sprint Goal은 여전히 가치 있다. PO의 첫 행동은?
+    options:
+      - {id: assess, text: 요청의 문제·가치·Goal 영향을 투명하게 하고 Developers와 scope 선택을 검토한다}
+      - {id: insert, text: Developers에게 즉시 추가하라고 지시한다}
+      - {id: cancel, text: 고객 요청만으로 Sprint를 취소한다}
+      - {id: ignore, text: Sprint 중 요청은 기록조차 하지 않는다}
+    correct_answers: [assess]
+    explanation: Sprint Goal을 보호하면서 새로운 evidence와 scope를 PO와 Developers가 협력해 검사한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: scenario-unfinished-demo
+    lesson_id: product-owner-scenario
+    skill_id: scrum-framework
+    topic: Done과 투명성
+    difficulty: 4
+    type: single_choice
+    prompt: 고객 반응을 얻기 위해 DoD 미충족 기능을 Sprint Review에서 완료 결과로 보여 달라는 요청이 왔다. 답은?
+    options:
+      - {id: not-increment, text: 완료 Increment로 제시하지 않고 다른 투명한 discovery 방법을 찾는다}
+      - {id: show-done, text: 90% 완료라고 표시하면 Increment로 인정한다}
+      - {id: lower, text: PO가 Review 직전에 DoD를 낮춘다}
+      - {id: approve, text: 고객이 좋아하면 자동으로 Done이다}
+    correct_answers: [not-increment]
+    explanation: DoD 미충족 작업은 Increment가 아니다. Prototype 등 다른 발견물은 상태를 명확히 구분해야 한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: scenario-metric-conflict
+    lesson_id: product-owner-scenario
+    skill_id: product-value
+    topic: 가치 Evidence
+    difficulty: 5
+    type: multiple_choice
+    prompt: 전환율은 상승했지만 해지율과 문의율도 악화됐다. 다음 행동으로 적절한 것을 모두 고르시오.
+    options:
+      - {id: segment, text: 고객 세그먼트별 결과와 정성 feedback을 검사한다}
+      - {id: guardrail, text: guardrail을 포함해 가치 가설을 다시 평가한다}
+      - {id: scale, text: 전환율만 보고 전 고객에게 즉시 확대한다}
+      - {id: adapt, text: evidence에 따라 실험·Backlog를 변경하거나 중단한다}
+    correct_answers: [segment, guardrail, adapt]
+    explanation: 단일 지표가 아닌 실제 customer outcome과 부작용을 함께 검사해 투자 결정을 적응한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: scenario-solution-control
+    lesson_id: product-owner-scenario
+    skill_id: self-management
+    topic: PO와 Developers 협업
+    difficulty: 4
+    type: single_choice
+    prompt: 규제 준수 기능에서 PO가 구체 database schema를 지시한다. 더 나은 접근은?
+    options:
+      - {id: constraints, text: 규제 제약과 outcome을 명확히 하고 Developers가 해법을 설계하도록 협업한다}
+      - {id: po-schema, text: PO가 가치 책임자이므로 schema를 최종 승인한다}
+      - {id: no-context, text: Developers에게 규제 맥락을 주지 않고 맡긴다}
+      - {id: stakeholder-code, text: 규제 담당자가 직접 코드를 지시한다}
+    correct_answers: [constraints]
+    explanation: PO는 문제·가치·제약을 투명하게 하고 Developers의 기술적 자기관리를 존중한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: scenario-release-pressure
+    lesson_id: product-owner-scenario
+    skill_id: forecasting
+    topic: 릴리스 Trade-off
+    difficulty: 5
+    type: single_choice
+    prompt: 영업이 고정일에 전체 scope를 이미 약속했지만 85% confidence forecast는 절반 범위다. PO의 대응은?
+    options:
+      - {id: transparent-options, text: evidence와 위험을 공개하고 최소 가치 범위·단계적 release 선택지를 협상한다}
+      - {id: hide, text: 약속일까지 위험을 숨긴다}
+      - {id: quality, text: 전체 scope를 위해 DoD를 낮춘다}
+      - {id: command, text: Developers에게 두 배 생산성을 지시한다}
+    correct_answers: [transparent-options]
+    explanation: 불확실성과 opportunity cost를 투명하게 하고 가치·품질을 지키는 선택지를 만든다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+
+  # 76-80 Capstone synthesis
+  - id: capstone-direction-chain
+    lesson_id: capstone-product-operating-system
+    skill_id: product-strategy
+    topic: 방향 정렬
+    difficulty: 4
+    type: single_choice
+    prompt: 제품 운영 체계에서 방향의 연결이 가장 명확한 것은?
+    options:
+      - {id: chain, text: Business Strategy → Product Vision → Product Goal → Sprint Goal → Evidence}
+      - {id: tasks, text: 개인 Task → Velocity → Vision → 고객 문제}
+      - {id: budget, text: 예산 → 기능 수 → 팀별 Backlog → Product Goal 여러 개}
+      - {id: reverse, text: 기술 해법 → 고객 문제 → 전략 선택}
+    correct_answers: [chain]
+    explanation: 전략에서 목표와 Sprint outcome, 실제 evidence로 이어지는 연결이 방향과 적응을 만든다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: capstone-complete-value-map
+    lesson_id: capstone-product-operating-system
+    skill_id: product-value
+    topic: 가치 측정
+    difficulty: 4
+    type: multiple_choice
+    prompt: 실용적인 Value Measurement Map에 포함할 요소를 모두 고르시오.
+    options:
+      - {id: outcome, text: 고객·사업 outcome}
+      - {id: baseline, text: baseline과 목표}
+      - {id: guardrail, text: guardrail과 의사결정 기준}
+      - {id: output-only, text: 배포 기능 수만}
+    correct_answers: [outcome, baseline, guardrail]
+    explanation: Outcome, 기준점·목표, 부작용과 결정 기준이 실제 가치 검사를 가능하게 한다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: capstone-backlog-quality
+    lesson_id: capstone-product-operating-system
+    skill_id: product-backlog-management
+    topic: Backlog 실무
+    difficulty: 4
+    type: single_choice
+    prompt: 캡스톤 Backlog가 단순 기능 목록인지 판단하는 가장 좋은 질문은?
+    options:
+      - {id: rationale, text: 각 상위 Item이 어떤 Goal·outcome·evidence·위험 때문에 그 순서인지 설명 가능한가}
+      - {id: count, text: Item이 정확히 100개인가}
+      - {id: format, text: 모든 Item이 같은 User Story 문법인가}
+      - {id: points, text: 전체 Story Point 합이 큰가}
+    correct_answers: [rationale]
+    explanation: 형식이나 개수보다 Goal·가치·evidence에 연결된 ordering rationale가 중요하다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: capstone-forecast-quality
+    lesson_id: capstone-product-operating-system
+    skill_id: forecasting
+    topic: Forecast 실무
+    difficulty: 4
+    type: multiple_choice
+    prompt: 신뢰할 수 있는 Forecast Brief의 특징을 모두 고르시오.
+    options:
+      - {id: evidence, text: 실제 delivery evidence를 사용한다}
+      - {id: scenarios, text: 여러 confidence 시나리오를 보여 준다}
+      - {id: assumptions, text: 가정과 다음 갱신 시점을 공개한다}
+      - {id: certainty, text: 불확실성을 숨기고 단일 날짜만 보장한다}
+    correct_answers: [evidence, scenarios, assumptions]
+    explanation: Evidence, 확률적 범위, 공개된 가정과 갱신 cadence가 경험적 forecast를 만든다.
+    source_ref: https://www.scrum.org/professional-scrum-competencies/managing-products-with-agility
+  - id: capstone-next-decision
+    lesson_id: capstone-product-operating-system
+    skill_id: empiricism
+    topic: 제품 운영 시스템
+    difficulty: 5
+    type: single_choice
+    prompt: Vision, Backlog, 지표 문서는 모두 있지만 실제 결정이 바뀌지 않는다. 운영 체계에서 빠진 것은?
+    options:
+      - {id: loop, text: Done Increment와 evidence를 검사해 Goal·Backlog·forecast를 적응하는 decision loop}
+      - {id: template, text: 더 화려한 문서 template}
+      - {id: more-items, text: 더 많은 Backlog Item}
+      - {id: titles, text: 더 많은 승인자 직함}
+    correct_answers: [loop]
+    explanation: 산출물은 수단이며 실제 evidence가 다음 투자와 방향을 바꾸는 폐쇄 루프가 핵심이다.
     source_ref: https://scrumguides.org/scrum-guide.html
