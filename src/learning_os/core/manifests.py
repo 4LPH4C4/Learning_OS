@@ -5,6 +5,7 @@ import re
 from datetime import date
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 import yaml
 
@@ -26,6 +27,14 @@ SUPPORTED_LESSON_TYPES = {
     "markdown_notebook",
     "external_markdown",
     "external_notebook",
+    "quiz",
+    "practice",
+    "mock_exam",
+    "url",
+    "pdf",
+    "vocabulary",
+    "listening",
+    "speaking",
 }
 
 
@@ -102,6 +111,16 @@ def _safe_relative_path(value: Any, course_root: Path, context: str) -> str | No
     return raw.as_posix()
 
 
+def _safe_url(value: Any, context: str) -> str | None:
+    if value in (None, ""):
+        return None
+    result = str(value).strip()
+    parsed = urlparse(result)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ManifestError(f"{context}: HTTP(S) URL이 필요하다")
+    return result
+
+
 def _parse_source(raw: dict[str, Any], course_root: Path, context: str) -> ContentSource:
     raw = _mapping(raw, context)
     source_id = _id(_required(raw, "id", context), f"{context}.id")
@@ -145,10 +164,15 @@ def _parse_lesson(
         raise ManifestError(f"{context}.source_id: 존재하지 않는 source '{source_id}'")
     content_path = _safe_relative_path(raw.get("content_path"), course_root, f"{context}.content_path")
     notebook_path = _safe_relative_path(raw.get("notebook_path"), course_root, f"{context}.notebook_path")
+    url = _safe_url(raw.get("url"), f"{context}.url")
     if lesson_type in {"markdown", "external_markdown", "markdown_notebook"} and not content_path:
         raise ManifestError(f"{context}.content_path: {lesson_type}에 필수다")
     if lesson_type in {"notebook", "external_notebook", "markdown_notebook"} and not notebook_path:
         raise ManifestError(f"{context}.notebook_path: {lesson_type}에 필수다")
+    if lesson_type in {"pdf", "vocabulary", "listening", "speaking"} and not content_path:
+        raise ManifestError(f"{context}.content_path: {lesson_type}에 필수다")
+    if lesson_type == "url" and not url:
+        raise ManifestError(f"{context}.url: url Lesson에 필수다")
     try:
         duration = int(_required(raw, "duration_minutes", context))
     except (TypeError, ValueError) as exc:
@@ -163,6 +187,8 @@ def _parse_lesson(
         content_path=content_path,
         notebook_path=notebook_path,
         source_id=source_id,
+        url=url,
+        language=str(raw["language"]) if raw.get("language") else None,
         required=bool(raw.get("required", True)),
         skills=_strings(raw.get("skills", []), f"{context}.skills"),
         module_id=module_id,
@@ -274,5 +300,9 @@ def load_manifest(manifest_path: Path) -> Course:
         root_path=course_root,
         manifest_path=manifest_path,
         manifest_hash=hashlib.sha256(raw_bytes).hexdigest(),
-        quiz_settings=data.get("quiz_settings"),
+        quiz_settings=(
+            _mapping(data["quiz_settings"], "course.quiz_settings")
+            if data.get("quiz_settings") is not None
+            else None
+        ),
     )

@@ -32,6 +32,7 @@ modules:
         content_path: lessons/1-Intro/README.md
         duration_minutes: 30
         source_id: microsoft-ai-for-beginners
+        language: en
         required: true
         skills:
           - artificial-intelligence

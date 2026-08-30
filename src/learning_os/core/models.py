@@ -39,6 +39,8 @@ class Lesson:
     content_path: str | None = None
     notebook_path: str | None = None
     source_id: str | None = None
+    url: str | None = None
+    language: str | None = None
     required: bool = True
     skills: tuple[str, ...] = ()
     module_id: str = ""

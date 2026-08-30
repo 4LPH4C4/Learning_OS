@@ -181,7 +181,7 @@ def test_migrations_are_idempotent(tmp_path: Path) -> None:
     apply_migrations(connection, migrations)
     apply_migrations(connection, migrations)
 
-    assert [row["version"] for row in connection.execute("SELECT version FROM schema_migrations")] == [1]
+    assert [row["version"] for row in connection.execute("SELECT version FROM schema_migrations")] == [1, 2]
     assert connection.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='study_sessions'").fetchone()
 
 

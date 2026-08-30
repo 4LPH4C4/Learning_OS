@@ -22,7 +22,10 @@ html, body, [class*="css"], [data-testid="stAppViewContainer"] {
 [data-testid="stHeader"] { background: rgba(251,250,247,.88); }
 [data-testid="stSidebar"] { background: #f3f1ec; border-right: 1px solid var(--line); }
 [data-testid="stSidebar"] hr { border-color: #ddd9d0; }
-.block-container { max-width: 1120px; padding-top: 2.8rem; padding-bottom: 5rem; }
+.block-container {
+  max-width: 1120px; padding-top: 2.8rem; padding-bottom: 5rem;
+  animation: page-in .24s ease both;
+}
 h1, h2, h3 { color: var(--ink); letter-spacing: -0.035em; }
 h1 { font-size: clamp(2.4rem, 5vw, 4.5rem) !important; line-height: .98 !important; margin-bottom: .65rem !important; }
 h2 { margin-top: 2.3rem !important; font-size: 1.55rem !important; }
@@ -35,7 +38,9 @@ p { line-height: 1.65; }
   border-top: 1px solid var(--line);
   padding: 1.05rem 0 .75rem;
   animation: rise .28s ease both;
+  transition: padding-left .16s ease, border-color .16s ease;
 }
+.study-row:hover, .course-row:hover { padding-left: .35rem; border-color: #cfd5e7; }
 .study-course { color: var(--accent); font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .study-title { color: var(--ink); font-size: 1.12rem; font-weight: 650; margin-top: .18rem; }
 .study-meta { color: var(--muted); font-size: .85rem; margin-top: .2rem; }
@@ -53,6 +58,7 @@ p { line-height: 1.65; }
 .stButton > button[kind="primary"] { background: var(--accent); color: white; border-color: var(--accent); }
 [data-testid="stAlert"] { border-radius: 8px; }
 @keyframes rise { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes page-in { from { opacity: .75; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 """

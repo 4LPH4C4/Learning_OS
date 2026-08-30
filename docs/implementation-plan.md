@@ -1,7 +1,7 @@
 # Learning OS 구현 Plan
 
-- 문서 상태: Draft v1
-- 기준일: 2026-08-29
+- 문서 상태: Phase 2 Implemented v1
+- 기준일: 2026-08-30
 - 대상 릴리스: Phase 1 Usable MVP → Phase 2 Full Product
 
 ## 1. 실행 목표
@@ -342,3 +342,22 @@ Phase 2는 실사용 피드백을 우선 반영하되 기본 순서는 아래와
 - 앱 실패가 Course 단위로 격리되고 오류 메시지가 행동 가능한 형태다.
 - 오늘 바로 시작할 AICE/PSPO Lesson이 존재한다.
 - 완료 보고 후 개발을 멈추고 사용자가 학습을 시작하게 한다.
+
+## 11. Phase 2 Release Gate
+
+| ID | 완료 조건 | 구현/검증 |
+|---|---|---|
+| P2-01 | v1 DB를 손실 없이 upgrade | migration `002_phase2_learning.sql`, migration 회귀 테스트 |
+| P2-02 | Course 독립 Quiz와 confidence 저장 | 4개 `questions.yaml`, 22문항 loader, `quiz_attempts` |
+| P2-03 | 1/2/4/7/14/30일 Review | `schedule_review`, 규칙 parameterized test |
+| P2-04 | Practice/Mock Exam | Course profile, session/attempt 저장, 결과 UI |
+| P2-05 | Curriculum Scheduler | deadline·priority·progress·weakness와 사용자 계획 조정 |
+| P2-06 | Weak Point Analytics | topic 정확도·자신감·응답시간·취약도 |
+| P2-07 | Skill mastery | Quiz·confidence·Lesson·Review 근거와 계산 설명 |
+| P2-08 | Notes/Search | Lesson Note, Markdown/URL, 전체 검색 |
+| P2-09 | Settings/Backup | 학습 시간·언어 저장, checksum·integrity restore |
+| P2-10 | optional AI Tutor | `AIProvider` Protocol과 disabled default |
+| P2-11 | Generic Import | URL/PDF/Markdown → Manifest Course |
+| P2-12 | Language 확장 | ko/en 필터와 url/pdf/vocabulary/listening/speaking type |
+
+모든 Phase 1 regression test를 함께 통과하고 실제 브라우저에서 Today → Course → Quiz → Review → Insights 흐름을 확인해야 Phase 2를 완료로 본다.

@@ -1,14 +1,16 @@
 schema_version: 1
 id: sqld
 title: SQLD
-description: SQLD 시험을 위한 데이터 모델링과 SQL 기초 학습 뼈대
+description: SQLD 시험과 실무 설계를 연결하는 데이터 모델링 중심 학습 과정
 category: sql-data
 source_type: local
-status: planned
+status: active
 schedule:
   exam_date: 2026-11-14
   target_date: 2026-11-14
-  priority: 0
+  priority: 60
+  estimated_hours: 8
+  weekly_target_hours: 2
 prerequisites:
   - SELECT 문과 기본적인 데이터베이스 용어
 skills:
@@ -22,13 +24,19 @@ completion_criteria:
   type: all_required_lessons
 modules:
   - id: sql-foundations
-    title: SQL 기초 (예정)
+    title: 데이터 모델링 기초
     order: 1
     lessons:
-      - id: sql-basics-planned
-        title: SQL 기본 문법 (콘텐츠 예정)
+      - id: data-modeling-foundations
+        title: 데이터 모델링 기초
         type: markdown
         duration_minutes: 30
-        content_path: lessons/sql-basics-planned.md
+        content_path: lessons/data-modeling-foundations.md
+        language: ko
         required: true
-        skills: [sql]
+        skills: [sql, data-modeling]
+quiz_settings:
+  mock_exam:
+    question_count: 50
+    duration_minutes: 90
+    target_score: 60

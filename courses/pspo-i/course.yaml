@@ -22,6 +22,11 @@ content_sources:
     base_path: .
 completion_criteria:
   type: all_required_lessons
+quiz_settings:
+  mock_exam:
+    question_count: 80
+    duration_minutes: 60
+    target_score: 90
 modules:
   - id: scrum-foundations
     title: Scrum 기초
@@ -32,6 +37,7 @@ modules:
         type: markdown
         duration_minutes: 30
         content_path: lessons/scrum-theory-and-empiricism.md
+        language: ko
         required: true
         skills: [scrum, empiricism]
       - id: scrum-values-in-action
@@ -39,6 +45,7 @@ modules:
         type: markdown
         duration_minutes: 25
         content_path: lessons/scrum-values-in-action.md
+        language: ko
         required: true
         skills: [scrum, product-ownership]
       - id: product-owner-scenario
@@ -46,5 +53,6 @@ modules:
         type: markdown
         duration_minutes: 25
         content_path: lessons/product-owner-scenario.md
+        language: ko
         required: true
         skills: [product-ownership, scrum]

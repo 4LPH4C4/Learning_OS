@@ -1,0 +1,91 @@
+schema_version: 1
+course_id: aice-associate
+questions:
+  - id: pandas-select-column
+    lesson_id: pandas-first-steps
+    skill_id: pandas
+    topic: DataFrame 선택
+    difficulty: 1
+    type: single_choice
+    prompt: DataFrame df에서 age 열만 Series로 선택하는 표현은 무엇인가?
+    options:
+      - {id: bracket, text: "df['age']"}
+      - {id: row-index, text: "df.iloc['age']"}
+      - {id: filter, text: df.filter_rows('age')}
+      - {id: describe, text: df.describe('age')}
+    correct_answers: [bracket]
+    explanation: 대괄호에 열 이름을 넣으면 해당 열을 Series로 선택할 수 있다.
+  - id: missing-values-strategy
+    lesson_id: data-cleaning-checklist
+    skill_id: data-analysis
+    topic: 결측치 처리
+    difficulty: 2
+    type: multiple_choice
+    prompt: 결측치를 처리하기 전에 점검할 내용으로 적절한 것을 모두 고르시오.
+    options:
+      - {id: mechanism, text: 결측이 생긴 업무적 원인과 의미}
+      - {id: proportion, text: 열별 결측 비율과 특정 그룹 편중 여부}
+      - {id: fill-zero-always, text: 모든 결측을 무조건 0으로 대체}
+      - {id: target-leakage, text: 처리 방식이 분석 목표의 정보를 미리 사용하지 않는지}
+    correct_answers: [mechanism, proportion, target-leakage]
+    explanation: 결측은 의미와 분포를 확인한 뒤 분석 목적에 맞춰 제거·대체·별도 범주화를 선택한다.
+    incorrect_explanations:
+      fill-zero-always: 0은 실제 값의 의미를 바꿀 수 있고 편향을 만든다.
+  - id: group-summary-choice
+    lesson_id: pandas-basics-lab
+    skill_id: pandas
+    topic: 그룹 요약
+    difficulty: 2
+    type: single_choice
+    prompt: 지역별 매출 평균을 비교하려면 어떤 pandas 흐름이 가장 알맞은가?
+    options:
+      - {id: groupby-mean, text: "df.groupby('region')['sales'].mean()"}
+      - {id: sort-only, text: df.sort_values('region')}
+      - {id: head-only, text: df.head()}
+      - {id: rename, text: "df.rename(columns={'sales': 'region'})"}
+    correct_answers: [groupby-mean]
+    explanation: groupby로 지역별 그룹을 만들고 sales의 mean을 계산한다.
+  - id: outlier-review
+    lesson_id: data-cleaning-checklist
+    skill_id: data-analysis
+    topic: 이상치 검토
+    difficulty: 3
+    type: multiple_choice
+    prompt: 매출에 매우 큰 값이 발견됐을 때 올바른 초기 대응을 모두 고르시오.
+    options:
+      - {id: verify-source, text: 원천 기록과 단위를 확인한다}
+      - {id: compare-context, text: 고객·기간 등 맥락별 분포와 비교한다}
+      - {id: delete-immediately, text: 평균에서 멀면 즉시 삭제한다}
+      - {id: record-decision, text: 유지·변환·제외 판단과 근거를 기록한다}
+    correct_answers: [verify-source, compare-context, record-decision]
+    explanation: 이상치는 오류일 수도 유효한 희귀 사례일 수도 있으므로 검증과 근거 기록이 먼저다.
+    incorrect_explanations:
+      delete-immediately: 통계적으로 드물다는 이유만으로 오류라고 단정할 수 없다.
+  - id: clean-dataframe-operation
+    lesson_id: pandas-basics-lab
+    skill_id: pandas
+    topic: 데이터 정제
+    difficulty: 3
+    type: short_answer
+    prompt: 중복 행을 제거한 DataFrame을 반환하는 pandas 메서드 이름을 쓰시오.
+    options: []
+    correct_answers: [drop_duplicates]
+    explanation: drop_duplicates()는 중복 행을 제거한 결과를 반환한다.
+  - id: correlation-caution
+    lesson_id: pandas-basics-lab
+    skill_id: data-analysis
+    topic: 기초 분석 해석
+    difficulty: 4
+    type: single_choice
+    prompt: 두 변수의 상관관계가 높다는 사실만으로 인과관계를 단정할 수 없는 가장 중요한 이유는 무엇인가?
+    options:
+      - {id: confounding, text: 교란변수·역인과·표본 우연으로도 상관이 나타날 수 있다}
+      - {id: correlation-proves, text: 상관계수가 높으면 원인과 결과가 자동으로 확정된다}
+      - {id: no-analysis, text: 상관관계는 어떤 분석에도 사용할 수 없다}
+      - {id: same-variable, text: 상관관계는 항상 같은 변수를 두 번 측정한 결과다}
+    correct_answers: [confounding]
+    explanation: 관측된 상관은 교란변수, 역인과, 표본 우연으로도 생길 수 있으므로 인과 주장을 별도 설계와 검증으로 확인해야 한다.
+    incorrect_explanations:
+      correlation-proves: 높은 상관도 실험 설계나 추가 근거 없이 인과를 증명하지 않는다.
+      no-analysis: 상관은 관계 탐색에 유용하지만 인과 주장과 구분해야 한다.
+      same-variable: 서로 다른 변수 사이에서도 상관관계가 나타날 수 있다.

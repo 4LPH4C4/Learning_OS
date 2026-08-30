@@ -1,0 +1,63 @@
+schema_version: 1
+course_id: ai-for-beginners
+questions:
+  - id: ai-system-boundary
+    lesson_id: introduction-to-ai
+    skill_id: artificial-intelligence
+    topic: AI 시스템 이해
+    difficulty: 1
+    type: single_choice
+    prompt: 다음 중 AI 시스템을 설명하는 관점으로 가장 적절한 것은 무엇인가?
+    options:
+      - {id: pattern-decision, text: 데이터에서 패턴을 활용해 특정 목표의 예측이나 결정을 돕는 시스템}
+      - {id: magic-mind, text: 사람처럼 모든 상황을 이해하는 마법의 지능}
+      - {id: database-only, text: 데이터를 저장하기만 하는 시스템}
+      - {id: random-output, text: 근거 없이 무작위 결과를 내는 시스템}
+    correct_answers: [pattern-decision]
+    explanation: AI는 문제와 목표, 데이터 및 평가 기준이 포함된 시스템으로 이해해야 하며 사람의 일반 지능과 동일하지 않다.
+  - id: supervised-signal
+    lesson_id: introduction-to-ai
+    skill_id: machine-learning
+    topic: 머신러닝 학습 신호
+    difficulty: 2
+    type: single_choice
+    prompt: 정답 레이블이 붙은 예시로 입력과 결과의 관계를 학습하는 방식은 무엇인가?
+    options:
+      - {id: supervised, text: 지도 학습}
+      - {id: unsupervised, text: 비지도 학습}
+      - {id: deployment, text: 배포}
+      - {id: encryption, text: 암호화}
+    correct_answers: [supervised]
+    explanation: 지도 학습은 레이블이 있는 예시를 사용해 예측 관계를 학습한다.
+  - id: responsible-ai-check
+    lesson_id: introduction-to-ai
+    skill_id: artificial-intelligence
+    topic: 책임 있는 AI
+    difficulty: 3
+    type: multiple_choice
+    prompt: AI 기능을 실제 사용자에게 제공하기 전에 점검할 항목을 모두 고르시오.
+    options:
+      - {id: representative-data, text: 대상 사용자와 상황을 충분히 반영하는 데이터인지}
+      - {id: error-impact, text: 오류가 사용자에게 미칠 영향과 대응 경로}
+      - {id: accuracy-only, text: 정확도 하나만 높으면 다른 위험은 무시}
+      - {id: privacy, text: 개인정보 수집·보관·사용의 적절성}
+    correct_answers: [representative-data, error-impact, privacy]
+    explanation: AI의 유용성은 정확도만으로 결정되지 않으며 공정성, 안전, 개인정보와 오류 대응을 함께 점검해야 한다.
+    incorrect_explanations:
+      accuracy-only: 정확도 외의 편향·안전·개인정보 위험이 남을 수 있다.
+  - id: model-evaluation-split
+    lesson_id: introduction-to-ai
+    skill_id: machine-learning
+    topic: 모델 평가
+    difficulty: 3
+    type: multiple_choice
+    prompt: 학습 데이터에만 잘 맞는 모델을 경계하기 위한 방법으로 적절한 것을 모두 고르시오.
+    options:
+      - {id: held-out, text: 학습에 사용하지 않은 데이터로 성능을 확인한다}
+      - {id: realistic-metric, text: 실제 사용 목적에 맞는 평가 지표를 정한다}
+      - {id: memorize-training, text: 학습 데이터 점수만 보고 배포한다}
+      - {id: subgroup-check, text: 중요한 사용자 집단별 성능 차이를 살핀다}
+    correct_answers: [held-out, realistic-metric, subgroup-check]
+    explanation: 일반화 성능과 실제 위험을 확인하려면 보류 데이터, 목적에 맞는 지표, 집단별 점검이 필요하다.
+    incorrect_explanations:
+      memorize-training: 학습 데이터 점수는 새로운 입력에서의 성능을 보장하지 않는다.

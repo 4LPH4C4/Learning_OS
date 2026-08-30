@@ -22,6 +22,11 @@ content_sources:
     base_path: .
 completion_criteria:
   type: all_required_lessons
+quiz_settings:
+  mock_exam:
+    question_count: 6
+    duration_minutes: 90
+    target_score: 80
 modules:
   - id: data-analysis-basics
     title: 데이터 분석 기초
@@ -32,6 +37,7 @@ modules:
         type: markdown
         duration_minutes: 25
         content_path: lessons/pandas-first-steps.md
+        language: ko
         required: true
         skills: [python, pandas]
       - id: pandas-basics-lab
@@ -39,6 +45,7 @@ modules:
         type: notebook
         duration_minutes: 35
         notebook_path: notebooks/pandas-basics.ipynb
+        language: ko
         required: true
         skills: [pandas, data-analysis]
       - id: data-cleaning-checklist
@@ -46,5 +53,6 @@ modules:
         type: markdown
         duration_minutes: 20
         content_path: lessons/data-cleaning-checklist.md
+        language: ko
         required: true
         skills: [data-analysis]

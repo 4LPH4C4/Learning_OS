@@ -1,0 +1,114 @@
+schema_version: 1
+course_id: pspo-i
+questions:
+  - id: sprint-goal-change-request
+    lesson_id: product-owner-scenario
+    skill_id: product-ownership
+    topic: Sprint Goal과 변경
+    difficulty: 3
+    type: single_choice
+    prompt: 결제 실패율 개선을 Sprint Goal로 삼은 팀에 영업팀이 특정 고객의 신규 기능을 즉시 넣어 달라고 요청했다. Product Owner의 첫 행동으로 가장 적절한 것은 무엇인가?
+    options:
+      - {id: accept-request, text: 요청자를 만족시키기 위해 즉시 현재 Sprint에 추가한다}
+      - {id: make-transparent, text: 요청의 근거와 가치, Sprint Goal 영향을 투명하게 만들고 팀과 검토한다}
+      - {id: defer-forever, text: Sprint 중 요청은 모두 무시하고 기록하지 않는다}
+      - {id: ask-manager, text: 개발 관리자에게 우선순위 결정을 넘긴다}
+    correct_answers: [make-transparent]
+    explanation: Scrum은 투명성을 바탕으로 검사하고 적응한다. PO는 근거와 영향을 드러내고 팀과 함께 목표를 보호할 방법을 찾는다.
+    incorrect_explanations:
+      accept-request: 단일 요청만으로 즉시 범위를 바꾸면 Sprint Goal과 가치 판단이 불투명해진다.
+      defer-forever: 요청을 숨기는 것은 투명성과 적응을 막는다.
+      ask-manager: Product Backlog의 가치와 순서에 대한 책임을 다른 역할에 위임할 수 없다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: product-backlog-order-evidence
+    lesson_id: product-owner-scenario
+    skill_id: product-ownership
+    topic: Product Backlog 우선순위
+    difficulty: 3
+    type: multiple_choice
+    prompt: 다음 Sprint의 Backlog 순서를 조정할 때 Product Owner가 확인하면 좋은 근거를 모두 고르시오.
+    options:
+      - {id: user-impact, text: 영향을 받는 사용자와 문제의 빈도}
+      - {id: value-risk, text: 기대 가치와 기술·운영 위험}
+      - {id: loudest-voice, text: 가장 크게 주장한 사람의 직급}
+      - {id: learning-signal, text: 이전 Increment에서 얻은 사용 및 품질 신호}
+    correct_answers: [user-impact, value-risk, learning-signal]
+    explanation: 우선순위는 가치와 위험, 사용자 영향, 검사에서 얻은 학습 신호를 근거로 조정한다.
+    incorrect_explanations:
+      loudest-voice: 직급이나 목소리 크기는 제품 가치의 신뢰할 만한 근거가 아니다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: empiricism-feedback-loop
+    lesson_id: scrum-theory-and-empiricism
+    skill_id: empiricism
+    topic: 경험주의
+    difficulty: 2
+    type: single_choice
+    prompt: 출시한 실험의 전환율이 예상보다 낮았다. 경험주의에 맞는 Product Owner의 대응은 무엇인가?
+    options:
+      - {id: hide-result, text: 목표 달성처럼 보이도록 결과를 보고서에서 제외한다}
+      - {id: inspect-adapt, text: 결과를 투명하게 공유하고 원인을 검사한 뒤 다음 실험을 조정한다}
+      - {id: freeze-plan, text: 초기 계획이 맞다고 보고 같은 기능을 계속 확장한다}
+      - {id: blame-team, text: 담당자를 찾아 책임을 묻고 학습 논의를 끝낸다}
+    correct_answers: [inspect-adapt]
+    explanation: 경험주의는 투명성, 검사, 적응의 반복이다. 불편한 결과도 숨기지 않아야 올바른 적응이 가능하다.
+    incorrect_explanations:
+      hide-result: 정보 은폐는 투명성을 훼손한다.
+      freeze-plan: 새로운 관찰에 맞춰 계획을 적응시키지 못한다.
+      blame-team: 비난은 원인 학습과 협업을 방해한다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: scrum-value-courage
+    lesson_id: scrum-values-in-action
+    skill_id: scrum
+    topic: Scrum Values
+    difficulty: 2
+    type: single_choice
+    prompt: 품질 위험을 발견했지만 일정 지연이 걱정될 때, Scrum Values 중 위험을 공개하고 필요한 대화를 시작하는 태도와 가장 가까운 것은 무엇인가?
+    options:
+      - {id: courage, text: 용기(Courage)}
+      - {id: focus, text: 집중(Focus)}
+      - {id: respect, text: 존중(Respect)}
+      - {id: openness, text: 개방성(Openness)}
+    correct_answers: [courage]
+    explanation: 불편한 위험을 드러내고 올바른 일을 선택하는 데는 용기가 필요하다. 개방성은 그 행동을 돕는 가치이기도 하다.
+    incorrect_explanations:
+      focus: 목표에 집중하는 것만으로 위험 공개의 태도를 설명하지 못한다.
+      respect: 동료를 존중하는 것과 위험을 말할 용기는 관련 있지만 같은 개념은 아니다.
+      openness: 개방성은 정보를 공유하는 가치이고, 위험을 감수하고 말하는 핵심 태도는 용기다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: definition-of-done-quality
+    lesson_id: scrum-values-in-action
+    skill_id: scrum
+    topic: Definition of Done
+    difficulty: 3
+    type: multiple_choice
+    prompt: Increment가 실제로 사용 가능한지 판단하기 위한 Definition of Done의 역할로 옳은 것을 모두 고르시오.
+    options:
+      - {id: shared-quality-bar, text: 팀이 충족해야 할 공통 품질 기준을 제공한다}
+      - {id: transparency, text: 완료 상태의 의미를 투명하게 만든다}
+      - {id: optional-checklist, text: 시간이 부족하면 생략해도 되는 선택적 체크리스트다}
+      - {id: stakeholder-approval-only, text: 한 명의 이해관계자 승인만으로 완료를 대신한다}
+    correct_answers: [shared-quality-bar, transparency]
+    explanation: Definition of Done은 Increment의 품질과 완료 상태에 대한 공통 이해를 만든다. 시간이 부족해도 완료 기준을 낮추는 근거가 되지 않는다.
+    incorrect_explanations:
+      optional-checklist: 완료 기준을 생략하면 Increment의 품질과 투명성이 깨진다.
+      stakeholder-approval-only: 개인 승인만으로 팀의 완료 기준을 대체할 수 없다.
+    source_ref: https://scrumguides.org/scrum-guide.html
+  - id: scrum-team-accountability
+    lesson_id: scrum-theory-and-empiricism
+    skill_id: scrum
+    topic: Scrum Team 책임
+    difficulty: 4
+    type: single_choice
+    prompt: Product Owner가 개발자에게 Product Backlog의 기술적 순서를 직접 지시하고, Scrum Master가 품질을 승인하는 구조가 생겼다. 가장 적절한 개선은 무엇인가?
+    options:
+      - {id: restore-accountabilities, text: 각 책임을 존중하고 Product Goal과 품질 기준을 함께 투명하게 조율한다}
+      - {id: po-controls-all, text: PO가 제품과 기술의 모든 결정을 단독으로 맡는다}
+      - {id: sm-approves-quality, text: Scrum Master가 모든 Increment를 승인해야 한다}
+      - {id: remove-events, text: 충돌을 피하기 위해 Scrum Event를 줄인다}
+    correct_answers: [restore-accountabilities]
+    explanation: Scrum Team은 가치 창출을 위해 협력하며, 역할의 책임을 혼합하지 않고 투명한 대화로 조율해야 한다.
+    incorrect_explanations:
+      po-controls-all: PO의 제품 가치 책임이 개발자의 기술적 판단을 대체하지 않는다.
+      sm-approves-quality: 품질은 개발자 책임과 Definition of Done으로 관리한다.
+      remove-events: Event를 없애면 검사와 적응의 기회가 줄어든다.
+    source_ref: https://scrumguides.org/scrum-guide.html

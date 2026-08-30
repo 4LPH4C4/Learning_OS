@@ -1,8 +1,8 @@
 # Learning OS Product Requirements Document
 
-- 문서 상태: Draft v1
+- 문서 상태: Phase 2 Implemented v1
 - Product owner: 개인 사용자
-- 기준일: 2026-08-29
+- 기준일: 2026-08-30
 - 초기 플랫폼: Windows
 - 향후 플랫폼: macOS, Linux
 
