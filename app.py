@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import calendar
+from collections import defaultdict
 import html
 import sys
 import time
@@ -14,7 +16,20 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from learning_os.core.models import Course, Lesson, StudyRecommendation  # noqa: E402
+from learning_os.core.glossary import (  # noqa: E402
+    CourseGlossary,
+    GlossaryError,
+    GlossaryTerm,
+    load_glossary,
+    terms_in_content,
+)
+from learning_os.core.insights import StudyActivity  # noqa: E402
+from learning_os.core.models import (  # noqa: E402
+    Course,
+    Lesson,
+    StudyRecommendation,
+    StudyStep,
+)
 from learning_os.core.assessment import QuizQuestion, evaluate_answer  # noqa: E402
 from learning_os.core.practice import profile_for, score_percent, select_questions  # noqa: E402
 from learning_os.core.scheduler import build_curriculum_plan  # noqa: E402
@@ -39,7 +54,9 @@ from learning_os.integrations.notebook_launcher import (  # noqa: E402
     NotebookLaunchError,
     launch_notebook,
 )
+from learning_os.database.daily_plan import DailyStudyPlanItem  # noqa: E402
 from learning_os.services.learning_service import LearningRuntime, build_runtime  # noqa: E402
+from learning_os.ui.glossary import annotate_markdown_with_glossary  # noqa: E402
 from learning_os.ui.theme import apply_theme  # noqa: E402
 
 
@@ -177,6 +194,121 @@ def stored_languages(app: LearningRuntime) -> set[str]:
     return result or {"ko", "en"}
 
 
+def inferred_study_steps(lesson: Lesson) -> tuple[StudyStep, ...]:
+    if lesson.study_steps:
+        return lesson.study_steps
+    total = lesson.duration_minutes
+    if lesson.type in {"notebook", "external_notebook", "markdown_notebook"}:
+        first = max(2, round(total * 0.15))
+        second = max(2, round(total * 0.4))
+        third = max(2, round(total * 0.35))
+        fourth = total - first - second - third
+        if fourth <= 0:
+            third += fourth - 1
+            fourth = 1
+        return (
+            StudyStep("문제와 데이터 이해", first),
+            StudyStep("예제 코드 실행", second),
+            StudyStep("코드 수정·문제 해결", third),
+            StudyStep("결과 검증과 회고", fourth),
+        )
+    first = max(2, round(total * 0.4))
+    second = max(2, round(total * 0.25))
+    third = total - first - second
+    if third <= 0:
+        second += third - 1
+        third = 1
+    return (
+        StudyStep("핵심 이론 읽기", first),
+        StudyStep("예시·오해 비교", second),
+        StudyStep("자가점검·적용 기록", third),
+    )
+
+
+def render_study_time_plan(lesson: Lesson) -> None:
+    with st.container(border=True):
+        st.markdown(f"**예상 학습 시간 · {lesson.duration_minutes}분**")
+        st.caption(
+            "표시 시간은 문서를 읽는 시간만이 아니라, 이해 확인과 직접 적용까지 마치는 기준이야."
+        )
+        for step in inferred_study_steps(lesson):
+            outcome = f" — {step.outcome}" if step.outcome else ""
+            st.markdown(f"- **{step.label} · {step.duration_minutes}분**{outcome}")
+
+
+def safe_glossary(course: Course) -> CourseGlossary:
+    try:
+        return load_glossary(course)
+    except GlossaryError:
+        return CourseGlossary(course_id=course.id)
+
+
+def render_term_definition(
+    term: GlossaryTerm,
+    glossary: CourseGlossary,
+    *,
+    show_title: bool = True,
+) -> None:
+    if show_title:
+        st.markdown(f"### {term.name}")
+    st.markdown(f"**{term.short_definition}**")
+    st.markdown(term.explanation)
+    if term.example:
+        st.caption("실제 적용 예시")
+        st.markdown(term.example)
+    related = [
+        related.name
+        for related_id in term.related_terms
+        if (related := glossary.get(related_id)) is not None
+    ]
+    if related:
+        st.caption(f"함께 보면 좋은 용어 · {' · '.join(related)}")
+    if term.source_url:
+        st.link_button("공식 자료 열기", term.source_url, icon=":material/open_in_new:")
+
+
+def render_lesson_glossary(course: Course, content: str) -> None:
+    glossary = safe_glossary(course)
+    terms = terms_in_content(glossary, content, limit=10)
+    if not terms:
+        return
+    st.subheader("이 Lesson의 핵심 용어")
+    st.caption(
+        "본문의 점선 용어를 누르면 읽던 자리에서 뜻을 확인할 수 있어. "
+        "아래 버튼은 자세한 설명과 예시를 보여줘."
+    )
+    with st.container(horizontal=True):
+        for term in terms:
+            with st.popover(
+                term.name,
+                icon=":material/book_2:",
+                key=f"term:{course.id}:{term.id}",
+                width="content",
+                wrap=True,
+            ):
+                render_term_definition(term, glossary)
+
+
+@st.dialog("Course 용어사전", width="large", icon=":material/dictionary:")
+def glossary_dialog(course: Course) -> None:
+    glossary = safe_glossary(course)
+    st.subheader(course.title)
+    if not glossary.terms:
+        st.info("이 Course에는 아직 용어사전이 없어.")
+        return
+    query = st.text_input(
+        "용어 검색",
+        placeholder="용어, 별칭, 설명에서 검색",
+        key=f"glossary-search:{course.id}",
+        icon=":material/search:",
+    )
+    matches = glossary.search(query)
+    st.caption(f"{len(matches)}개 용어")
+    for term in matches:
+        with st.expander(term.name):
+            render_term_definition(term, glossary, show_title=False)
+
+
 def render_progress(app: LearningRuntime, course: Course) -> None:
     completed, total, percent = progress_percent(app, course)
     status_class = "" if course.status == "active" else " planned"
@@ -234,13 +366,53 @@ def render_source_status(app: LearningRuntime, course: Course) -> None:
                     st.rerun()
 
 
-def render_recommendation(app: LearningRuntime, item: StudyRecommendation, index: int) -> None:
+def next_required_lesson(
+    course: Course,
+    statuses: dict[tuple[str, str], str],
+    allowed_languages: set[str],
+) -> Lesson | None:
+    return next(
+        (
+            lesson
+            for lesson in course.required_lessons
+            if (lesson.language is None or lesson.language in allowed_languages)
+            and statuses.get((course.id, lesson.id)) != "completed"
+        ),
+        None,
+    )
+
+
+def resolve_daily_recommendations(
+    app: LearningRuntime,
+    items: tuple[DailyStudyPlanItem, ...],
+) -> tuple[StudyRecommendation, ...]:
+    resolved = []
+    for item in items:
+        course = app.course(item.course_id)
+        lesson = app.lesson(item.course_id, item.lesson_id)
+        if course is not None and lesson is not None:
+            resolved.append(
+                StudyRecommendation(course=course, lesson=lesson, reason="오늘 계획에 고정")
+            )
+    return tuple(resolved)
+
+
+def render_recommendation(
+    app: LearningRuntime,
+    item: StudyRecommendation,
+    index: int,
+    total: int,
+    *,
+    completed: bool,
+    is_next: bool,
+) -> None:
     left, right = st.columns([5, 1.35], vertical_alignment="center")
     with left:
+        state_label = "완료" if completed else ("다음" if is_next else "예정")
         st.markdown(
             f"""
             <div class="study-row">
-              <div class="study-course">{html.escape(item.course.title)}</div>
+              <div class="study-course">오늘 {index + 1}/{total} · {state_label} · {html.escape(item.course.title)}</div>
               <div class="study-title">{html.escape(item.lesson.title)}</div>
               <div class="study-meta">{item.lesson.duration_minutes}분 · {html.escape(item.reason)}</div>
             </div>
@@ -249,16 +421,18 @@ def render_recommendation(app: LearningRuntime, item: StudyRecommendation, index
         )
     with right:
         if st.button(
-            "학습 시작",
+            "다시 보기" if completed else ("지금 시작" if is_next else "열기"),
             key=f"start:{item.course.id}:{item.lesson.id}:{index}",
-            type="primary" if index == 0 else "secondary",
-            use_container_width=True,
+            type="primary" if is_next else "secondary",
+            width="stretch",
         ):
             open_lesson(app, item.course, item.lesson)
 
 
 def dashboard(app: LearningRuntime) -> None:
-    today_text = date.today().strftime("%Y.%m.%d")
+    current_date = date.today()
+    today_id = current_date.isoformat()
+    today_text = current_date.strftime("%Y.%m.%d")
     st.markdown(f'<div class="eyebrow">TODAY · {today_text}</div>', unsafe_allow_html=True)
     st.title("Learning OS")
     st.markdown(
@@ -267,7 +441,7 @@ def dashboard(app: LearningRuntime) -> None:
     )
 
     statuses = app.progress.statuses()
-    completed_today = sum(1 for status in statuses.values() if status == "completed")
+    completed_today = app.progress.completed_lesson_count_on(today_id)
     active_courses = sum(1 for course in app.catalog.courses if course.status == "active")
     due_reviews = app.due_reviews()
     c1, c2, c3 = st.columns(3)
@@ -297,46 +471,200 @@ def dashboard(app: LearningRuntime) -> None:
             )
 
     st.header("Today's Study")
-    default_minutes = stored_study_minutes(app)
+    saved_plan = app.progress.load_daily_plan(today_id)
+    default_minutes = saved_plan.available_minutes if saved_plan else stored_study_minutes(app)
+    minutes_key = f"study-minutes:{today_id}"
+    st.session_state.setdefault(minutes_key, default_minutes)
     available = st.segmented_control(
         "오늘 가능한 시간",
         options=[15, 30, 45, 60, 90, 120],
-        default=st.session_state.get("study_minutes", default_minutes),
         format_func=lambda value: f"{value}분",
-        key="study_minutes",
+        key=minutes_key,
     )
-    recommendations = build_curriculum_plan(
-        app.catalog.courses,
-        statuses,
-        int(available or default_minutes),
-        weakness_by_course=app.learning.weakness_by_course(),
-        allowed_languages=stored_languages(app),
+    available_minutes = int(available or default_minutes)
+    allowed_languages = stored_languages(app)
+    if saved_plan is None:
+        completed_before_plan = tuple(
+            item
+            for item in app.progress.completed_lessons_on(today_id)
+            if app.course(item.course_id) is not None
+            and app.lesson(item.course_id, item.lesson_id) is not None
+        )
+        initial = (
+            ()
+            if completed_before_plan
+            else build_curriculum_plan(
+                app.catalog.courses,
+                statuses,
+                available_minutes,
+                weakness_by_course=app.learning.weakness_by_course(),
+                allowed_languages=allowed_languages,
+            )
+        )
+        initial_items = completed_before_plan or tuple(
+            DailyStudyPlanItem(item.course.id, item.lesson.id) for item in initial
+        )
+        saved_plan = app.progress.save_daily_plan(
+            today_id,
+            available_minutes,
+            initial_items,
+        )
+    elif saved_plan.available_minutes != available_minutes:
+        saved_plan = app.progress.save_daily_plan(
+            today_id,
+            available_minutes,
+            saved_plan.items,
+        )
+
+    valid_items = tuple(
+        item
+        for item in saved_plan.items
+        if app.course(item.course_id) is not None
+        and app.lesson(item.course_id, item.lesson_id) is not None
+    )
+    if valid_items != saved_plan.items:
+        saved_plan = app.progress.save_daily_plan(today_id, available_minutes, valid_items)
+
+    if st.button(
+        "가능한 시간에 맞춰 다시 추천",
+        key=f"recommend-plan:{today_id}",
+        icon=":material/refresh:",
+    ):
+        refreshed = build_curriculum_plan(
+            app.catalog.courses,
+            statuses,
+            available_minutes,
+            weakness_by_course=app.learning.weakness_by_course(),
+            allowed_languages=allowed_languages,
+        )
+        saved_plan = app.progress.save_daily_plan(
+            today_id,
+            available_minutes,
+            [(item.course.id, item.lesson.id) for item in refreshed],
+        )
+        st.session_state[f"daily-plan-courses:{today_id}"] = list(
+            dict.fromkeys(item.course.id for item in refreshed)
+        )
+
+    selectable_courses = tuple(
+        course for course in app.catalog.courses if course.status != "disabled"
+    )
+    selectable_ids = [course.id for course in selectable_courses]
+    course_by_id = {course.id: course for course in selectable_courses}
+    course_key = f"daily-plan-courses:{today_id}"
+    st.session_state.setdefault(
+        course_key,
+        list(dict.fromkeys(item.course_id for item in saved_plan.items)),
+    )
+    selected_course_ids = st.multiselect(
+        "오늘 계획 조정",
+        options=selectable_ids,
+        format_func=lambda course_id: (
+            course_by_id[course_id].title
+            + (" · 준비 예정" if course_by_id[course_id].status == "planned" else "")
+        ),
+        key=course_key,
+        help="등록된 Course를 고르면 해당 Course의 다음 미완료 Lesson이 오늘 범위에 추가돼.",
+    )
+
+    selected_set = set(selected_course_ids)
+    adjusted_items = [
+        item for item in saved_plan.items if item.course_id in selected_set
+    ]
+    courses_with_item = {item.course_id for item in adjusted_items}
+    unavailable_courses: list[str] = []
+    for course_id in selected_course_ids:
+        if course_id in courses_with_item:
+            continue
+        course = course_by_id[course_id]
+        next_lesson = next_required_lesson(course, statuses, allowed_languages)
+        if next_lesson is None:
+            unavailable_courses.append(course.title)
+            continue
+        adjusted_items.append(DailyStudyPlanItem(course.id, next_lesson.id))
+        courses_with_item.add(course.id)
+    adjusted_tuple = tuple(adjusted_items)
+    if adjusted_tuple != saved_plan.items:
+        saved_plan = app.progress.save_daily_plan(
+            today_id,
+            available_minutes,
+            adjusted_tuple,
+        )
+    if unavailable_courses:
+        st.info(f"추가할 미완료 Lesson이 없는 Course · {' · '.join(unavailable_courses)}")
+
+    planned_refs = {(item.course_id, item.lesson_id) for item in saved_plan.items}
+    additions: list[DailyStudyPlanItem] = []
+    for course_id in selected_course_ids:
+        course = course_by_id[course_id]
+        candidate = next_required_lesson(course, statuses, allowed_languages)
+        if candidate is not None and (course.id, candidate.id) not in planned_refs:
+            additions.append(DailyStudyPlanItem(course.id, candidate.id))
+    if additions and st.button(
+        "선택한 Course의 다음 미완료 Lesson 추가",
+        key=f"append-next-lessons:{today_id}",
+        icon=":material/add:",
+    ):
+        saved_plan = app.progress.save_daily_plan(
+            today_id,
+            available_minutes,
+            (*saved_plan.items, *additions),
+        )
+        st.rerun()
+
+    recommendations = resolve_daily_recommendations(app, saved_plan.items)
+    completed_refs = {
+        (item.course.id, item.lesson.id)
+        for item in recommendations
+        if statuses.get((item.course.id, item.lesson.id)) == "completed"
+    }
+    total_minutes = sum(item.lesson.duration_minutes for item in recommendations)
+    completed_count = len(completed_refs)
+    completed_minutes = sum(
+        item.lesson.duration_minutes
+        for item in recommendations
+        if (item.course.id, item.lesson.id) in completed_refs
+    )
+    remaining_minutes = total_minutes - completed_minutes
+    st.subheader(f"오늘의 범위 · {completed_count}/{len(recommendations)} 완료")
+    st.caption(
+        "아래 Lesson만 오늘의 학습 범위야. 완료해도 목록은 자동으로 다음 Lesson으로 바뀌지 않아."
     )
     if recommendations:
-        recommendation_map = {
-            f"{item.course.id}:{item.lesson.id}": item for item in recommendations
-        }
-        selected_refs = st.multiselect(
-            "오늘 계획 조정",
-            options=list(recommendation_map),
-            default=list(recommendation_map),
-            format_func=lambda ref: (
-                f"{recommendation_map[ref].course.title} · "
-                f"{recommendation_map[ref].lesson.title}"
-            ),
-            key=f"daily-plan:{available}",
+        st.progress(completed_count / len(recommendations))
+        st.caption(
+            f"계획 {total_minutes}분 · 완료 {completed_minutes}분 · "
+            f"남은 학습 {remaining_minutes}분 · 설정한 시간 {available_minutes}분"
         )
-        selected = tuple(recommendation_map[ref] for ref in selected_refs)
-        if st.button("오늘 공부 시작", type="primary", use_container_width=True):
-            if selected:
-                first = selected[0]
+        remaining_budget = max(0, available_minutes - completed_minutes)
+        if remaining_minutes > remaining_budget:
+            st.warning("남은 학습이 오늘의 남은 시간보다 길어. Course를 줄이거나 가능한 시간을 늘려라.")
+        remaining = tuple(
+            item
+            for item in recommendations
+            if (item.course.id, item.lesson.id) not in completed_refs
+        )
+        if remaining:
+            if st.button("다음 오늘 Lesson 시작", type="primary", width="stretch"):
+                first = remaining[0]
                 open_lesson(app, first.course, first.lesson)
-            else:
-                st.warning("오늘 계획에 Lesson을 하나 이상 선택해라.")
-        for index, item in enumerate(selected):
-            render_recommendation(app, item, index)
+        else:
+            st.success("오늘 계획을 모두 완료했어. 더 학습하려면 위에서 Course를 다시 조정해라.")
+        next_ref = (
+            (remaining[0].course.id, remaining[0].lesson.id) if remaining else None
+        )
+        for index, item in enumerate(recommendations):
+            ref = (item.course.id, item.lesson.id)
+            render_recommendation(
+                app,
+                item,
+                index,
+                len(recommendations),
+                completed=ref in completed_refs,
+                is_next=ref == next_ref,
+            )
     else:
-        st.success("오늘 필요한 Lesson을 모두 완료했어. Course에서 다음 항목을 확인해도 좋아.")
+        st.info("오늘 범위가 비어 있어. 위의 ‘오늘 계획 조정’에서 Course를 선택해라.")
 
     st.header("Course Progress")
     for course in app.catalog.courses:
@@ -360,7 +688,7 @@ def courses_page(app: LearningRuntime) -> None:
             render_progress(app, course)
             st.caption(course.description)
         with right:
-            if st.button("살펴보기", key=f"browse:{course.id}", use_container_width=True):
+            if st.button("살펴보기", key=f"browse:{course.id}", width="stretch"):
                 go("course", course_id=course.id)
 
 
@@ -374,6 +702,13 @@ def course_page(app: LearningRuntime, course: Course) -> None:
     completed, total, percent = progress_percent(app, course)
     st.write(f"{completed}/{total}개 완료 · {percent}%")
     st.progress(percent / 100 if total else 0)
+    if safe_glossary(course).terms:
+        if st.button(
+            "Course 용어사전",
+            key=f"glossary:{course.id}",
+            icon=":material/dictionary:",
+        ):
+            glossary_dialog(course)
     if course.status == "planned":
         st.info("이 Course는 아직 준비 예정 상태야.")
 
@@ -389,13 +724,15 @@ def course_page(app: LearningRuntime, course: Course) -> None:
         )
         quiz_col, mock_col = st.columns(2)
         with quiz_col:
-            if st.button("빠른 Quiz", type="primary", use_container_width=True, key=f"quiz:{course.id}"):
+            if st.button("빠른 Quiz", type="primary", width="stretch", key=f"quiz:{course.id}"):
                 start_course_practice(app, course, "quiz")
         with mock_col:
-            if st.button("Mock Exam", use_container_width=True, key=f"mock:{course.id}"):
+            if st.button("Mock Exam", width="stretch", key=f"mock:{course.id}"):
                 start_course_practice(app, course, "mock_exam")
 
     allowed_languages = stored_languages(app)
+    course_statuses = app.progress.statuses()
+    next_lesson = next_required_lesson(course, course_statuses, allowed_languages)
     for module in course.modules:
         st.header(module.title)
         visible_lessons = tuple(
@@ -406,10 +743,17 @@ def course_page(app: LearningRuntime, course: Course) -> None:
         if not visible_lessons:
             st.caption("선택한 콘텐츠 언어에 해당하는 Lesson이 없어.")
         for lesson in visible_lessons:
-            status = app.progress.statuses().get((course.id, lesson.id))
+            status = course_statuses.get((course.id, lesson.id))
             left, right = st.columns([5, 1.25], vertical_alignment="center")
             with left:
-                marker = "완료" if status == "completed" else "다음 학습"
+                if status == "completed":
+                    marker = "완료"
+                elif status == "started":
+                    marker = "진행 중"
+                elif next_lesson is not None and lesson.id == next_lesson.id:
+                    marker = "다음 학습"
+                else:
+                    marker = "예정"
                 st.markdown(
                     f'<div class="study-row"><div class="study-course">{html.escape(marker)}</div>'
                     f'<div class="study-title">{html.escape(lesson.title)}</div>'
@@ -421,7 +765,7 @@ def course_page(app: LearningRuntime, course: Course) -> None:
                     label = "연습 시작"
                 else:
                     label = "열기"
-                if st.button(label, key=f"lesson:{course.id}:{lesson.id}", use_container_width=True):
+                if st.button(label, key=f"lesson:{course.id}:{lesson.id}", width="stretch"):
                     if lesson.type in {"quiz", "practice", "mock_exam"}:
                         lesson_questions = tuple(
                             question
@@ -434,6 +778,84 @@ def course_page(app: LearningRuntime, course: Course) -> None:
                     open_lesson(app, course, lesson)
 
 
+def render_completed_lesson_next_steps(
+    app: LearningRuntime,
+    course: Course,
+    lesson: Lesson,
+) -> None:
+    today_id = date.today().isoformat()
+    plan = app.progress.load_daily_plan(today_id)
+    statuses = app.progress.statuses()
+    today_items = resolve_daily_recommendations(app, plan.items) if plan else ()
+    today_refs = {(item.course.id, item.lesson.id) for item in today_items}
+    current_ref = (course.id, lesson.id)
+    remaining = tuple(
+        item
+        for item in today_items
+        if statuses.get((item.course.id, item.lesson.id)) != "completed"
+    )
+
+    st.subheader("오늘의 학습 상태")
+    if current_ref in today_refs:
+        completed_count = len(today_items) - len(remaining)
+        if remaining:
+            next_today = remaining[0]
+            st.success(
+                f"오늘 범위에서 이 Lesson을 완료했어. "
+                f"{completed_count}/{len(today_items)}개 완료."
+            )
+            st.info(
+                f"오늘의 다음 Lesson · {next_today.course.title} — "
+                f"{next_today.lesson.title} ({next_today.lesson.duration_minutes}분)"
+            )
+            with st.container(horizontal=True):
+                if st.button(
+                    "다음 오늘 Lesson 시작",
+                    type="primary",
+                    key=f"next-today:{course.id}:{lesson.id}",
+                ):
+                    open_lesson(app, next_today.course, next_today.lesson)
+                if st.button(
+                    "오늘 화면으로 돌아가기",
+                    key=f"back-today:{course.id}:{lesson.id}",
+                ):
+                    go("dashboard")
+        else:
+            st.success(f"오늘 계획 {len(today_items)}/{len(today_items)}개를 모두 완료했어.")
+            if st.button(
+                "오늘 화면으로 돌아가기",
+                key=f"back-today-complete:{course.id}:{lesson.id}",
+            ):
+                go("dashboard")
+    else:
+        st.caption("이 Lesson은 오늘 계획 밖에서 완료했어. 오늘 범위는 ‘오늘’ 화면에서 확인할 수 있어.")
+        if st.button(
+            "오늘 범위 확인",
+            key=f"view-today:{course.id}:{lesson.id}",
+        ):
+            go("dashboard")
+
+    next_course_lesson = next_required_lesson(course, statuses, stored_languages(app))
+    if next_course_lesson is not None:
+        next_ref = (course.id, next_course_lesson.id)
+        st.subheader("이 Course의 다음 세션")
+        st.markdown(f"**{next_course_lesson.title}** · {next_course_lesson.duration_minutes}분")
+        if next_ref in today_refs:
+            st.caption("이 Lesson은 이미 오늘 범위에 포함돼 있어.")
+        else:
+            st.caption(
+                "Course 순서상 다음 Lesson이지만 오늘 범위에는 포함되지 않아. "
+                "열어도 오늘 계획이 자동으로 바뀌지는 않아."
+            )
+        if st.button(
+            "Course 다음 Lesson 열기",
+            key=f"next-course:{course.id}:{lesson.id}",
+        ):
+            open_lesson(app, course, next_course_lesson)
+    else:
+        st.success("이 Course의 필수 Lesson을 모두 완료했어.")
+
+
 def lesson_page(app: LearningRuntime, course: Course, lesson: Lesson) -> None:
     if st.button(f"← {course.title}", key="back-course"):
         go("course", course_id=course.id)
@@ -442,6 +864,7 @@ def lesson_page(app: LearningRuntime, course: Course, lesson: Lesson) -> None:
     status = app.progress.statuses().get((course.id, lesson.id))
     if status == "completed":
         st.success("완료한 Lesson이야. 언제든 다시 볼 수 있어.")
+    render_study_time_plan(lesson)
 
     if lesson.url:
         st.link_button("외부 학습 자료 열기", lesson.url, type="primary")
@@ -466,7 +889,13 @@ def lesson_page(app: LearningRuntime, course: Course, lesson: Lesson) -> None:
     elif lesson.content_path:
         try:
             content = read_markdown(course, lesson, app.settings.external_dir)
-            st.markdown(without_leading_title(content))
+            render_lesson_glossary(course, f"{lesson.title}\n{content}")
+            lesson_body = without_leading_title(content)
+            annotated_body = annotate_markdown_with_glossary(
+                lesson_body,
+                safe_glossary(course),
+            )
+            st.html(annotated_body)
         except ContentUnavailableError as exc:
             st.warning(str(exc))
             source = course.source(lesson.source_id)
@@ -474,6 +903,11 @@ def lesson_page(app: LearningRuntime, course: Course, lesson: Lesson) -> None:
                 st.info("Course 화면에서 원본 source를 준비한 뒤 다시 열어라.")
 
     if lesson.notebook_path:
+        if not lesson.content_path:
+            render_lesson_glossary(
+                course,
+                " ".join((lesson.title, *lesson.skills)),
+            )
         st.divider()
         st.subheader("Hands-on Notebook")
         st.caption("JupyterLab에서 코드를 직접 실행하고 수정한다.")
@@ -527,7 +961,7 @@ def lesson_page(app: LearningRuntime, course: Course, lesson: Lesson) -> None:
 
     st.divider()
     if status != "completed":
-        if st.button("Lesson 완료", type="primary", use_container_width=True):
+        if st.button("Lesson 완료", type="primary", width="stretch"):
             app.progress.mark_completed(course.id, lesson.id)
             session_key = f"session:{course.id}:{lesson.id}"
             session_id = st.session_state.pop(session_key, None)
@@ -535,6 +969,8 @@ def lesson_page(app: LearningRuntime, course: Course, lesson: Lesson) -> None:
                 app.progress.complete_session(int(session_id))
             st.success("진도를 저장했어.")
             st.rerun()
+    else:
+        render_completed_lesson_next_steps(app, course, lesson)
 
 
 def practice_page(app: LearningRuntime) -> None:
@@ -693,7 +1129,7 @@ def review_page(app: LearningRuntime) -> None:
                 f'{item.schedule.interval_days}일 간격 · 자신감 {item.schedule.last_confidence}/5</div></div>',
                 unsafe_allow_html=True,
             )
-        if st.button("Today's Review 시작", type="primary", use_container_width=True):
+        if st.button("Today's Review 시작", type="primary", width="stretch"):
             start_practice_flow(
                 app,
                 tuple(item.question for item in due[:10]),
@@ -717,7 +1153,7 @@ def review_page(app: LearningRuntime) -> None:
                 unsafe_allow_html=True,
             )
         with right:
-            if st.button("Quiz 시작", key=f"review-quiz:{course.id}", use_container_width=True):
+            if st.button("Quiz 시작", key=f"review-quiz:{course.id}", width="stretch"):
                 start_course_practice(app, course, "quiz", parent="review")
 
     if app.questions.issues:
@@ -780,7 +1216,7 @@ def insights_page(app: LearningRuntime) -> None:
     st.markdown('<div class="eyebrow">EVIDENCE</div>', unsafe_allow_html=True)
     st.title("Insights")
     st.markdown(
-        '<div class="page-lead">학습량과 Course 진도에서 분리된 Skill 숙련 근거를 확인한다.</div>',
+        '<div class="page-lead">날짜별 학습 기록과 Course 진도에서 분리된 Skill 숙련 근거를 확인한다.</div>',
         unsafe_allow_html=True,
     )
     summary = app.learning.study_summary()
@@ -797,6 +1233,8 @@ def insights_page(app: LearningRuntime) -> None:
                 f'<div class="metric-number">{value}</div><div class="metric-label">{label}</div>',
                 unsafe_allow_html=True,
             )
+
+    render_study_calendar(app)
 
     st.subheader("Weak Points")
     insights = app.learning.topic_insights()
@@ -824,6 +1262,206 @@ def insights_page(app: LearningRuntime) -> None:
             f'<div class="progress-track"><div class="progress-fill" style="width:{skill.score}%"></div></div></div>',
             unsafe_allow_html=True,
         )
+
+
+def _shift_month(month: date, offset: int) -> date:
+    absolute_month = month.year * 12 + month.month - 1 + offset
+    year, zero_based_month = divmod(absolute_month, 12)
+    return date(year, zero_based_month + 1, 1)
+
+
+def _calendar_month() -> date:
+    current_month = date.today().replace(day=1)
+    raw_value = st.session_state.get("insights-calendar-month")
+    if isinstance(raw_value, str):
+        try:
+            selected = date.fromisoformat(f"{raw_value}-01")
+        except ValueError:
+            selected = current_month
+    else:
+        selected = current_month
+    return min(selected, current_month)
+
+
+def _activity_minutes(value: float) -> str:
+    if value <= 0:
+        return "시간 미기록"
+    if value < 1:
+        return "1분 미만"
+    return f"{round(value)}분"
+
+
+def _select_calendar_month(month: date) -> None:
+    st.session_state["insights-calendar-month"] = month.strftime("%Y-%m")
+    st.session_state.pop("insights-calendar-day", None)
+    st.rerun()
+
+
+def _render_calendar_day_details(
+    app: LearningRuntime,
+    selected_on: date,
+    activities: list[StudyActivity],
+) -> None:
+    weekday = ("월", "화", "수", "목", "금", "토", "일")[selected_on.weekday()]
+    st.markdown(f"#### {selected_on:%Y년 %m월 %d일} ({weekday})")
+
+    lesson_activities = [item for item in activities if item.kind == "lesson"]
+    quiz_activities = [item for item in activities if item.kind == "quiz"]
+    with st.container(horizontal=True):
+        st.metric("완료 Lesson", len(lesson_activities), border=True)
+        st.metric("풀이 문항", len(quiz_activities), border=True)
+        st.metric(
+            "기록 시간",
+            _activity_minutes(sum(item.duration_minutes for item in activities)),
+            border=True,
+        )
+
+    for activity in lesson_activities:
+        course = app.course(activity.course_id)
+        lesson = app.lesson(activity.course_id, activity.lesson_id or "")
+        course_title = course.title if course else activity.course_id
+        lesson_title = lesson.title if lesson else (activity.lesson_id or "알 수 없는 Lesson")
+        with st.container(border=True):
+            st.caption(f"Lesson 완료 · {course_title}")
+            st.markdown(f"**{lesson_title}**")
+            expected = f" · 예상 {lesson.duration_minutes}분" if lesson else ""
+            st.caption(
+                f"완료 {activity.occurred_at:%H:%M} · 실제 기록 "
+                f"{_activity_minutes(activity.duration_minutes)}{expected}"
+            )
+            if lesson and st.button(
+                "Lesson 다시 보기",
+                key=f"calendar-lesson:{selected_on}:{activity.course_id}:{lesson.id}",
+                icon=":material/menu_book:",
+            ):
+                go("lesson", course_id=activity.course_id, lesson_id=lesson.id)
+
+    quizzes_by_course: dict[str, list[StudyActivity]] = defaultdict(list)
+    for activity in quiz_activities:
+        quizzes_by_course[activity.course_id].append(activity)
+    for course_id, items in quizzes_by_course.items():
+        course = app.course(course_id)
+        course_title = course.title if course else course_id
+        correct = sum(item.correct is True for item in items)
+        topics = ", ".join(dict.fromkeys(item.topic for item in items if item.topic))
+        with st.container(border=True):
+            st.caption(f"문제 풀이 · {course_title}")
+            st.markdown(f"**{len(items)}문항 · {correct}/{len(items)} 정답**")
+            st.caption(
+                f"마지막 풀이 {items[-1].occurred_at:%H:%M} · 응답 시간 "
+                f"{_activity_minutes(sum(item.duration_minutes for item in items))}"
+            )
+            if topics:
+                st.caption(f"Topic · {topics}")
+
+
+def render_study_calendar(app: LearningRuntime) -> None:
+    st.subheader("학습 캘린더")
+    st.caption("Lesson 완료와 문제 풀이를 로컬 날짜 기준으로 모아 보여줘.")
+    selected_month = _calendar_month()
+    current_month = date.today().replace(day=1)
+
+    previous, month_title, following = st.columns(
+        [1, 4, 1],
+        vertical_alignment="center",
+    )
+    if previous.button(
+        "이전 달",
+        icon=":material/chevron_left:",
+        width="stretch",
+        key="calendar-previous-month",
+    ):
+        _select_calendar_month(_shift_month(selected_month, -1))
+    month_title.markdown(
+        f"### {selected_month:%Y년 %m월}",
+        text_alignment="center",
+    )
+    if following.button(
+        "다음 달",
+        icon=":material/chevron_right:",
+        width="stretch",
+        disabled=selected_month >= current_month,
+        key="calendar-next-month",
+    ):
+        _select_calendar_month(_shift_month(selected_month, 1))
+
+    month_end = date(
+        selected_month.year,
+        selected_month.month,
+        calendar.monthrange(selected_month.year, selected_month.month)[1],
+    )
+    activities = app.learning.study_activity(selected_month, month_end)
+    activities_by_day: dict[date, list[StudyActivity]] = defaultdict(list)
+    for activity in activities:
+        activities_by_day[activity.occurred_at.date()].append(activity)
+
+    lesson_count = sum(item.kind == "lesson" for item in activities)
+    question_count = sum(item.kind == "quiz" for item in activities)
+    with st.container(horizontal=True):
+        st.metric("학습한 날", len(activities_by_day), border=True)
+        st.metric("완료 Lesson", lesson_count, border=True)
+        st.metric("풀이 문항", question_count, border=True)
+        st.metric(
+            "기록 시간",
+            _activity_minutes(sum(item.duration_minutes for item in activities)),
+            border=True,
+        )
+
+    weekday_columns = st.columns(7, gap="xsmall", wrap=False)
+    for column, label in zip(weekday_columns, ("월", "화", "수", "목", "금", "토", "일")):
+        column.markdown(f"**{label}**", text_alignment="center")
+
+    selected_raw = st.session_state.get("insights-calendar-day")
+    try:
+        selected_on = date.fromisoformat(str(selected_raw))
+    except ValueError:
+        selected_on = max(activities_by_day, default=None)
+    if selected_on not in activities_by_day:
+        selected_on = max(activities_by_day, default=None)
+
+    for week in calendar.Calendar(firstweekday=0).monthdatescalendar(
+        selected_month.year,
+        selected_month.month,
+    ):
+        day_columns = st.columns(7, gap="xsmall", wrap=False)
+        for column, day in zip(day_columns, week):
+            if day.month != selected_month.month:
+                column.markdown("&nbsp;")
+                continue
+            day_activities = activities_by_day.get(day, [])
+            day_lessons = sum(item.kind == "lesson" for item in day_activities)
+            day_questions = sum(item.kind == "quiz" for item in day_activities)
+            activity_parts = []
+            if day_lessons:
+                activity_parts.append(f"{day_lessons}강")
+            if day_questions:
+                activity_parts.append(f"{day_questions}문")
+            marker = " · ".join(activity_parts) or ("오늘" if day == date.today() else "—")
+            if column.button(
+                f"**{day.day}**  \n{marker}",
+                key=f"calendar-day:{day.isoformat()}",
+                type="primary" if day == selected_on else "secondary",
+                width="stretch",
+                disabled=not day_activities,
+                help=(
+                    f"완료 Lesson {day_lessons}개 · 풀이 {day_questions}문항 · "
+                    f"{_activity_minutes(sum(item.duration_minutes for item in day_activities))}"
+                    if day_activities
+                    else "학습 기록 없음"
+                ),
+            ):
+                st.session_state["insights-calendar-day"] = day.isoformat()
+                st.rerun()
+
+    if selected_month != current_month:
+        if st.button("이번 달로 돌아가기", icon=":material/today:"):
+            _select_calendar_month(current_month)
+
+    if not activities:
+        st.info("이 달에는 아직 완료한 Lesson이나 문제 풀이 기록이 없어.")
+        return
+    assert selected_on is not None
+    _render_calendar_day_details(app, selected_on, activities_by_day[selected_on])
 
 
 def settings_page(app: LearningRuntime) -> None:

@@ -1,0 +1,314 @@
+version: 1
+course_id: pspo-i
+terms:
+  - id: scrum
+    name: Scrum
+    aliases: [스크럼, Scrum framework]
+    short_definition: 복잡한 문제를 다루면서 가치 있는 결과를 점진적으로 만드는 경량 프레임워크다.
+    explanation: |
+      Scrum은 상세한 작업 절차를 모두 지시하는 방법론이 아니다. 작은 단위의 결과를 만들고, 실제 결과와 환경을 자주 살펴본 뒤 다음 행동을 조정할 수 있는 최소한의 구조를 제공한다.
+
+      조직은 Scrum 안에서 제품 발견, 엔지니어링, 분석 같은 여러 실천법을 선택해 사용할 수 있다.
+    example: 신규 결제 기능 전체를 한 번에 설계하기보다 매 Sprint마다 검증 가능한 Increment를 내고 고객 반응에 따라 Product Backlog를 바꾼다.
+    related_terms: [empiricism, scrum-team, sprint, increment]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: empiricism
+    name: 경험주의
+    aliases: [Empiricism, empirical process control]
+    short_definition: 지식은 실제 경험에서 얻고, 관찰한 사실을 근거로 의사결정한다는 Scrum의 핵심 사상이다.
+    explanation: |
+      복잡한 제품에서는 처음 세운 계획이 언제나 맞을 수 없다. 그래서 결과와 진행 상황을 투명하게 만들고, 자주 검사하며, 배운 내용에 맞춰 계획과 제품을 적응시킨다.
+
+      경험주의는 의견을 없애는 것이 아니라 의견을 검증할 수 있는 가설과 증거로 바꾸는 태도다.
+    example: 가입 전환율이 오를 것이라는 가설을 세운 뒤 작은 변경을 출시하고 실제 전환율을 측정해 다음 우선순위를 정한다.
+    related_terms: [transparency, inspection, adaptation, increment]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: transparency
+    name: 투명성
+    aliases: [Transparency]
+    short_definition: 일과 결과의 중요한 상태가 의사결정자에게 같은 의미로 보이도록 만드는 것이다.
+    explanation: |
+      투명성은 정보를 많이 공개하는 것만을 뜻하지 않는다. Product Backlog Item, 완료 상태, 품질 기준처럼 중요한 정보가 모두에게 이해 가능하고 일관된 의미를 가져야 한다.
+
+      투명성이 낮으면 검사가 잘못된 정보를 기반으로 이뤄져 위험한 적응으로 이어진다.
+    example: 팀마다 다른 '완료' 기준을 쓰지 않고 하나의 Definition of Done으로 Increment의 품질 상태를 공유한다.
+    related_terms: [empiricism, inspection, definition-of-done]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: inspection
+    name: 검사
+    aliases: [Inspection]
+    short_definition: 목표를 향한 진행과 결과를 충분히 자주 살펴 문제나 새로운 기회를 발견하는 활동이다.
+    explanation: |
+      검사는 문서 승인이나 사람 평가가 아니다. 제품, 계획, 일하는 방식에서 기대와 현실의 차이를 발견하기 위한 관찰이다.
+
+      검사만 하고 행동을 바꾸지 않으면 가치가 없으므로 적응과 연결돼야 한다.
+    example: Sprint Review에서 완성된 기능을 이해관계자와 사용해 보고 기대한 고객 문제를 해결했는지 확인한다.
+    related_terms: [empiricism, transparency, adaptation, sprint-review]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: adaptation
+    name: 적응
+    aliases: [Adaptation]
+    short_definition: 검사에서 얻은 학습을 반영해 제품이나 계획, 일하는 방식을 조정하는 것이다.
+    explanation: |
+      적응은 정해진 계획의 실패를 인정하는 행위가 아니라 경험주의가 작동한 결과다. 예상과 실제가 달라졌다면 가능한 한 빨리 방향을 조정해 추가 손실을 줄인다.
+
+      Scrum Team은 권한을 가진 자기관리 팀이어야 발견한 문제에 신속하게 대응할 수 있다.
+    example: 고객 인터뷰에서 가장 큰 불편이 달라졌음을 확인하고 Product Backlog의 순서를 즉시 바꾼다.
+    related_terms: [empiricism, inspection, self-management, product-backlog]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: scrum-values
+    name: Scrum 가치
+    aliases: [Scrum Values, commitment focus openness respect courage]
+    short_definition: 헌신, 집중, 개방성, 존중, 용기로 구성된 Scrum Team의 행동 기준이다.
+    explanation: |
+      Scrum의 이벤트와 산출물만 형식적으로 운영해도 경험주의가 저절로 생기지는 않는다. 다섯 가치는 어려운 사실을 공개하고, 목표에 집중하며, 서로의 전문성을 존중하는 선택을 돕는다.
+
+      가치는 구호가 아니라 갈등과 불확실성이 있는 순간에 관찰 가능한 행동으로 나타나야 한다.
+    example: 일정이 위험할 때 숨기지 않고 즉시 공개한 뒤 Sprint Goal을 지키기 위한 선택에 팀이 집중한다.
+    related_terms: [scrum, scrum-team, sprint-goal]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: scrum-team
+    name: Scrum Team
+    aliases: [스크럼 팀]
+    short_definition: 하나의 Product Goal에 집중하는 Product Owner, Scrum Master, Developers로 구성된 작은 팀이다.
+    explanation: |
+      Scrum Team 안에는 하위 팀이나 위계가 없으며, 매 Sprint마다 가치 있는 Increment를 만드는 데 필요한 역량을 함께 갖춘다. 팀 전체가 제품과 관련한 모든 활동에 책임을 진다.
+
+      보통 열 명 이하로 유지해 소통 비용을 낮추되, 제품 가치를 만들 수 있는 충분한 역량을 확보한다.
+    example: 기획팀이 개발팀에 요구사항을 넘기는 대신 Product Owner, 디자이너, 개발자 등이 하나의 Product Goal을 함께 추구한다.
+    related_terms: [product-owner, scrum-master, developers, self-management]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: product-owner
+    name: Product Owner
+    aliases: [PO, 제품 책임자]
+    short_definition: Scrum Team이 만드는 제품의 가치를 극대화하고 Product Backlog를 효과적으로 관리할 책임을 지는 한 사람이다.
+    explanation: |
+      Product Owner는 Product Goal을 명확히 전달하고, Product Backlog Item을 만들고 이해시키며, 순서를 정하고, Backlog가 투명하고 가시적이도록 할 책임이 있다. 일부 작업을 위임할 수 있어도 최종 책임은 남는다.
+
+      여러 이해관계자의 요구를 단순히 전달하는 역할이 아니라 제품 관점에서 선택하고 거절할 권한이 필요하다.
+    example: 매출 요청, 기술 부채, 고객 불편을 함께 비교해 가장 큰 제품 가치를 만들 항목의 순서를 결정한다.
+    related_terms: [product-value, product-goal, product-backlog, stakeholder]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: scrum-master
+    name: Scrum Master
+    aliases: [SM, 스크럼 마스터]
+    short_definition: Scrum Guide에 정의된 Scrum을 정립하고 Scrum Team과 조직의 효과성을 높일 책임을 지는 사람이다.
+    explanation: |
+      Scrum Master는 회의를 대신 운영하는 비서나 팀의 관리자가 아니다. 팀이 자기관리하도록 코칭하고 장애물 제거를 돕고, Product Owner와 조직이 경험주의를 잘 사용할 수 있게 지원한다.
+
+      명령보다 봉사하는 리더십을 통해 팀이 스스로 더 나은 결정을 내릴 환경을 만든다.
+    example: Daily Scrum을 지시하는 대신 Developers가 스스로 진행을 검사할 수 있도록 목적과 방해 요인을 함께 정리한다.
+    related_terms: [scrum-team, self-management, empiricism]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: developers
+    name: Developers
+    aliases: [개발자들, Developers accountability]
+    short_definition: 매 Sprint마다 사용 가능한 Increment를 만드는 데 전념하는 Scrum Team 구성원들이다.
+    explanation: |
+      여기서 Developers는 프로그래머라는 직무명보다 제품 Increment를 만드는 책임을 뜻한다. Sprint Backlog를 만들고, Definition of Done으로 품질을 지키며, 매일 계획을 조정하고, 전문가로서 서로에게 책임진다.
+
+      Product Owner가 작업 방법이나 개인별 업무를 배정하지 않는다.
+    example: 분석가, 디자이너, 엔지니어가 함께 Sprint Backlog를 구성하고 Sprint Goal 달성을 위한 작업 방식을 매일 조정한다.
+    related_terms: [scrum-team, sprint-backlog, definition-of-done, self-management]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: self-management
+    name: 자기관리
+    aliases: [Self-management, self-managing team]
+    short_definition: 누가 무엇을 언제 어떻게 할지 Scrum Team 내부에서 결정하는 능력과 권한이다.
+    explanation: |
+      자기관리는 목표나 책임이 없다는 뜻이 아니다. 명확한 목표와 경계 안에서 일을 수행하는 사람들이 가장 적절한 계획과 협업 방식을 선택한다는 의미다.
+
+      외부 관리자가 세부 업무를 배정하면 빠른 적응과 팀의 공동 책임이 약해진다.
+    example: Sprint Goal은 공유하되 Developers가 필요한 작업, 담당 방식, 협업 순서를 직접 결정한다.
+    related_terms: [scrum-team, developers, sprint-goal, adaptation]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: sprint
+    name: Sprint
+    aliases: [스프린트]
+    short_definition: 아이디어를 가치로 바꾸는 한 달 이하의 고정된 길이의 주기이며 다른 모든 Scrum 이벤트를 포함한다.
+    explanation: |
+      새 Sprint는 이전 Sprint가 끝나는 즉시 시작한다. Sprint 중에는 Sprint Goal을 위협하는 변경을 하지 않고, 품질을 낮추지 않으며, 필요에 따라 범위를 Product Owner와 다시 협의할 수 있다.
+
+      짧고 일관된 주기는 검사와 적응의 빈도를 높이고 위험을 제한한다.
+    example: 2주 Sprint 동안 하나의 가입 개선 목표를 추구하고, 끝날 때 사용 가능한 Increment와 학습 결과를 확인한다.
+    related_terms: [sprint-planning, daily-scrum, sprint-review, sprint-retrospective]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: sprint-planning
+    name: Sprint Planning
+    aliases: [스프린트 계획]
+    short_definition: Sprint가 왜 가치 있는지, 무엇을 할지, 선택한 일을 어떻게 수행할지 계획하는 이벤트다.
+    explanation: |
+      Scrum Team 전체가 참여해 Sprint Goal을 만들고, Product Backlog Item을 선택하며, 실행 가능한 초기 계획을 Sprint Backlog에 담는다. 계획은 완벽한 예측이 아니라 Sprint 중 계속 갱신할 출발점이다.
+
+      Product Owner는 중요한 항목과 Product Goal과의 관계를 논의할 준비를 한다.
+    example: 첫 구매 실패율 감소를 Sprint Goal로 정하고 관련 항목과 검증 방법을 함께 선택한다.
+    related_terms: [sprint, sprint-goal, sprint-backlog, product-backlog]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: daily-scrum
+    name: Daily Scrum
+    aliases: [데일리 스크럼, 일일 스크럼]
+    short_definition: Developers가 Sprint Goal을 향한 진행을 검사하고 다음 하루의 계획을 조정하는 15분 이벤트다.
+    explanation: |
+      Daily Scrum은 관리자에게 개인별 상태를 보고하는 자리가 아니다. Developers가 자신들에게 유용한 형식을 선택해 Sprint Goal 달성 가능성을 높이는 계획 대화다.
+
+      문제 해결을 위한 상세 논의는 필요하면 이벤트 뒤에 이어갈 수 있다.
+    example: 각자 한 일을 나열하는 대신 결제 API 지연이 Sprint Goal을 위협하는지 확인하고 오늘의 협업 계획을 바꾼다.
+    related_terms: [developers, sprint-goal, sprint-backlog, inspection]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: sprint-review
+    name: Sprint Review
+    aliases: [스프린트 리뷰]
+    short_definition: Sprint 결과와 환경 변화를 이해관계자와 검사하고 앞으로의 적응 방향을 함께 결정하는 작업 세션이다.
+    explanation: |
+      Sprint Review는 완성 기능을 승인받는 발표회나 단순 데모가 아니다. 무엇이 달성됐고 시장이나 사용자에게 무엇이 변했는지 대화하며 Product Backlog의 다음 선택에 필요한 정보를 얻는다.
+
+      실제 Increment와 데이터에 기반해 제품 방향을 조정한다.
+    example: 새 검색 기능을 보여주는 데 그치지 않고 검색 성공률과 고객 피드백을 검토해 다음 실험을 선택한다.
+    related_terms: [inspection, adaptation, increment, stakeholder]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: sprint-retrospective
+    name: Sprint Retrospective
+    aliases: [스프린트 회고, 회고]
+    short_definition: Scrum Team이 품질과 효과성을 높이기 위해 사람, 상호작용, 과정과 도구를 검사하고 개선을 계획하는 이벤트다.
+    explanation: |
+      회고에서는 잘된 점, 문제와 해결 여부를 살펴보고 가장 도움이 되는 개선을 고른다. 개선은 다음 Sprint Backlog에 넣을 수도 있고 즉시 적용할 수도 있다.
+
+      제품 결과를 검사하는 Sprint Review와 달리 팀의 일하는 시스템을 주로 다룬다.
+    example: 반복되는 배포 실패 원인을 분석하고 다음 Sprint부터 자동 검증 단계를 Definition of Done에 추가한다.
+    related_terms: [inspection, adaptation, scrum-team, definition-of-done]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: product-backlog
+    name: Product Backlog
+    aliases: [제품 백로그, PB]
+    short_definition: 제품을 개선하는 데 필요한 일의 창발적이고 순서가 있는 단일 목록이다.
+    explanation: |
+      Product Backlog는 고정된 요구사항 명세가 아니라 학습에 따라 계속 변하는 제품 계획의 핵심 원천이다. Product Owner는 항목이 투명하고 이해되며 가치 관점에서 적절히 정렬되도록 책임진다.
+
+      단순 우선순위 숫자보다 Product Goal과 가치, 위험, 의존성 같은 근거가 중요하다.
+    example: 고객 문제, 규제 대응, 기술 개선, 실험을 한 목록에서 비교하고 새로운 증거가 생기면 순서를 바꾼다.
+    related_terms: [product-owner, product-goal, refinement, product-backlog-item]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: product-backlog-item
+    name: Product Backlog Item
+    aliases: [PBI, 백로그 항목]
+    short_definition: Product Backlog를 구성하는 제품 개선 단위로 기능뿐 아니라 실험, 결함, 위험 감소 작업도 될 수 있다.
+    explanation: |
+      PBI는 반드시 사용자 스토리 형식일 필요가 없다. 선택 가능한 일의 목적과 가치를 이해시키는 데 필요한 설명, 순서, 크기 같은 속성을 가지며 Refinement를 통해 구체화된다.
+
+      Sprint Planning에서 선택할 수 있을 만큼 작은 항목도 여전히 구현 세부사항 전체를 미리 고정할 필요는 없다.
+    example: 추천 알고리즘 구현 대신 추천 클릭률 가설을 검증하는 제한 노출 실험을 PBI로 관리한다.
+    related_terms: [product-backlog, refinement, sprint-backlog]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: refinement
+    name: Product Backlog Refinement
+    aliases: [Refinement, 백로그 정제, 리파인먼트]
+    short_definition: Product Backlog Item을 더 작고 명확하게 나누고 설명, 순서, 크기 같은 정보를 보완하는 지속적 활동이다.
+    explanation: |
+      Refinement는 Scrum의 공식 이벤트가 아니라 필요할 때 수행하는 활동이다. Product Owner와 Developers가 대화해 앞으로 선택할 가능성이 높은 항목을 충분히 이해한다.
+
+      모든 요구를 완벽하게 확정하거나 분석을 선행 단계로 만드는 것이 목적은 아니다.
+    example: 큰 '고객센터 개선' 항목을 검색, 문의 분류, 상담 연결 등 독립적으로 가치 검증 가능한 조각으로 나눈다.
+    related_terms: [product-backlog, product-backlog-item, developers, product-owner]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: sprint-backlog
+    name: Sprint Backlog
+    aliases: [스프린트 백로그, SB]
+    short_definition: Sprint Goal, 선택한 Product Backlog Item, 그리고 Increment를 전달하기 위한 실행 계획으로 구성된 Developers의 계획이다.
+    explanation: |
+      Sprint Backlog는 Sprint 동안 학습이 생길 때 계속 갱신되는 실시간 계획이다. Product Owner가 할 일을 배정하는 목록이 아니며, 충분한 세부사항을 담아 Daily Scrum에서 진행을 검사할 수 있어야 한다.
+
+      범위는 Sprint Goal을 지키면서 Product Owner와 협의해 조정할 수 있다.
+    example: 기술적 발견으로 구현 계획을 바꾸되 '결제 실패율 감소'라는 Sprint Goal을 유지한다.
+    related_terms: [sprint-goal, developers, daily-scrum, product-backlog-item]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: increment
+    name: Increment
+    aliases: [인크리먼트, 증가분]
+    short_definition: Product Goal을 향한 구체적인 디딤돌이며 이전 결과에 더해져 검증되고 사용 가능한 제품 결과다.
+    explanation: |
+      한 Sprint에 여러 Increment가 만들어질 수 있고 Sprint가 끝나기 전에도 이해관계자에게 전달할 수 있다. Sprint Review가 가치를 전달하기 위한 배포 관문은 아니다.
+
+      Definition of Done을 만족하지 못한 일은 Increment가 아니며 Sprint Review에서 완성된 것으로 제시할 수 없다.
+    example: 전체 회원 시스템이 끝나지 않았더라도 실제 운영 가능한 이메일 가입 흐름을 품질 기준에 맞게 완성한다.
+    related_terms: [product-goal, definition-of-done, sprint, sprint-review]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: product-goal
+    name: Product Goal
+    aliases: [제품 목표]
+    short_definition: Scrum Team이 계획을 세울 때 기준으로 삼는 제품의 장기적인 미래 상태이며 Product Backlog의 Commitment다.
+    explanation: |
+      Product Goal은 여러 Sprint를 하나의 방향으로 묶는다. Scrum Team은 한 번에 하나의 Product Goal에 집중하고, 다음 목표를 시작하기 전에 현재 목표를 달성하거나 명시적으로 포기한다.
+
+      기능 목록이 아니라 달성 여부와 가치에 대해 대화할 수 있는 결과 중심 상태여야 한다.
+    example: 추천 기능 5개 개발보다 첫 방문자가 자신에게 맞는 상품을 3분 안에 찾게 한다를 Product Goal로 둔다.
+    related_terms: [product-backlog, product-owner, sprint-goal, product-value]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: sprint-goal
+    name: Sprint Goal
+    aliases: [스프린트 목표]
+    short_definition: Sprint의 단일 목표이자 Sprint Backlog의 Commitment로, 세부 작업을 조정할 수 있는 목적과 유연성을 제공한다.
+    explanation: |
+      Sprint Goal은 선택한 항목을 모두 끝낸다는 약속과 다르다. Scrum Team이 왜 이 Sprint를 수행하는지 설명하고, 예상하지 못한 상황에서도 어떤 결과를 보호해야 하는지 알려준다.
+
+      Sprint Planning에서 함께 만들며 Sprint 동안에는 목표를 위협하는 변경을 하지 않는다.
+    example: 일부 화면의 구현 방식을 바꾸더라도 '신규 고객의 첫 결제 성공률을 높인다'는 목표는 유지한다.
+    related_terms: [sprint, sprint-planning, sprint-backlog, product-goal]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: definition-of-done
+    name: Definition of Done
+    aliases: [DoD, 완료의 정의, 완료 정의]
+    short_definition: Increment가 제품에 요구되는 품질 상태를 충족했는지 설명하는 공식 기준이며 Increment의 Commitment다.
+    explanation: |
+      Definition of Done은 투명성을 만들어 모두가 완료의 의미를 공유하게 한다. 조직 표준이 있다면 최소한 이를 따라야 하고, 여러 Scrum Team이 한 제품을 만들면 같은 기준을 공동으로 사용한다.
+
+      기준을 만족하지 못한 일은 출시하지 않을 수 있는 정도가 아니라 Increment 자체가 아니다.
+    example: 코드 작성만으로 완료 처리하지 않고 자동 테스트, 보안 점검, 운영 모니터링 준비까지 공통 기준에 포함한다.
+    related_terms: [increment, transparency, developers]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: stakeholder
+    name: 이해관계자
+    aliases: [Stakeholder, stakeholders]
+    short_definition: 제품의 결과에 영향을 주거나 영향을 받지만 Scrum Team의 책임 구성원은 아닌 사람이나 집단이다.
+    explanation: |
+      고객, 사용자, 경영진, 영업, 운영, 규제 기관 등이 이해관계자가 될 수 있다. Product Owner는 서로 충돌하는 요구를 모두 그대로 수용하는 대신 Product Goal과 제품 가치를 기준으로 통합한다.
+
+      핵심 이해관계자는 Sprint Review 같은 검사 활동에 참여해 중요한 맥락과 피드백을 제공한다.
+    example: 영업의 대형 고객 요청과 일반 사용자의 이탈 문제를 가치와 전략에 비춰 비교하고 선택 근거를 투명하게 공유한다.
+    related_terms: [product-owner, sprint-review, product-value]
+    source_url: https://scrumguides.org/scrum-guide.html
+
+  - id: product-value
+    name: 제품 가치
+    aliases: [Product Value, value]
+    short_definition: 제품이 고객과 조직에 만드는 유용한 결과로, 기능 수나 산출량과 동일하지 않다.
+    explanation: |
+      가치는 매출만을 뜻하지 않으며 고객 결과, 위험 감소, 학습, 비용 절감 등 제품 맥락에 따라 다르게 정의될 수 있다. Product Owner는 무엇이 가치 있는지 가설을 세우고 실제 결과로 검증한다.
+
+      Evidence-Based Management에서는 현재 가치, 미실현 가치, 혁신 능력, 출시 소요 시간 같은 관점으로 가치 전달 능력을 살펴볼 수 있다.
+    example: 배포한 기능 개수보다 고객이 작업을 완료한 비율과 문제 해결 시간이 실제로 개선됐는지 측정한다.
+    related_terms: [product-owner, product-goal, empiricism, stakeholder]
+    source_url: https://www.scrum.org/resources/evidence-based-management-guide

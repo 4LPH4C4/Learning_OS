@@ -16,6 +16,7 @@ from learning_os.core.models import (
     CourseSchedule,
     Lesson,
     Module,
+    StudyStep,
 )
 
 
@@ -179,6 +180,28 @@ def _parse_lesson(
         raise ManifestError(f"{context}.duration_minutes: 정수가 필요하다") from exc
     if duration <= 0:
         raise ManifestError(f"{context}.duration_minutes: 1 이상이어야 한다")
+    study_steps_raw = _list(raw.get("study_steps", []), f"{context}.study_steps")
+    study_steps: list[StudyStep] = []
+    for step_index, step_raw in enumerate(study_steps_raw):
+        step_context = f"{context}.study_steps[{step_index}]"
+        step_raw = _mapping(step_raw, step_context)
+        step_duration = _integer(
+            _required(step_raw, "duration_minutes", step_context),
+            f"{step_context}.duration_minutes",
+        )
+        if step_duration <= 0:
+            raise ManifestError(f"{step_context}.duration_minutes: 1 이상이어야 한다")
+        study_steps.append(
+            StudyStep(
+                label=str(_required(step_raw, "label", step_context)),
+                duration_minutes=step_duration,
+                outcome=(str(step_raw["outcome"]) if step_raw.get("outcome") else None),
+            )
+        )
+    if study_steps and sum(step.duration_minutes for step in study_steps) != duration:
+        raise ManifestError(
+            f"{context}.study_steps: 단계 시간 합계가 duration_minutes({duration})와 같아야 한다"
+        )
     return Lesson(
         id=lesson_id,
         title=str(_required(raw, "title", context)),
@@ -191,6 +214,7 @@ def _parse_lesson(
         language=str(raw["language"]) if raw.get("language") else None,
         required=bool(raw.get("required", True)),
         skills=_strings(raw.get("skills", []), f"{context}.skills"),
+        study_steps=tuple(study_steps),
         module_id=module_id,
         course_id=course_id,
         course_root=course_root,
@@ -279,6 +303,9 @@ def load_manifest(manifest_path: Path) -> Course:
         data.get("completion_criteria") or {"type": "all_required_lessons"},
         "course.completion_criteria",
     )
+    glossary_path = _safe_relative_path(
+        data.get("glossary_path"), course_root, "course.glossary_path"
+    )
 
     return Course(
         schema_version=schema_version,
@@ -305,4 +332,5 @@ def load_manifest(manifest_path: Path) -> Course:
             if data.get("quiz_settings") is not None
             else None
         ),
+        glossary_path=glossary_path,
     )

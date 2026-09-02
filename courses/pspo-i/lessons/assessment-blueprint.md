@@ -54,6 +54,20 @@ Scrum Guide의 단어를 정확히 아는 것만으로는 부족하다. 짧은 �
 
 `always`, `only`, `must` 같은 강한 표현은 Scrum Guide의 규칙인지 보조 실천법인지 구분한다. User Story, Story Point, Velocity, Burn-down chart, Daily Stand-up 같은 용어는 널리 쓰이지만 Scrum의 필수 요소가 아니다.
 
+## 35분 학습 루트와 기록 결과물
+
+이 Lesson은 시험 직전 요약을 훑는 시간이 아니라, 공식 구조를 읽고 판단을 연습해 설명 가능한 상태를 만드는 35분 루트로 진행한다. 타이머를 켜고 각 구간의 결과물을 한 파일이나 노트에 남긴다.
+
+| 시간 | 학습 행동 | 남길 결과물 |
+|---|---|---|
+| 0–7분 | 위의 공식 평가 구조와 Scrum.org Certification 페이지에서 문항 수·제한 시간·합격선·문항 형식을 대조한다. | `사실 / 출처 / 내가 알고 있던 것과 다른 점` 3행 표 |
+| 7–15분 | Scrum Guide에서 Product Owner accountability, Product Goal, Product Backlog, Sprint Review를 찾아 읽는다. 이 Lesson의 Focus Area 표와 공식 용어를 비교한다. | Focus Area 3개에 대해 `Guide의 문장 → 내 말` 변환 |
+| 15–25분 | 다음 시나리오를 답하고 근거를 한 문장씩 쓴다. (1) 고객이 가장 큰 소리로 요구한 기능을 즉시 1순위로 둔다. (2) Increment가 Done이 아니어도 Sprint Review에서 보여준다. (3) Developers에게 Sprint Backlog 작업 순서를 지시한다. | 각 선택지에 `권장/비권장`, 책임 주체, 깨지는 원칙 1개 |
+| 25–30분 | 답을 Scrum Guide의 책임·투명성·가치 기준으로 다시 검토한다. `관행이라 가능`과 `Scrum이 요구`를 분리한다. | 틀린 판단 1개와 수정 이유 |
+| 30–35분 | 책을 덮고 Product Owner의 의사결정 순서를 60초 안에 설명한다. 이어서 오늘의 핵심 3문장과 남은 질문 1개를 적는다. | 3문장 요약, 남은 질문, 다음에 확인할 공식 링크 |
+
+정답을 외우는 대신 근거를 기록하는 것이 목표다. 특히 (1)은 고객 목소리 자체가 순서를 결정하지 않으며 가치와 전략을 함께 봐야 한다. (2)는 Done이 아니면 Increment가 아니므로 투명성을 해친다. (3)은 Product Owner가 가치 순서를 책임져도 Developers의 자기관리를 대신하지 않는다. 실제 인증 문항이나 유출 자료를 재현하지 않고, 공식 문서와 이 코스의 독자 시나리오만 사용한다.
+
 ## 3단계 준비법
 
 ### 1. 정확성

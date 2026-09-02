@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any, Literal
@@ -31,6 +31,13 @@ class ContentSource:
 
 
 @dataclass(frozen=True)
+class StudyStep:
+    label: str
+    duration_minutes: int
+    outcome: str | None = None
+
+
+@dataclass(frozen=True)
 class Lesson:
     id: str
     title: str
@@ -43,6 +50,7 @@ class Lesson:
     language: str | None = None
     required: bool = True
     skills: tuple[str, ...] = ()
+    study_steps: tuple[StudyStep, ...] = ()
     module_id: str = ""
     course_id: str = ""
     course_root: Path = Path()
@@ -81,6 +89,7 @@ class Course:
     manifest_path: Path
     manifest_hash: str
     quiz_settings: dict[str, Any] | None = None
+    glossary_path: str | None = None
 
     @property
     def lessons(self) -> tuple[Lesson, ...]:

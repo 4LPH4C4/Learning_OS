@@ -1,0 +1,422 @@
+version: 1
+course_id: aice-associate
+terms:
+  - id: dataframe
+    name: DataFrame
+    aliases: [데이터프레임, pd.DataFrame]
+    short_definition: 행과 열로 구성된 2차원 표 데이터를 다루는 pandas의 핵심 자료구조다.
+    explanation: |
+      각 열은 이름과 자료형을 가지며, 각 행은 index로 식별된다. CSV를 읽거나 열을 선택하고 결측치를 처리하는 AICE 실습의 대부분이 DataFrame 연산으로 이루어진다.
+
+      모양만 확인하지 말고 각 열의 의미, 단위, 자료형까지 함께 점검해야 올바른 분석이 된다.
+    example: 고객 CSV를 `pd.read_csv()`로 읽은 뒤 `df.shape`, `df.info()`, `df.head()`로 구조와 품질을 먼저 확인한다.
+    related_terms: [series, dtype, missing-value, feature]
+    source_url: https://pandas.pydata.org/docs/user_guide/dsintro.html
+
+  - id: series
+    name: Series
+    aliases: [시리즈, pd.Series]
+    short_definition: index를 가진 pandas의 1차원 자료구조로, DataFrame의 한 열을 선택하면 보통 Series가 된다.
+    explanation: |
+      Series에는 값뿐 아니라 index와 자료형 정보가 함께 있다. 집계, 조건 비교, 결측치 확인 같은 벡터 연산을 반복문 없이 수행할 수 있다.
+
+      두 Series를 계산할 때는 위치가 아니라 index를 기준으로 정렬될 수 있다는 점에 주의한다.
+    example: 예를 들어 `df["age"].median()`으로 나이 중앙값을 구하고 `df["age"].isna()`로 결측 행을 찾는다.
+    related_terms: [dataframe, dtype, missing-value]
+    source_url: https://pandas.pydata.org/docs/user_guide/dsintro.html
+
+  - id: feature
+    name: 특성
+    aliases: [Feature, 독립변수, 설명변수, X]
+    short_definition: 모델이 예측에 사용할 입력 변수다.
+    explanation: |
+      원본 열을 그대로 쓸 수도 있고 날짜에서 요일을 만들거나 여러 값을 집계해 새 특성을 만들 수도 있다. 좋은 특성은 예측 시점에 실제로 알 수 있어야 하며 target의 미래 정보를 포함하면 안 된다.
+
+      특성의 의미와 생성 시점을 이해하는 것이 단순히 열 개수를 늘리는 것보다 중요하다.
+    example: 이탈 예측에서 최근 30일 방문 횟수와 구독 기간은 feature가 될 수 있지만 이탈 후 환불 여부는 누수를 만든다.
+    related_terms: [target-variable, feature-engineering, data-leakage, model]
+    source_url: https://scikit-learn.org/stable/getting_started.html
+
+  - id: target-variable
+    name: 목표 변수
+    aliases: [Target, label, 종속변수, 정답, y]
+    short_definition: 지도학습 모델이 예측하도록 학습하는 결과 변수다.
+    explanation: |
+      분류에서는 범주, 회귀에서는 연속적인 수치가 주로 target이 된다. target이 무엇을 뜻하고 어느 시점의 결과인지 명확해야 올바른 feature와 평가 지표를 고를 수 있다.
+
+      업무 목표와 target 정의가 어긋나면 높은 점수의 모델도 실제 문제를 해결하지 못한다.
+    example: 고객 이탈을 '다음 30일 동안 재구매 없음'으로 정의하고 0과 1로 만든 열을 target으로 사용한다.
+    related_terms: [feature, classification, regression, data-leakage]
+    source_url: https://scikit-learn.org/stable/getting_started.html
+
+  - id: dtype
+    name: 자료형
+    aliases: [dtype, data type, 데이터 타입]
+    short_definition: 열의 값이 정수, 실수, 문자열, 날짜 등 어떤 방식으로 저장되고 연산되는지 나타내는 속성이다.
+    explanation: |
+      숫자처럼 보이는 문자열은 평균을 계산할 수 없고, 숫자 코드로 저장된 범주를 연속형 수치로 잘못 취급할 수도 있다. 데이터 로딩 직후 `dtypes`와 실제 값을 함께 확인해야 한다.
+
+      올바른 자료형 변환은 분석 오류를 막고 메모리와 실행 효율도 개선한다.
+    example: 예를 들어 `"2026-08-30"` 문자열을 `pd.to_datetime()`으로 바꾼 뒤 월과 요일을 추출한다.
+    related_terms: [dataframe, categorical-variable, preprocessing]
+    source_url: https://pandas.pydata.org/docs/user_guide/basics.html#dtypes
+
+  - id: missing-value
+    name: 결측치
+    aliases: [Missing value, NA, NaN, "null", 결측값]
+    short_definition: 관측되지 않았거나 알 수 없어 비어 있는 데이터 값이다.
+    explanation: |
+      결측치는 단순한 오류일 수도 있지만 응답 거부나 측정 불가처럼 중요한 정보일 수도 있다. 열의 의미와 결측 발생 원인을 살핀 뒤 삭제, 대치, 결측 여부를 나타내는 특성 추가 등을 선택한다.
+
+      train과 test를 합쳐 대치 기준을 계산하면 데이터 누수가 생길 수 있으므로 학습 데이터에서 기준을 학습한다.
+    example: 소득 결측치를 전체 데이터 평균이 아니라 train 데이터의 중앙값으로 대치하고 결측 여부 열을 함께 만든다.
+    related_terms: [imputation, data-leakage, preprocessing, dataframe]
+    source_url: https://pandas.pydata.org/docs/user_guide/missing_data.html
+
+  - id: imputation
+    name: 결측치 대치
+    aliases: [Imputation, 대체]
+    short_definition: 결측값을 통계값이나 학습된 규칙으로 채우는 전처리 방법이다.
+    explanation: |
+      수치형에는 평균이나 중앙값, 범주형에는 최빈값이나 별도 범주를 사용할 수 있다. 복잡한 대치가 항상 더 좋은 것은 아니며, 결측 원인과 모델 특성을 고려해야 한다.
+
+      대치기는 train 데이터로 `fit`하고 같은 규칙으로 validation과 test를 `transform`해야 한다.
+    example: 이상치가 많은 소득 열에는 평균보다 중앙값 기반 `SimpleImputer`를 적용한다.
+    related_terms: [missing-value, preprocessing, pipeline, data-leakage]
+    source_url: https://scikit-learn.org/stable/modules/impute.html
+
+  - id: outlier
+    name: 이상치
+    aliases: [Outlier, 극단값]
+    short_definition: 다른 관측값과 크게 떨어진 값으로, 오류일 수도 있고 중요한 실제 현상일 수도 있다.
+    explanation: |
+      이상치라는 이유만으로 삭제하면 드문 고객이나 사기 같은 핵심 신호를 잃을 수 있다. 단위 오류, 입력 오류, 실제 극단 사례를 구분하고 업무 맥락과 분포를 함께 살핀다.
+
+      필요하면 clipping, 변환, 강건한 통계나 모델을 사용하되 처리 근거를 기록한다.
+    example: 나이가 250이면 입력 오류를 의심하지만 고액 거래는 VIP 고객의 정상 행동일 수 있어 별도로 확인한다.
+    related_terms: [exploratory-data-analysis, scaling, preprocessing]
+    source_url: https://scikit-learn.org/stable/modules/outlier_detection.html
+
+  - id: exploratory-data-analysis
+    name: 탐색적 데이터 분석
+    aliases: [EDA, Exploratory Data Analysis, 탐색 분석]
+    short_definition: 모델링 전에 요약 통계와 시각화를 사용해 데이터의 구조, 분포, 관계, 품질 문제를 이해하는 과정이다.
+    explanation: |
+      EDA는 예쁜 그래프를 만드는 단계가 아니라 이후의 전처리와 모델 가설을 정하는 조사다. 행과 열의 크기, target 분포, 결측과 중복, 범주 빈도, 변수 간 관계를 체계적으로 확인한다.
+
+      test 데이터의 target이나 미래 정보를 탐색에 섞지 않도록 평가 경계를 지킨다.
+    example: 이탈률의 전체 평균뿐 아니라 가입 기간과 요금제별 차이를 비교해 다음 특성 설계 가설을 세운다.
+    related_terms: [dataframe, outlier, missing-value, target-variable]
+    source_url: https://pandas.pydata.org/docs/user_guide/visualization.html
+
+  - id: categorical-variable
+    name: 범주형 변수
+    aliases: [Categorical variable, category, 범주 변수]
+    short_definition: 값이 지역, 등급, 상품군처럼 유한한 집단이나 이름을 나타내는 변수다.
+    explanation: |
+      숫자로 저장돼 있어도 고객 등급 코드처럼 크기 차이에 연속적 의미가 없으면 범주형일 수 있다. 명목형인지 순서형인지에 따라 적절한 인코딩이 달라진다.
+
+      학습 때 없던 새 범주가 실제 예측에서 등장할 가능성도 전처리 설계에 반영한다.
+    example: 예를 들어 `plan_type`의 basic, standard, premium을 범주로 판단하고 모델에 맞는 인코딩을 적용한다.
+    related_terms: [encoding, one-hot-encoding, dtype, preprocessing]
+    source_url: https://pandas.pydata.org/docs/user_guide/categorical.html
+
+  - id: encoding
+    name: 인코딩
+    aliases: [Encoding, 범주형 인코딩]
+    short_definition: 범주형 값을 모델이 처리할 수 있는 수치 표현으로 바꾸는 과정이다.
+    explanation: |
+      범주에 임의의 정수를 붙이면 모델이 존재하지 않는 순서와 거리를 학습할 수 있다. 명목형에는 one-hot encoding, 실제 순서가 있는 범주에는 ordinal encoding 등을 선택한다.
+
+      encoder는 train에 맞추고 이후 데이터에 동일하게 적용해 열 구성이 달라지지 않게 한다.
+    example: 도시 이름은 one-hot encoding하고 만족도 낮음·보통·높음은 명시한 순서로 ordinal encoding한다.
+    related_terms: [categorical-variable, one-hot-encoding, preprocessing, pipeline]
+    source_url: https://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features
+
+  - id: one-hot-encoding
+    name: 원-핫 인코딩
+    aliases: [One-hot encoding, OHE, 더미 변수]
+    short_definition: 각 범주를 해당 여부가 0 또는 1인 별도 열로 표현하는 인코딩 방법이다.
+    explanation: |
+      범주 사이에 순서가 없다는 것을 모델에 명확히 전달한다. 다만 고유 범주가 매우 많으면 열이 크게 늘어나므로 빈도 통합이나 다른 표현을 검토한다.
+
+      실무에서는 알려지지 않은 범주 처리와 train/test 열 정렬을 자동화하는 transformer를 사용하는 편이 안전하다.
+    example: 색상 red, blue, green을 `color_red`, `color_blue`, `color_green` 세 열로 변환한다.
+    related_terms: [encoding, categorical-variable, pipeline]
+    source_url: https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html
+
+  - id: scaling
+    name: 스케일링
+    aliases: [Scaling, feature scaling, 특성 스케일 조정]
+    short_definition: 수치형 특성의 값 범위나 분포를 비교 가능한 척도로 변환하는 전처리다.
+    explanation: |
+      거리와 경사에 민감한 k-NN, 선형 모델, 신경망 등은 특성 범위 차이에 영향을 받는다. StandardScaler는 평균 0과 표준편차 1에 가깝게 만들고 MinMaxScaler는 지정 범위로 조정한다.
+
+      scaler의 통계량은 train에서만 계산하고 validation과 test에는 변환만 적용해야 한다.
+    example: 연 소득과 방문 횟수의 단위 차이가 큰 경우 train 데이터로 StandardScaler를 학습한다.
+    related_terms: [preprocessing, data-leakage, pipeline, neural-network]
+    source_url: https://scikit-learn.org/stable/modules/preprocessing.html
+
+  - id: preprocessing
+    name: 전처리
+    aliases: [Preprocessing, 데이터 전처리]
+    short_definition: 원본 데이터를 분석과 모델 학습에 적합한 형태로 검사하고 변환하는 과정이다.
+    explanation: |
+      자료형 변환, 결측치 처리, 인코딩, 스케일링, 특성 선택 등이 포함된다. 전처리는 데이터 전체에 한 번 수행하는 단순 청소가 아니라 학습 과정의 일부다.
+
+      재현성과 누수 방지를 위해 변환 규칙을 Pipeline으로 묶고 train에서 학습하는 습관이 중요하다.
+    example: 수치 열에는 중앙값 대치와 scaling을, 범주 열에는 최빈값 대치와 one-hot encoding을 적용한다.
+    related_terms: [imputation, encoding, scaling, pipeline]
+    source_url: https://scikit-learn.org/stable/modules/preprocessing.html
+
+  - id: train-test-split
+    name: 학습·평가 데이터 분할
+    aliases: [Train-test split, holdout, 데이터 분할]
+    short_definition: 모델을 학습할 데이터와 보지 않은 성능을 평가할 데이터를 분리하는 절차다.
+    explanation: |
+      모델은 train으로 학습하고 validation으로 선택·조정한 뒤 test는 최종 평가에 제한적으로 사용한다. 분류에서는 target 비율을 유지하는 stratification을 고려하고, 시간 데이터는 미래가 과거로 섞이지 않게 나눈다.
+
+      분할 전에 전체 데이터로 전처리 통계나 특성을 만들면 평가 정보가 새어 들어갈 수 있다.
+    example: 이탈 여부 비율을 유지하도록 `train_test_split(..., stratify=y, random_state=42)`를 사용한다.
+    related_terms: [data-leakage, random-state, cross-validation, target-variable]
+    source_url: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+
+  - id: data-leakage
+    name: 데이터 누수
+    aliases: [Data leakage, leakage, 정보 누수]
+    short_definition: 실제 예측 시점에는 사용할 수 없는 평가·미래 정보가 학습 과정에 들어가 성능이 과대평가되는 문제다.
+    explanation: |
+      test를 포함해 평균을 계산하거나, target 이후에 생긴 열을 feature로 쓰거나, 중복된 사람이 train과 test에 함께 들어가는 경우가 대표적이다. 점수는 높아도 운영에서는 재현되지 않는다.
+
+      먼저 평가 경계를 정하고 모든 학습 가능한 전처리를 train에만 `fit`하는 것이 핵심 예방책이다.
+    example: 계약 해지 뒤 생성되는 `refund_date`를 이탈 예측 feature로 쓰지 않고, 고객 단위로 데이터 분할을 수행한다.
+    related_terms: [train-test-split, pipeline, feature, preprocessing]
+    source_url: https://scikit-learn.org/stable/common_pitfalls.html#data-leakage
+
+  - id: random-state
+    name: 난수 시드
+    aliases: [Random seed, random_state, 시드]
+    short_definition: 무작위 분할이나 모델 초기화 결과를 반복 실행해도 재현할 수 있도록 고정하는 값이다.
+    explanation: |
+      같은 데이터와 코드라도 난수 상태가 다르면 분할, 표본 추출, 모델 결과가 달라질 수 있다. 시험에서는 예상 가능한 결과를 만들고, 실무에서는 실험 비교와 오류 재현을 돕는다.
+
+      시드 고정이 모델의 일반화를 보장하는 것은 아니므로 여러 분할과 교차검증도 함께 고려한다.
+    example: 데이터 분할과 RandomForest 모두에 `random_state=42`를 지정해 모델 변경 전후를 비교한다.
+    related_terms: [train-test-split, cross-validation, reproducibility]
+    source_url: https://scikit-learn.org/stable/common_pitfalls.html#controlling-randomness
+
+  - id: reproducibility
+    name: 재현성
+    aliases: [Reproducibility, 재현 가능한 분석]
+    short_definition: 같은 데이터와 절차를 사용했을 때 다른 사람이나 이후 실행에서도 결과를 다시 만들 수 있는 성질이다.
+    explanation: |
+      시드뿐 아니라 데이터 버전, 라이브러리 버전, 전처리와 특성 정의, 학습 설정을 함께 기록해야 한다. Notebook의 실행 순서가 뒤섞이지 않도록 처음부터 다시 실행해 검증하는 습관도 필요하다.
+
+      재현성은 모델 성능을 신뢰하고 운영 장애를 추적하기 위한 기본 조건이다.
+    example: requirements, 입력 파일 해시, random_state, Pipeline 구성을 저장하고 깨끗한 커널에서 전체 Notebook을 재실행한다.
+    related_terms: [random-state, pipeline, data-leakage]
+    source_url: https://scikit-learn.org/stable/common_pitfalls.html
+
+  - id: classification
+    name: 분류
+    aliases: [Classification, 분류 모델]
+    short_definition: 입력을 이탈 여부나 상품 종류 같은 이산적인 범주로 예측하는 지도학습 문제다.
+    explanation: |
+      모델은 범주 예측이나 범주별 확률을 출력한다. 클래스 불균형과 오류 비용을 고려해 accuracy만 보지 말고 precision, recall, F1, confusion matrix 등을 함께 해석한다.
+
+      임계값을 바꾸면 precision과 recall의 균형도 달라진다.
+    example: 거래가 사기인지 정상인지 예측하고, 놓친 사기의 비용이 크다면 recall을 중요한 지표로 본다.
+    related_terms: [target-variable, accuracy, precision, recall, confusion-matrix]
+    source_url: https://scikit-learn.org/stable/supervised_learning.html
+
+  - id: regression
+    name: 회귀
+    aliases: [Regression, 회귀 모델]
+    short_definition: 매출, 가격, 수요처럼 연속적인 수치를 예측하는 지도학습 문제다.
+    explanation: |
+      회귀에서는 예측값과 실제값의 차이를 MAE, MSE, RMSE, R² 같은 지표로 평가한다. 각 지표가 큰 오차에 얼마나 민감한지와 업무 단위를 함께 해석한다.
+
+      단순히 점수를 높이기보다 residual의 패턴과 특정 구간에서의 오류도 확인한다.
+    example: 다음 달 매출액을 예측하고 RMSE와 실제 금액 단위의 오차 분포를 함께 보고 재고 결정을 내린다.
+    related_terms: [target-variable, rmse, model, baseline-model]
+    source_url: https://scikit-learn.org/stable/supervised_learning.html
+
+  - id: model
+    name: 모델
+    aliases: [Machine learning model, ML model, 머신러닝 모델]
+    short_definition: 데이터에서 입력과 결과 사이의 패턴을 학습해 새로운 입력에 대한 예측을 만드는 함수나 구조다.
+    explanation: |
+      `fit`은 학습 데이터로 내부 파라미터를 조정하는 과정이고 `predict`는 학습된 규칙을 새 데이터에 적용하는 과정이다. 모델 이름보다 문제 정의, 데이터 품질, 평가 설계가 성능 신뢰도에 더 큰 영향을 줄 수 있다.
+
+      모델은 과거 데이터의 상관관계를 배우므로 인과관계를 자동으로 증명하지 않는다.
+    example: 고객 특성으로 이탈 확률을 예측하되 운영 정책 변경 뒤에도 성능이 유지되는지 계속 확인한다.
+    related_terms: [feature, target-variable, classification, regression]
+    source_url: https://scikit-learn.org/stable/getting_started.html
+
+  - id: baseline-model
+    name: 기준 모델
+    aliases: [Baseline model, 베이스라인]
+    short_definition: 더 복잡한 모델이 실제로 개선됐는지 비교하기 위한 단순하고 명확한 출발 모델이다.
+    explanation: |
+      분류에서는 다수 클래스를 예측하는 규칙, 회귀에서는 평균이나 중앙값 예측을 먼저 둘 수 있다. 그 다음 단순한 선형 모델이나 트리 모델을 구축해 개선 폭과 비용을 비교한다.
+
+      baseline보다 나아지지 않는다면 복잡성을 늘리기 전에 데이터와 평가 설계를 다시 확인한다.
+    example: 이탈하지 않는다고만 예측하는 DummyClassifier의 점수와 로지스틱 회귀를 비교한다.
+    related_terms: [model, classification, regression, model-evaluation]
+    source_url: https://scikit-learn.org/stable/modules/model_evaluation.html#dummy-estimators
+
+  - id: model-evaluation
+    name: 모델 평가
+    aliases: [Model evaluation, 성능 평가]
+    short_definition: 보지 않은 데이터와 적절한 지표로 모델이 목적에 맞게 작동하는지 판단하는 과정이다.
+    explanation: |
+      하나의 점수만 보는 것이 아니라 데이터 분할, baseline, 오류 유형, 불확실성, 업무 비용을 함께 살핀다. 모델 선택에 사용한 데이터와 최종 성능 보고에 사용할 test 데이터도 구분한다.
+
+      좋은 평가는 실제 운영 환경의 입력 분포와 의사결정을 최대한 닮아야 한다.
+    example: 사기 탐지에서 accuracy가 아니라 recall, precision, 검토 가능한 경보 수를 함께 비교한다.
+    related_terms: [baseline-model, cross-validation, classification, regression]
+    source_url: https://scikit-learn.org/stable/modules/model_evaluation.html
+
+  - id: accuracy
+    name: 정확도
+    aliases: [Accuracy, 정분류율]
+    short_definition: 전체 예측 중 맞게 분류한 비율이다.
+    explanation: |
+      직관적이지만 클래스가 불균형하면 오해하기 쉽다. 사기 비율이 1%인 데이터에서 모두 정상이라고 예측해도 accuracy는 99%이기 때문이다.
+
+      오류 비용과 클래스 분포에 따라 precision, recall, F1 같은 지표를 함께 선택한다.
+    example: 고양이와 개가 비슷한 수로 있는 이미지 분류에서는 유용하지만 희귀 질병 탐지에서는 accuracy만으로 판단하지 않는다.
+    related_terms: [classification, precision, recall, confusion-matrix]
+    source_url: https://scikit-learn.org/stable/modules/model_evaluation.html#accuracy-score
+
+  - id: precision
+    name: 정밀도
+    aliases: [Precision, 양성 예측도]
+    short_definition: 모델이 양성이라고 예측한 사례 중 실제 양성의 비율이다.
+    explanation: |
+      거짓 양성(False Positive)을 줄이는 것이 중요할 때 주목한다. 정밀도가 높으면 모델의 양성 경보를 신뢰하기 쉽지만 실제 양성을 많이 놓치면서 얻은 결과인지 recall과 함께 봐야 한다.
+
+      예측 임계값을 높이면 대체로 precision은 오르고 recall은 낮아질 수 있다.
+    example: 제한된 상담 인력이 이탈 위험 고객에게 전화할 때 불필요한 경보를 줄이기 위해 precision을 본다.
+    related_terms: [recall, f1-score, confusion-matrix, classification]
+    source_url: https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-f-measure-metrics
+
+  - id: recall
+    name: 재현율
+    aliases: [Recall, sensitivity, 민감도]
+    short_definition: 실제 양성 사례 중 모델이 양성으로 찾아낸 비율이다.
+    explanation: |
+      거짓 음성(False Negative), 즉 중요한 사례를 놓치는 비용이 클 때 주목한다. recall을 무조건 높이면 거짓 경보가 많아질 수 있으므로 precision과 운영 용량을 함께 고려한다.
+
+      어떤 클래스를 양성으로 정의했는지 먼저 확인해야 해석이 맞다.
+    example: 위험 질환 선별 검사에서는 환자를 놓치는 비용이 커 높은 recall을 우선 고려한다.
+    related_terms: [precision, f1-score, confusion-matrix, classification]
+    source_url: https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-f-measure-metrics
+
+  - id: f1-score
+    name: F1 점수
+    aliases: [F1 score, F-measure]
+    short_definition: precision과 recall의 조화평균으로 두 지표의 균형을 한 값으로 요약한다.
+    explanation: |
+      클래스 불균형이 있고 거짓 양성과 거짓 음성을 모두 고려하고 싶을 때 유용하다. 그러나 두 오류의 업무 비용이 크게 다르면 F1 하나로 의사결정하기보다 각각을 따로 본다.
+
+      다중 분류에서는 macro, micro, weighted 평균 방식에 따라 의미가 달라진다.
+    example: 희귀 불량품 탐지 모델을 비교할 때 accuracy보다 불량 클래스의 F1을 우선 확인한다.
+    related_terms: [precision, recall, classification, confusion-matrix]
+    source_url: https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-f-measure-metrics
+
+  - id: confusion-matrix
+    name: 혼동행렬
+    aliases: [Confusion matrix, 오차 행렬]
+    short_definition: 실제 클래스와 예측 클래스를 교차해 맞은 경우와 오류 유형별 개수를 보여주는 표다.
+    explanation: |
+      이진 분류에서는 True Positive, True Negative, False Positive, False Negative를 확인할 수 있다. 하나의 평균 점수가 숨기는 '어떤 대상을 어떤 대상으로 잘못 예측했는가'를 드러낸다.
+
+      행과 열 중 어느 쪽이 실제값인지 도구별 표기를 꼭 확인한다.
+    example: 이탈 고객을 유지 고객으로 놓친 수와 유지 고객을 이탈로 잘못 경보한 수를 각각 확인한다.
+    related_terms: [accuracy, precision, recall, classification]
+    source_url: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html
+
+  - id: rmse
+    name: 평균 제곱근 오차
+    aliases: [RMSE, Root Mean Squared Error]
+    short_definition: 회귀 예측 오차를 제곱해 평균한 뒤 제곱근을 취한 지표로, target과 같은 단위를 가진다.
+    explanation: |
+      큰 오차를 제곱하기 때문에 작은 오차보다 더 크게 벌한다. 따라서 큰 예측 실패가 중요한 문제에 유용하지만 이상치 하나에 민감할 수 있다.
+
+      값의 크기는 target 단위와 범위에 의존하므로 다른 데이터셋의 RMSE를 단순 비교하지 않는다.
+    example: 주택 가격 예측 RMSE가 2천만 원이면 큰 오차 사례와 업무상 허용 범위를 함께 확인한다.
+    related_terms: [regression, model-evaluation, outlier]
+    source_url: https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-error
+
+  - id: overfitting
+    name: 과적합
+    aliases: [Overfitting, 오버피팅]
+    short_definition: 모델이 학습 데이터의 세부 잡음까지 지나치게 익혀 새로운 데이터에서는 성능이 나빠지는 현상이다.
+    explanation: |
+      train 점수는 매우 높지만 validation이나 test 점수가 낮으면 과적합을 의심한다. 더 많은 데이터, 적절한 정규화, 모델 복잡도 제한, 교차검증 등으로 완화할 수 있다.
+
+      test 결과를 반복해서 보며 모델을 조정하면 test에도 간접적으로 과적합될 수 있다.
+    example: 깊은 의사결정나무의 train accuracy가 100%지만 validation accuracy가 72%라면 깊이를 제한해 비교한다.
+    related_terms: [cross-validation, train-test-split, model-evaluation, hyperparameter]
+    source_url: https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html
+
+  - id: cross-validation
+    name: 교차검증
+    aliases: [Cross-validation, CV, 교차 검증]
+    short_definition: train 데이터를 여러 부분으로 나눠 번갈아 학습과 검증에 사용해 성능의 안정성을 평가하는 방법이다.
+    explanation: |
+      한 번의 분할 결과에 우연히 의존하는 문제를 줄이고 평균 점수와 변동을 확인할 수 있다. 분류, 시간 순서, 그룹 중복 같은 데이터 구조에 맞는 분할기를 선택해야 한다.
+
+      전처리는 각 fold의 학습 부분에서만 fit되도록 Pipeline 안에 포함한다.
+    example: StratifiedKFold로 각 fold의 이탈 비율을 유지하며 모델 후보의 F1 평균과 표준편차를 비교한다.
+    related_terms: [train-test-split, pipeline, overfitting, data-leakage]
+    source_url: https://scikit-learn.org/stable/modules/cross_validation.html
+
+  - id: pipeline
+    name: Pipeline
+    aliases: [파이프라인, sklearn Pipeline]
+    short_definition: 전처리 단계와 모델을 순서대로 묶어 하나의 학습·예측 객체처럼 실행하는 구조다.
+    explanation: |
+      Pipeline을 사용하면 train에 맞춘 대치, 인코딩, 스케일링 규칙이 validation과 test에 동일하게 적용된다. 교차검증 중에도 각 fold의 학습 데이터에서만 전처리가 fit돼 누수 위험을 줄인다.
+
+      실무에서는 전처리와 모델을 함께 저장하고 배포할 수 있어 학습-서빙 불일치도 줄인다.
+    example: 예를 들어 `ColumnTransformer`와 `LogisticRegression`을 Pipeline으로 묶어 원본 DataFrame을 바로 학습하고 예측한다.
+    related_terms: [preprocessing, data-leakage, cross-validation, model]
+    source_url: https://scikit-learn.org/stable/modules/compose.html#pipeline
+
+  - id: hyperparameter
+    name: 하이퍼파라미터
+    aliases: [Hyperparameter, 초매개변수]
+    short_definition: 학습으로 자동 결정되는 값이 아니라 모델을 학습하기 전에 사용자가 정하는 설정이다.
+    explanation: |
+      트리 깊이, 이웃 수, 학습률 등이 대표적이다. validation이나 교차검증으로 후보를 비교하되 test 데이터를 튜닝에 사용하지 않는다.
+
+      검색 범위를 무작정 넓히기보다 각 설정이 복잡도, 계산 비용, 과적합에 미치는 의미를 이해한다.
+    example: RandomForest의 `max_depth`와 `n_estimators`를 교차검증으로 비교한 뒤 최종 설정을 선택한다.
+    related_terms: [model, cross-validation, overfitting, model-evaluation]
+    source_url: https://scikit-learn.org/stable/modules/grid_search.html
+
+  - id: neural-network
+    name: 신경망
+    aliases: [Neural network, artificial neural network, 인공신경망]
+    short_definition: 연결된 층의 가중치를 학습해 복잡한 입력과 출력 관계를 근사하는 머신러닝 모델 계열이다.
+    explanation: |
+      입력층, 하나 이상의 은닉층, 출력층으로 구성되며 각 층은 가중합과 활성화 함수를 통해 표현을 변환한다. 학습에서는 손실을 줄이도록 역전파와 최적화 알고리즘이 가중치를 조정한다.
+
+      강력하지만 데이터 크기, scaling, 과적합, 학습 비용을 고려해야 하며 표 데이터에서는 단순 모델과 반드시 비교한다.
+    example: 이진 분류에서 출력층에 sigmoid를 사용하되 로지스틱 회귀 baseline보다 실제로 나은지 검증한다.
+    related_terms: [model, scaling, overfitting, classification]
+    source_url: https://www.tensorflow.org/guide/keras/sequential_model
+
+  - id: feature-engineering
+    name: 특성 공학
+    aliases: [Feature engineering, 파생변수 생성]
+    short_definition: 원본 데이터에서 문제에 더 유용한 입력 표현을 만들거나 선택하는 작업이다.
+    explanation: |
+      날짜에서 경과일을 만들고, 거래를 고객 단위로 집계하고, 비율을 계산하는 등이 포함된다. 좋은 특성은 업무 지식을 반영하면서 실제 예측 시점에 계산 가능해야 한다.
+
+      전체 데이터나 target의 미래 정보를 사용해 특성을 만들면 누수가 되므로 생성 시점과 평가 경계를 기록한다.
+    example: 생년월일 자체 대신 예측 기준일 당시의 나이를 계산하고, 미래 거래는 집계에서 제외한다.
+    related_terms: [feature, data-leakage, exploratory-data-analysis, pipeline]
+    source_url: https://scikit-learn.org/stable/modules/preprocessing.html

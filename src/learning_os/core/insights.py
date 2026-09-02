@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Literal
 
 
 @dataclass(frozen=True)
@@ -38,3 +40,14 @@ class StudySummary:
     active_days: int
     answered_questions: int
     accuracy: float
+
+
+@dataclass(frozen=True)
+class StudyActivity:
+    kind: Literal["lesson", "quiz"]
+    course_id: str
+    occurred_at: datetime
+    duration_minutes: float
+    lesson_id: str | None = None
+    topic: str | None = None
+    correct: bool | None = None

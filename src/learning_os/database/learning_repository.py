@@ -3,11 +3,11 @@ from __future__ import annotations
 import json
 import sqlite3
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime, time, timedelta, timezone, tzinfo
 from typing import Iterable, Sequence
 
 from learning_os.core.assessment import QuizQuestion, ReviewSchedule
-from learning_os.core.insights import Note, StudySummary, TopicInsight
+from learning_os.core.insights import Note, StudyActivity, StudySummary, TopicInsight
 from learning_os.core.mastery import SkillEvidence, SkillMastery, calculate_all_mastery
 from learning_os.core.models import Course
 from learning_os.core.review import schedule_review
@@ -482,3 +482,104 @@ class LearningRepository:
             answered_questions=int(attempts["attempts"]),
             accuracy=float(attempts["accuracy"]),
         )
+
+    def study_activity(
+        self,
+        start_on: date,
+        end_on: date,
+        *,
+        local_timezone: tzinfo | None = None,
+    ) -> tuple[StudyActivity, ...]:
+        """Return completed lessons and answered questions in a local date range."""
+        if end_on < start_on:
+            raise ValueError("end_on must be on or after start_on")
+        resolved_timezone = local_timezone or datetime.now().astimezone().tzinfo
+        if resolved_timezone is None:  # pragma: no cover - platform fallback
+            resolved_timezone = timezone.utc
+
+        start_local = datetime.combine(start_on, time.min, tzinfo=resolved_timezone)
+        end_local = datetime.combine(
+            end_on + timedelta(days=1),
+            time.min,
+            tzinfo=resolved_timezone,
+        )
+        start_utc = start_local.astimezone(timezone.utc).isoformat(timespec="seconds")
+        end_utc = end_local.astimezone(timezone.utc).isoformat(timespec="seconds")
+
+        lesson_rows = self.connection.execute(
+            """
+            SELECT course_id, lesson_id, completed_at
+            FROM lesson_progress
+            WHERE status='completed'
+              AND completed_at >= ?
+              AND completed_at < ?
+            ORDER BY completed_at, course_id, lesson_id
+            """,
+            (start_utc, end_utc),
+        ).fetchall()
+        session_rows = self.connection.execute(
+            """
+            SELECT course_id, lesson_id, ended_at, duration_minutes
+            FROM study_sessions
+            WHERE status='completed'
+              AND ended_at >= ?
+              AND ended_at < ?
+            """,
+            (start_utc, end_utc),
+        ).fetchall()
+
+        session_minutes: dict[tuple[str, str, date], float] = defaultdict(float)
+        for row in session_rows:
+            occurred_at = _local_datetime(str(row["ended_at"]), resolved_timezone)
+            key = (str(row["course_id"]), str(row["lesson_id"]), occurred_at.date())
+            session_minutes[key] += float(row["duration_minutes"] or 0)
+
+        activities: list[StudyActivity] = []
+        for row in lesson_rows:
+            course_id = str(row["course_id"])
+            lesson_id = str(row["lesson_id"])
+            occurred_at = _local_datetime(str(row["completed_at"]), resolved_timezone)
+            activities.append(
+                StudyActivity(
+                    kind="lesson",
+                    course_id=course_id,
+                    lesson_id=lesson_id,
+                    occurred_at=occurred_at,
+                    duration_minutes=session_minutes.get(
+                        (course_id, lesson_id, occurred_at.date()),
+                        0.0,
+                    ),
+                )
+            )
+
+        for row in self.connection.execute(
+            """
+            SELECT course_id, topic, is_correct, response_time_seconds, attempted_at
+            FROM quiz_attempts
+            WHERE attempted_at >= ?
+              AND attempted_at < ?
+            ORDER BY attempted_at, id
+            """,
+            (start_utc, end_utc),
+        ):
+            activities.append(
+                StudyActivity(
+                    kind="quiz",
+                    course_id=str(row["course_id"]),
+                    topic=str(row["topic"]),
+                    correct=bool(row["is_correct"]),
+                    occurred_at=_local_datetime(
+                        str(row["attempted_at"]), resolved_timezone
+                    ),
+                    duration_minutes=float(row["response_time_seconds"]) / 60,
+                )
+            )
+
+        return tuple(sorted(activities, key=lambda item: item.occurred_at))
+
+
+def _local_datetime(value: str, local_timezone: tzinfo) -> datetime:
+    parsed = datetime.fromisoformat(value)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(local_timezone)

@@ -80,6 +80,35 @@ def test_valid_manifest_loading_reads_course_structure(tmp_path: Path) -> None:
     assert course.manifest_hash
 
 
+def test_manifest_parses_optional_study_steps_and_validates_total(tmp_path: Path) -> None:
+    course_root = write_course(tmp_path, "timed-course")
+    manifest_path = course_root / "course.yaml"
+    manifest = manifest_path.read_text(encoding="utf-8").replace(
+        "        content_path: first.md",
+        """        study_steps:
+          - label: Read
+            duration_minutes: 8
+          - label: Apply
+            duration_minutes: 12
+            outcome: Write one example
+        content_path: first.md""",
+        1,
+    )
+    manifest_path.write_text(manifest, encoding="utf-8")
+
+    course = load_manifest(manifest_path)
+
+    assert [(step.label, step.duration_minutes) for step in course.lessons[0].study_steps] == [
+        ("Read", 8),
+        ("Apply", 12),
+    ]
+    assert course.lessons[0].study_steps[1].outcome == "Write one example"
+
+    manifest_path.write_text(manifest.replace("duration_minutes: 12", "duration_minutes: 11", 1), encoding="utf-8")
+    with pytest.raises(ManifestError, match="단계 시간 합계"):
+        load_manifest(manifest_path)
+
+
 def test_malformed_manifest_isolated_as_catalog_issue(tmp_path: Path) -> None:
     courses_dir = tmp_path / "courses"
     write_course(courses_dir, "good-course")
@@ -181,7 +210,7 @@ def test_migrations_are_idempotent(tmp_path: Path) -> None:
     apply_migrations(connection, migrations)
     apply_migrations(connection, migrations)
 
-    assert [row["version"] for row in connection.execute("SELECT version FROM schema_migrations")] == [1, 2]
+    assert [row["version"] for row in connection.execute("SELECT version FROM schema_migrations")] == [1, 2, 3]
     assert connection.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='study_sessions'").fetchone()
 
 

@@ -5,6 +5,7 @@ description: Scrum.org PSPO I 공식 범위를 완주하고, 제품 비전·가�
 category: product-management
 source_type: local
 status: active
+glossary_path: glossary.yaml
 schedule:
   target_date: 2026-10-04
   priority: 100
@@ -43,6 +44,22 @@ modules:
         title: PSPO I 평가 구조와 합격 전략
         type: markdown
         duration_minutes: 35
+        study_steps:
+          - label: 공식 평가 구조 대조
+            duration_minutes: 7
+            outcome: 문항 수와 합격 기준을 공식 출처에서 확인한다.
+          - label: Focus Area와 공식 용어 비교
+            duration_minutes: 8
+            outcome: Scrum Guide의 용어를 자기 말로 바꿔 설명한다.
+          - label: 상황형 판단과 자가점검
+            duration_minutes: 10
+            outcome: 선택지별 판단 근거를 말로 설명한다.
+          - label: 판단 근거 다시 검토
+            duration_minutes: 5
+            outcome: 회사 관행과 Scrum의 요구를 구분한다.
+          - label: 60초 설명과 요약 기록
+            duration_minutes: 5
+            outcome: 핵심 세 문장과 남은 질문을 Note에 남긴다.
         content_path: lessons/assessment-blueprint.md
         language: ko
         required: true

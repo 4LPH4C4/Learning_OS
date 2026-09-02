@@ -8,12 +8,13 @@ Python 3.11 이상이 필요하다. Windows는 `start.bat`, macOS/Linux는 `./st
 
 ## Phase 2 기능
 
-- Today: 학습 가능 시간, 시험일까지 남은 기간, Course 우선순위, 진도, 취약도를 반영한 Lesson 계획
+- Today: 날짜별로 고정되는 학습 범위, 등록 Course 선택, 완료/다음 Lesson 구분
 - Quiz/Practice: 단일 선택, 복수 선택, 단답형 문항과 정답·오답 근거
 - Review: 오답 1일, 낮은 자신감 정답 2일, 정답과 연속 정답 4/7/14/30일 간격
 - Mock Exam: Course별 문항 수, 제한 시간, 목표 점수 profile
-- Insights: topic별 정확도·자신감·응답 시간·취약도와 설명 가능한 Skill mastery
+- Insights: 날짜별 Lesson·문제 풀이 캘린더, 학습 시간, topic별 정확도·자신감·취약도와 Skill mastery
 - Notes: Lesson별 Markdown Note, URL, 전체 검색
+- Glossary: Course별 핵심 용어와 Lesson 안의 개념 설명 팝업
 - Settings: 기본 학습 시간, 한국어/영어 콘텐츠 선택
 - Backup/Restore: checksum과 SQLite 무결성 검사를 포함한 로컬 ZIP 백업
 - Course Import: URL, PDF, Markdown을 Manifest Course로 가져오기
@@ -36,7 +37,11 @@ PSPO는 Scrum.org가 공개한 12개 Focus Area를 모두 추적하고, Vision·
 
 ## 새 Course와 문항 추가
 
-`courses/<kebab-case-id>/course.yaml`에 schema version 1 Manifest를 만든다. Lesson은 Course root 상대경로 또는 HTTP(S) URL을 사용한다. `questions.yaml`은 `question_id`, `skill_id`, `topic`, `difficulty`, `type`, `prompt`, `correct_answers`, `explanation`을 선언한다. 앱 코드 수정 없이 재실행하면 카탈로그와 문항 은행에 반영된다.
+`courses/<kebab-case-id>/course.yaml`에 schema version 1 Manifest를 만든다. Lesson은 Course root 상대경로 또는 HTTP(S) URL을 사용한다. `duration_minutes`는 읽기만이 아니라 이해 확인과 적용까지 포함한 총 학습 시간이다. 정확한 시간 구성이 필요하면 Lesson에 `study_steps`를 추가한다.
+
+Course 용어사전은 `glossary_path: glossary.yaml`로 연결한다. 용어 파일은 `version`, `course_id`, `terms`를 가지며 각 용어에 `id`, `name`, `aliases`, `short_definition`, `explanation`, `example`, `related_terms`, 선택적 `source_url`을 선언한다. Lesson 본문에 등장한 이름과 별칭은 자동으로 감지되어 팝업으로 표시된다.
+
+`questions.yaml`은 `question_id`, `skill_id`, `topic`, `difficulty`, `type`, `prompt`, `correct_answers`, `explanation`을 선언한다. 앱 코드 수정 없이 재실행하면 카탈로그, 용어사전과 문항 은행에 반영된다.
 
 ## Data / Backup
 

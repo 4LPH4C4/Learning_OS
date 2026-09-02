@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
-from datetime import date
+from datetime import date, timedelta, timezone
 from pathlib import Path
 
 import pytest
@@ -217,6 +217,77 @@ def test_notes_settings_insights_and_mastery(tmp_path: Path) -> None:
     assert learning.topic_insights()[0].accuracy == 1.0
     pandas = next(item for item in learning.skill_mastery() if item.skill_id == "pandas")
     assert pandas.score > 0 and "정확도" in pandas.explanation
+
+
+def test_study_activity_groups_events_by_local_date(tmp_path: Path) -> None:
+    course, questions = load_questions(tmp_path)
+    learning, progress = repository(tmp_path)
+    learning.sync_catalog([course], questions)
+    progress.mark_completed(course.id, "pandas-first-steps")
+    first_attempt, _ = learning.record_attempt(
+        questions[0],
+        ["a"],
+        correct=True,
+        response_time_seconds=30,
+        confidence=4,
+        today=date(2026, 8, 30),
+    )
+    next_day_attempt, _ = learning.record_attempt(
+        questions[0],
+        ["b"],
+        correct=False,
+        response_time_seconds=20,
+        confidence=3,
+        today=date(2026, 8, 31),
+    )
+
+    with learning.connection:
+        learning.connection.execute(
+            """
+            UPDATE lesson_progress
+            SET completed_at='2026-08-29T15:10:00+00:00'
+            WHERE course_id=? AND lesson_id=?
+            """,
+            (course.id, "pandas-first-steps"),
+        )
+        learning.connection.execute(
+            """
+            INSERT INTO study_sessions(
+                course_id, lesson_id, started_at, ended_at, duration_minutes, status
+            ) VALUES (?, ?, ?, ?, ?, 'completed')
+            """,
+            (
+                course.id,
+                "pandas-first-steps",
+                "2026-08-29T14:57:30+00:00",
+                "2026-08-29T15:10:00+00:00",
+                12.5,
+            ),
+        )
+        learning.connection.execute(
+            "UPDATE quiz_attempts SET attempted_at=? WHERE id=?",
+            ("2026-08-29T15:15:00+00:00", first_attempt),
+        )
+        learning.connection.execute(
+            "UPDATE quiz_attempts SET attempted_at=? WHERE id=?",
+            ("2026-08-30T15:00:00+00:00", next_day_attempt),
+        )
+
+    korea = timezone(timedelta(hours=9))
+    activities = learning.study_activity(
+        date(2026, 8, 30),
+        date(2026, 8, 30),
+        local_timezone=korea,
+    )
+
+    assert [activity.kind for activity in activities] == ["lesson", "quiz"]
+    assert all(activity.occurred_at.date() == date(2026, 8, 30) for activity in activities)
+    assert activities[0].duration_minutes == 12.5
+    assert activities[1].topic == "DataFrame inspection"
+    assert activities[1].correct is True
+    assert activities[1].duration_minutes == 0.5
+    with pytest.raises(ValueError, match="end_on"):
+        learning.study_activity(date(2026, 8, 31), date(2026, 8, 30))
 
 
 def test_scheduler_uses_weakness_without_breaking_time_budget() -> None:

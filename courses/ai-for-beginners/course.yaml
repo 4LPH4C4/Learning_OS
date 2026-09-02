@@ -5,6 +5,7 @@ description: Microsoft 공식 AI 입문 과정의 학습 경로
 category: ai
 source_type: github
 status: active
+glossary_path: glossary.yaml
 schedule:
   priority: 70
   target_date: null

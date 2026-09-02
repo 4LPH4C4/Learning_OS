@@ -54,6 +54,13 @@ def test_dashboard_and_review_expose_phase2_learning_flow() -> None:
     # value because changing it would alter the user's study plan.
     assert at.multiselect
     assert "오늘 계획 조정" in (ROOT / "app.py").read_text(encoding="utf-8")
+    assert set(at.multiselect[0].options) == {
+        "AI for Beginners",
+        "AICE Associate",
+        "PSPO I — Professional Product Ownership",
+        "SQLD",
+    }
+    assert "오늘의 범위" in _visible_text(at)
 
     at.radio[0].set_value("Review").run()
     assert not at.exception
@@ -64,11 +71,26 @@ def test_dashboard_and_review_expose_phase2_learning_flow() -> None:
     assert len([button for button in at.button if (button.key or "").startswith("review-quiz:")]) == 4
 
 
+def test_lesson_explains_duration_and_separates_today_from_course_next() -> None:
+    at = _app()
+    at.session_state["page"] = "lesson"
+    at.session_state["course_id"] = "pspo-i"
+    at.session_state["lesson_id"] = "assessment-blueprint"
+    at.run()
+
+    assert not at.exception
+    text = _visible_text(at)
+    assert "예상 학습 시간 · 35분" in text
+    assert "공식 평가 구조 대조 · 7분" in text
+    assert "오늘의 학습 상태" in text
+    assert "이 Course의 다음 세션" in text
+
+
 @pytest.mark.parametrize(
     ("page", "copy"),
     [
         ("Notes", "Lesson에서 남긴 생각, 코드, URL을 한곳에서 찾는다."),
-        ("Insights", "학습량과 Course 진도에서 분리된 Skill 숙련 근거를 확인한다."),
+        ("Insights", "날짜별 학습 기록과 Course 진도에서 분리된 Skill 숙련 근거를 확인한다."),
         ("Settings", "학습 기본값과 로컬 데이터를 직접 관리한다."),
     ],
 )
@@ -80,6 +102,19 @@ def test_phase2_secondary_pages_show_core_copy(page: str, copy: str) -> None:
     # Korean glyphs are replaced by Streamlit's AppTest protobuf in this
     # Windows runner, so also assert the exact rendered source copy exists.
     assert copy in (ROOT / "app.py").read_text(encoding="utf-8")
+
+
+def test_insights_renders_monthly_study_calendar() -> None:
+    at = _app()
+    at.radio[0].set_value("Insights").run()
+
+    assert not at.exception
+    assert "학습 캘린더" in _visible_text(at)
+    button_keys = {button.key for button in at.button}
+    assert {"calendar-previous-month", "calendar-next-month"} <= button_keys
+    assert 28 <= len(
+        [key for key in button_keys if (key or "").startswith("calendar-day:")]
+    ) <= 31
 
 
 def test_course_question_banks_have_expected_counts_no_issues_and_sqld_is_active() -> None:

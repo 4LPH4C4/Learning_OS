@@ -50,6 +50,106 @@ p { line-height: 1.65; }
 .status-dot.planned { background: #98a2b3; }
 .metric-number { font-size: 2rem; font-weight: 700; letter-spacing: -.04em; color: var(--ink); }
 .metric-label { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+.glossary-inline {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dotted var(--accent);
+  color: var(--accent);
+  cursor: help;
+  display: inline;
+  font: inherit;
+  font-weight: 650;
+  line-height: inherit;
+  margin: 0 .06rem;
+  padding: 0 .04rem;
+  position: relative;
+  text-align: inherit;
+}
+.glossary-inline:hover, .glossary-inline:focus-visible {
+  background: var(--accent-soft);
+  border-radius: 4px;
+  outline: none;
+}
+.glossary-inline-card {
+  background: #ffffff;
+  border: 1px solid #d6dbea;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(20, 33, 61, .16);
+  color: var(--ink);
+  cursor: default;
+  display: none;
+  font-size: .9rem;
+  font-weight: 400;
+  left: 0;
+  line-height: 1.55;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: .9rem 1rem;
+  position: absolute;
+  text-align: left;
+  top: calc(100% + .45rem);
+  white-space: normal;
+  width: min(360px, 78vw);
+  z-index: 1000;
+}
+.glossary-inline-card strong, .glossary-inline-card span {
+  display: block;
+}
+.glossary-inline-card strong {
+  color: var(--accent);
+  font-size: 1rem;
+  margin-bottom: .35rem;
+}
+.glossary-inline-example {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  margin-top: .65rem;
+  padding-top: .55rem;
+}
+.glossary-inline:hover .glossary-inline-card,
+.glossary-inline:focus .glossary-inline-card,
+.glossary-inline:focus-within .glossary-inline-card {
+  display: block;
+}
+.lesson-markdown p, .lesson-markdown li { line-height: 1.7; }
+.lesson-markdown table {
+  border-collapse: collapse;
+  display: block;
+  margin: 1rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+  width: max-content;
+}
+.lesson-markdown th, .lesson-markdown td {
+  border-bottom: 1px solid var(--line);
+  padding: .55rem .75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.lesson-markdown th { background: #f3f1ec; font-weight: 700; }
+.lesson-markdown pre {
+  background: #f3f1ec;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow-x: auto;
+  padding: .9rem 1rem;
+}
+.lesson-markdown code {
+  background: #f0eee9;
+  border-radius: 4px;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: .88em;
+  padding: .12rem .3rem;
+}
+.lesson-markdown pre code { background: transparent; padding: 0; }
+.lesson-markdown blockquote {
+  border-left: 3px solid #cfd5e7;
+  color: var(--muted);
+  margin-left: 0;
+  padding-left: 1rem;
+}
 .stButton > button {
   border-radius: 8px; border: 1px solid #cfd4df; font-weight: 650;
   transition: transform .14s ease, border-color .14s ease, background .14s ease;

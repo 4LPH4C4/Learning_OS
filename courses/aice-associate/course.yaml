@@ -5,6 +5,7 @@ description: 공식 시험 범위와 실무형 tabular ML pipeline을 완주하�
 category: ai-data
 source_type: local
 status: active
+glossary_path: glossary.yaml
 schedule:
   target_date: 2026-10-31
   priority: 90

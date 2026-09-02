@@ -1,0 +1,242 @@
+version: 1
+course_id: ai-for-beginners
+terms:
+  - id: artificial-intelligence
+    name: 인공지능
+    aliases: [AI, Artificial Intelligence, 인공 지능]
+    short_definition: 컴퓨터가 인식, 추론, 예측, 언어 처리처럼 지능이 필요하다고 여겨지는 작업을 수행하게 하는 넓은 기술 분야다.
+    explanation: |
+      AI는 하나의 특정 알고리즘이나 사람과 같은 지능을 뜻하지 않는다. 규칙 기반 시스템, 머신러닝, 컴퓨터 비전, 자연어 처리, 로봇공학 등 서로 다른 접근을 포함하는 상위 개념이다.
+
+      제품에서는 'AI를 사용한다'보다 어떤 사용자 문제를 어떤 수준으로 해결하고 실패를 어떻게 관리할지 정의하는 것이 먼저다.
+    example: 고객 문의를 주제별로 분류하고 상담원에게 추천 답변을 제공하는 시스템은 AI의 한 응용이다.
+    related_terms: [machine-learning, model, inference, responsible-ai]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: machine-learning
+    name: 머신러닝
+    aliases: [ML, Machine Learning, 기계학습]
+    short_definition: 모든 규칙을 사람이 직접 작성하는 대신 데이터에서 패턴을 학습해 예측이나 결정을 수행하는 AI의 한 분야다.
+    explanation: |
+      입력과 원하는 결과의 관계를 데이터로부터 추정하며 지도학습, 비지도학습, 강화학습 등으로 나눌 수 있다. 학습 데이터의 범위와 품질이 모델이 배울 수 있는 범위를 제한한다.
+
+      머신러닝이 적합한지는 규칙의 복잡성, 충분한 데이터, 오류 비용, 운영 중 피드백 가능성을 함께 보고 판단한다.
+    example: 사람이 스팸 규칙을 모두 나열하지 않고 과거 이메일과 판정 결과로 스팸 분류기를 학습한다.
+    related_terms: [artificial-intelligence, supervised-learning, unsupervised-learning, reinforcement-learning]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: supervised-learning
+    name: 지도학습
+    aliases: [Supervised learning, 지도 학습]
+    short_definition: 입력과 정답 label이 함께 있는 예제로부터 둘 사이의 관계를 학습하는 방법이다.
+    explanation: |
+      새로운 입력의 범주를 예측하면 classification, 연속적인 수치를 예측하면 regression 문제다. 정답의 정확성, 클래스 비율, train과 test의 분리가 성능 신뢰도에 큰 영향을 준다.
+
+      과거에 붙인 label이 편향돼 있다면 모델도 그 편향을 학습할 수 있다.
+    example: 과거 주택의 특성과 실제 판매가를 사용해 새 주택의 가격을 예측한다.
+    related_terms: [feature, label, classification, regression]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: unsupervised-learning
+    name: 비지도학습
+    aliases: [Unsupervised learning, 비지도 학습]
+    short_definition: 정답 label 없이 데이터 안의 구조, 유사성, 패턴을 찾는 학습 방법이다.
+    explanation: |
+      군집화, 차원 축소, 이상 탐지 등이 대표적이다. 미리 정답이 없으므로 결과가 업무상 유용한지 해석하고 검증하는 과정이 특히 중요하다.
+
+      발견한 그룹이 자연적으로 '진짜 고객 유형'이라고 단정하지 않고 데이터와 알고리즘의 가정이 만든 결과로 본다.
+    example: 구매 행동이 비슷한 고객을 군집화한 뒤 각 그룹이 실제 마케팅 전략에 유용한지 분석한다.
+    related_terms: [machine-learning, clustering, feature, model-evaluation]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: reinforcement-learning
+    name: 강화학습
+    aliases: [Reinforcement learning, RL, 강화 학습]
+    short_definition: agent가 환경에서 행동하고 얻은 보상을 통해 장기적인 누적 보상을 높이는 전략을 학습하는 방법이다.
+    explanation: |
+      상태, 행동, 보상, 정책이 핵심 요소다. 당장의 보상을 고르는 exploitation과 새로운 행동을 시도하는 exploration 사이의 균형이 필요하다.
+
+      보상 함수를 잘못 설계하면 의도하지 않은 행동을 최적화할 수 있어 안전 제약과 시뮬레이션 검증이 중요하다.
+    example: 창고 로봇이 이동 시간과 충돌 패널티를 보상으로 받아 효율적인 경로 정책을 학습한다.
+    related_terms: [machine-learning, agent, model, responsible-ai]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: agent
+    name: 에이전트
+    aliases: [Agent, AI agent]
+    short_definition: 환경을 관찰하고 목표를 위해 행동을 선택하며 그 결과의 영향을 받는 주체다.
+    explanation: |
+      강화학습에서 agent는 정책에 따라 상태를 행동으로 연결한다. 최근의 AI 제품에서 agent라는 말은 언어 모델이 도구와 메모리를 사용해 여러 단계를 수행하는 시스템을 뜻하기도 하지만 맥락에 따라 정의가 다르다.
+
+      실제 적용에서는 허용된 행동 범위, 실패 시 중단 조건, 사람의 승인 지점을 명확히 해야 한다.
+    example: 게임 agent는 현재 화면 상태를 보고 이동 행동을 선택하고 점수를 보상으로 받는다.
+    related_terms: [reinforcement-learning, artificial-intelligence, responsible-ai]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: feature
+    name: 특성
+    aliases: [Feature, 입력 변수, 독립변수]
+    short_definition: 머신러닝 모델이 예측이나 패턴 발견에 사용하는 입력 데이터의 측정 가능한 속성이다.
+    explanation: |
+      원본 데이터의 열일 수도 있고 날짜에서 만든 요일이나 여러 거래를 집계한 평균처럼 새로 만든 표현일 수도 있다. 좋은 feature는 문제와 관련이 있고 실제 예측 시점에도 얻을 수 있어야 한다.
+
+      불필요하거나 미래 정보를 포함한 feature는 성능을 왜곡하고 운영 실패를 만든다.
+    example: 주택 가격 예측에서 면적, 위치, 방 개수는 feature가 되고 판매 후 정보는 제외한다.
+    related_terms: [label, training-data, supervised-learning, model]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: label
+    name: 레이블
+    aliases: [Label, target, 정답, 목표 변수]
+    short_definition: 지도학습에서 모델이 예측하도록 주어진 정답 또는 결과 값이다.
+    explanation: |
+      스팸 여부처럼 범주일 수도 있고 가격처럼 연속 수치일 수도 있다. label의 정의가 모호하거나 사람마다 다르게 판정하면 모델은 일관된 목표를 배우기 어렵다.
+
+      업무 목표를 측정하기 쉬운 대리 label로 바꿀 때 실제 목적과 어긋나지 않는지 확인한다.
+    example: 고객 만족 대신 재구매 여부를 label로 쓴다면 재구매가 정말 만족을 대표하는지 검토한다.
+    related_terms: [feature, supervised-learning, classification, regression]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: training-data
+    name: 학습 데이터
+    aliases: [Training data, train set, 훈련 데이터]
+    short_definition: 모델이 패턴과 파라미터를 학습하는 데 사용하는 데이터다.
+    explanation: |
+      양이 많다는 사실만으로 충분하지 않으며 실제 사용 환경을 대표하고 품질이 관리돼야 한다. 중복, 잘못된 label, 과거의 차별적 결정, 특정 집단의 부족은 모델 결과에 그대로 영향을 줄 수 있다.
+
+      평가 데이터는 학습 과정에서 분리해 새 데이터에 대한 일반화 능력을 확인한다.
+    example: 전국 사용자를 위한 음성 인식 모델이라면 특정 지역과 연령의 음성만으로 학습하지 않도록 대표성을 점검한다.
+    related_terms: [feature, label, training, bias, model-evaluation]
+    source_url: https://learn.microsoft.com/en-us/azure/machine-learning/concept-data
+
+  - id: model
+    name: 모델
+    aliases: [AI model, ML model, 머신러닝 모델]
+    short_definition: 데이터에서 학습한 패턴을 사용해 입력을 출력이나 결정으로 변환하는 수학적 구조다.
+    explanation: |
+      알고리즘은 학습 방법의 일반적인 절차이고, 모델은 특정 데이터로 학습된 파라미터를 포함한 결과라고 구분할 수 있다. 같은 알고리즘도 데이터와 설정이 다르면 다른 모델이 된다.
+
+      모델은 현실 전체가 아니라 학습 데이터와 목적함수에 담긴 관계를 근사한다.
+    example: 의사결정나무 알고리즘을 고객 데이터로 학습해 만들어진 이탈 예측기가 하나의 model이다.
+    related_terms: [training, inference, machine-learning, model-evaluation]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: training
+    name: 학습
+    aliases: [Training, model fitting, 훈련]
+    short_definition: 학습 데이터에서 오류를 줄이도록 모델의 내부 파라미터를 조정하는 과정이다.
+    explanation: |
+      지도학습에서는 예측과 label의 차이를 손실 함수로 계산하고 이를 줄이는 방향으로 파라미터를 갱신한다. 모델 구조, 학습률, 반복 횟수 같은 설정은 학습 결과와 비용에 영향을 준다.
+
+      학습 점수가 높아도 새 데이터에 일반화되는지는 별도의 평가가 필요하다.
+    example: 이미지와 정답 클래스를 여러 번 보여 주며 신경망 가중치를 갱신한 뒤 검증 데이터 성능을 확인한다.
+    related_terms: [training-data, model, neural-network, model-evaluation]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: inference
+    name: 추론
+    aliases: [Inference, prediction, 예측]
+    short_definition: 학습된 모델에 새로운 입력을 넣어 예측이나 출력을 얻는 과정이다.
+    explanation: |
+      training과 달리 보통 모델 파라미터를 바꾸지 않는다. 실무에서는 응답 시간, 계산 비용, 입력 전처리의 일관성, 신뢰도가 낮을 때의 처리까지 포함해 추론 시스템을 설계한다.
+
+      운영 데이터가 학습 데이터와 달라지면 추론 품질이 저하될 수 있어 모니터링이 필요하다.
+    example: 학습된 스팸 모델이 새 이메일 한 건을 받아 스팸 확률을 0.87로 출력한다.
+    related_terms: [model, training, model-evaluation, artificial-intelligence]
+    source_url: https://learn.microsoft.com/en-us/azure/machine-learning/concept-endpoints-online
+
+  - id: classification
+    name: 분류
+    aliases: [Classification, 분류 문제]
+    short_definition: 입력을 미리 정의된 범주 중 하나 이상으로 예측하는 지도학습 문제다.
+    explanation: |
+      이진 분류, 다중 분류, 다중 레이블 분류가 있다. 단순히 맞힌 비율만 보지 않고 어떤 종류의 오류가 더 위험한지에 맞는 평가 지표를 선택한다.
+
+      모델이 출력한 확률을 최종 범주로 바꾸는 임계값도 제품 요구에 따라 조정할 수 있다.
+    example: 사진을 고양이, 개, 기타로 분류하거나 거래를 사기와 정상으로 분류한다.
+    related_terms: [supervised-learning, label, model-evaluation, regression]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: regression
+    name: 회귀
+    aliases: [Regression, 회귀 문제]
+    short_definition: 입력으로부터 가격이나 온도처럼 연속적인 수치를 예측하는 지도학습 문제다.
+    explanation: |
+      예측과 실제값의 차이를 MAE, MSE, RMSE 같은 지표로 측정한다. 어떤 오차가 업무에 더 큰 비용을 만드는지에 따라 지표를 선택해야 한다.
+
+      이름이 비슷한 logistic regression은 보통 연속값 예측이 아니라 classification에 사용한다는 점에 주의한다.
+    example: 과거 판매량, 계절, 가격을 사용해 다음 주 상품 수요량을 예측한다.
+    related_terms: [supervised-learning, label, model-evaluation, classification]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: clustering
+    name: 군집화
+    aliases: [Clustering, 클러스터링]
+    short_definition: 정답 label 없이 서로 비슷한 데이터끼리 그룹을 찾는 비지도학습 방법이다.
+    explanation: |
+      거리나 밀도 같은 기준에 따라 결과가 달라지며 feature의 크기와 선택에도 민감할 수 있다. 만들어진 군집 번호 자체에는 순서나 고정된 의미가 없다.
+
+      결과를 실제 의사결정에 사용하려면 군집이 안정적이고 해석 가능하며 행동 차이를 만드는지 검증한다.
+    example: 이용 빈도와 평균 구매액으로 고객 그룹을 발견한 뒤 각 그룹에 맞는 서비스 전략을 시험한다.
+    related_terms: [unsupervised-learning, feature, model-evaluation]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: neural-network
+    name: 신경망
+    aliases: [Neural network, artificial neural network, 인공신경망]
+    short_definition: 연결된 여러 층에서 가중치를 학습해 복잡한 패턴을 표현하는 머신러닝 모델이다.
+    explanation: |
+      각 node는 입력의 가중합에 activation function을 적용하고 다음 층으로 전달한다. 여러 층을 사용한 deep learning은 이미지, 음성, 언어처럼 복잡한 데이터에서 유용한 표현을 자동으로 학습할 수 있다.
+
+      많은 데이터와 계산 자원이 필요할 수 있으며 결과 설명, 편향, 과적합을 함께 관리해야 한다.
+    example: 사진의 픽셀을 입력받아 여러 층을 거쳐 동물 종류의 확률을 출력한다.
+    related_terms: [deep-learning, model, training, feature]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: deep-learning
+    name: 딥러닝
+    aliases: [Deep learning, 심층학습]
+    short_definition: 여러 표현 학습 층을 가진 신경망을 사용하는 머신러닝 접근이다.
+    explanation: |
+      사람이 모든 feature를 직접 설계하기 어려운 이미지, 음성, 자연어에서 계층적인 표현을 학습하는 데 강점이 있다. 그러나 모든 문제에 필요한 것은 아니며 표 데이터에서는 단순 모델이 더 효율적이거나 정확할 수 있다.
+
+      모델 규모가 커질수록 데이터, 비용, 에너지, 설명 가능성의 trade-off도 커진다.
+    example: 음성 파형에서 저수준 패턴부터 단어 표현까지 여러 층이 단계적으로 학습한다.
+    related_terms: [neural-network, machine-learning, training]
+    source_url: https://github.com/microsoft/AI-For-Beginners
+
+  - id: model-evaluation
+    name: 모델 평가
+    aliases: [Model evaluation, 평가]
+    short_definition: 학습에 사용하지 않은 데이터와 목적에 맞는 기준으로 모델의 성능과 위험을 확인하는 과정이다.
+    explanation: |
+      평균 정확도 하나만으로는 특정 집단의 실패, 치명적인 오류, 운영 비용을 놓칠 수 있다. baseline과 비교하고 오류 사례, 집단별 성능, 불확실성, 실제 사용 조건을 함께 본다.
+
+      평가 결과를 보고 반복적으로 모델을 바꿨다면 독립된 최종 test가 필요하다.
+    example: 채용 보조 모델의 전체 점수뿐 아니라 성별과 경력 구간별 오류율을 비교하고 사람이 검토할 기준을 정한다.
+    related_terms: [model, training-data, bias, responsible-ai]
+    source_url: https://learn.microsoft.com/en-us/azure/machine-learning/how-to-understand-automated-ml
+
+  - id: bias
+    name: 편향
+    aliases: [Bias, 데이터 편향, 알고리즘 편향]
+    short_definition: 데이터나 시스템의 선택이 특정 결과나 집단에 체계적으로 치우치게 만드는 현상이다.
+    explanation: |
+      표본이 실제 사용자를 대표하지 못하거나 과거의 불공정한 결정이 label에 남아 있거나 측정 방식이 집단별로 다를 때 생길 수 있다. 모델의 통계적 bias라는 별도 의미도 있으므로 맥락을 구분한다.
+
+      데이터 수집부터 배포 후 모니터링까지 집단별 영향을 확인하고 완화 조치를 기록해야 한다.
+    example: 특정 억양의 음성이 학습 데이터에 부족해 해당 사용자 집단에서 인식 오류가 더 높아지는지 검사한다.
+    related_terms: [training-data, model-evaluation, responsible-ai]
+    source_url: https://learn.microsoft.com/en-us/azure/machine-learning/concept-fairness-ml
+
+  - id: responsible-ai
+    name: 책임 있는 AI
+    aliases: [Responsible AI, RAI, 책임있는 인공지능]
+    short_definition: AI를 공정성, 신뢰성과 안전, 개인정보 보호, 포용성, 투명성, 책임성 같은 원칙에 맞게 설계하고 운영하는 접근이다.
+    explanation: |
+      원칙 선언에 그치지 않고 데이터 검토, 위험 평가, 사람의 감독, 설명, 모니터링, 이의 제기 절차 같은 실제 통제로 이어져야 한다. 위험 수준은 사용 맥락과 실패가 사람에게 미치는 영향에 따라 달라진다.
+
+      성능이 높은 모델도 중요한 결정을 자동으로 맡기기에 적합하지 않을 수 있다.
+    example: 대출 심사 보조 모델에 집단별 공정성 검사, 설명 제공, 담당자 승인, 이의 신청 절차를 함께 설계한다.
+    related_terms: [artificial-intelligence, bias, model-evaluation, agent]
+    source_url: https://www.microsoft.com/en-us/ai/responsible-ai

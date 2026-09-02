@@ -5,6 +5,7 @@ description: SQLD 시험과 실무 설계를 연결하는 데이터 모델링 �
 category: sql-data
 source_type: local
 status: active
+glossary_path: glossary.yaml
 schedule:
   exam_date: 2026-11-14
   target_date: 2026-11-14

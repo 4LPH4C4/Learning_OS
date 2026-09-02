@@ -1,15 +1,26 @@
 from __future__ import annotations
 
 import sqlite3
-from datetime import datetime, timezone
+from datetime import date, datetime, time, timezone, tzinfo
 from pathlib import Path
-from typing import Iterable, Mapping
+from typing import Iterable
 
 from learning_os.core.models import Course, SourceState
+from learning_os.database.daily_plan import DailyStudyPlan, DailyStudyPlanItem
 
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _parse_local_date(value: str) -> date:
+    try:
+        parsed = date.fromisoformat(value)
+    except ValueError as error:
+        raise ValueError("local_date must use YYYY-MM-DD format") from error
+    if parsed.isoformat() != value:
+        raise ValueError("local_date must use YYYY-MM-DD format")
+    return parsed
 
 
 class ProgressRepository:
@@ -97,6 +108,146 @@ class ProgressRepository:
             if statuses.get((course.id, lesson.id)) == "completed"
         )
         return completed, len(required)
+
+    def save_daily_plan(
+        self,
+        local_date: str,
+        available_minutes: int,
+        items: Iterable[DailyStudyPlanItem | tuple[str, str]],
+    ) -> DailyStudyPlan:
+        _parse_local_date(local_date)
+        if available_minutes < 0:
+            raise ValueError("available_minutes must be zero or greater")
+
+        normalized_items = tuple(
+            item
+            if isinstance(item, DailyStudyPlanItem)
+            else DailyStudyPlanItem(course_id=item[0], lesson_id=item[1])
+            for item in items
+        )
+        if any(not item.course_id or not item.lesson_id for item in normalized_items):
+            raise ValueError("course_id and lesson_id must not be empty")
+
+        now = utc_now()
+        with self.connection:
+            self.connection.execute(
+                """
+                INSERT INTO daily_study_plans(
+                    local_date, available_minutes, created_at, updated_at
+                ) VALUES (?, ?, ?, ?)
+                ON CONFLICT(local_date) DO UPDATE SET
+                    available_minutes=excluded.available_minutes,
+                    updated_at=excluded.updated_at
+                """,
+                (local_date, available_minutes, now, now),
+            )
+            self.connection.execute(
+                "DELETE FROM daily_study_plan_items WHERE local_date=?",
+                (local_date,),
+            )
+            self.connection.executemany(
+                """
+                INSERT INTO daily_study_plan_items(
+                    local_date, position, course_id, lesson_id
+                ) VALUES (?, ?, ?, ?)
+                """,
+                [
+                    (local_date, position, item.course_id, item.lesson_id)
+                    for position, item in enumerate(normalized_items)
+                ],
+            )
+
+        return DailyStudyPlan(local_date, available_minutes, normalized_items)
+
+    def load_daily_plan(self, local_date: str) -> DailyStudyPlan | None:
+        _parse_local_date(local_date)
+        row = self.connection.execute(
+            """
+            SELECT available_minutes
+            FROM daily_study_plans
+            WHERE local_date=?
+            """,
+            (local_date,),
+        ).fetchone()
+        if row is None:
+            return None
+
+        items = tuple(
+            DailyStudyPlanItem(
+                course_id=str(item["course_id"]),
+                lesson_id=str(item["lesson_id"]),
+            )
+            for item in self.connection.execute(
+                """
+                SELECT course_id, lesson_id
+                FROM daily_study_plan_items
+                WHERE local_date=?
+                ORDER BY position
+                """,
+                (local_date,),
+            )
+        )
+        return DailyStudyPlan(local_date, int(row["available_minutes"]), items)
+
+    def completed_lesson_count_on(
+        self,
+        local_date: str,
+        *,
+        local_timezone: tzinfo | None = None,
+    ) -> int:
+        parsed_date = _parse_local_date(local_date)
+        resolved_timezone = local_timezone or datetime.now().astimezone().tzinfo
+        if resolved_timezone is None:  # pragma: no cover - defensive platform fallback
+            resolved_timezone = timezone.utc
+        start = datetime.combine(parsed_date, time.min, tzinfo=resolved_timezone)
+        next_date = date.fromordinal(parsed_date.toordinal() + 1)
+        end = datetime.combine(next_date, time.min, tzinfo=resolved_timezone)
+        start_utc = start.astimezone(timezone.utc).isoformat(timespec="seconds")
+        end_utc = end.astimezone(timezone.utc).isoformat(timespec="seconds")
+        row = self.connection.execute(
+            """
+            SELECT COUNT(*) AS completed_count
+            FROM lesson_progress
+            WHERE status='completed'
+              AND completed_at >= ?
+              AND completed_at < ?
+            """,
+            (start_utc, end_utc),
+        ).fetchone()
+        return int(row["completed_count"])
+
+    def completed_lessons_on(
+        self,
+        local_date: str,
+        *,
+        local_timezone: tzinfo | None = None,
+    ) -> tuple[DailyStudyPlanItem, ...]:
+        parsed_date = _parse_local_date(local_date)
+        resolved_timezone = local_timezone or datetime.now().astimezone().tzinfo
+        if resolved_timezone is None:  # pragma: no cover - defensive platform fallback
+            resolved_timezone = timezone.utc
+        start = datetime.combine(parsed_date, time.min, tzinfo=resolved_timezone)
+        next_date = date.fromordinal(parsed_date.toordinal() + 1)
+        end = datetime.combine(next_date, time.min, tzinfo=resolved_timezone)
+        start_utc = start.astimezone(timezone.utc).isoformat(timespec="seconds")
+        end_utc = end.astimezone(timezone.utc).isoformat(timespec="seconds")
+        return tuple(
+            DailyStudyPlanItem(
+                course_id=str(row["course_id"]),
+                lesson_id=str(row["lesson_id"]),
+            )
+            for row in self.connection.execute(
+                """
+                SELECT course_id, lesson_id
+                FROM lesson_progress
+                WHERE status='completed'
+                  AND completed_at >= ?
+                  AND completed_at < ?
+                ORDER BY completed_at, course_id, lesson_id
+                """,
+                (start_utc, end_utc),
+            )
+        )
 
     def start_session(self, course_id: str, lesson_id: str) -> int:
         now = utc_now()

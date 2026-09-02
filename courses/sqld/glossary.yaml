@@ -1,0 +1,254 @@
+version: 1
+course_id: sqld
+terms:
+  - id: data-model
+    name: 데이터 모델
+    aliases: [Data model, 데이터 모델링]
+    short_definition: 현실의 업무 대상과 규칙을 데이터 구조, 관계, 제약조건으로 추상화한 표현이다.
+    explanation: |
+      데이터 모델링은 테이블을 그리는 작업보다 먼저 무엇을 관리하고 어떤 규칙을 보장할지 합의하는 과정이다. 개념 모델은 업무 관점을, 논리 모델은 엔터티·속성·관계를, 물리 모델은 특정 DBMS의 테이블과 인덱스를 구체화한다.
+
+      좋은 모델은 현재 화면 한 장이 아니라 여러 업무와 미래 변경에서도 같은 의미를 유지한다.
+    example: 쇼핑몰에서 고객, 주문, 상품과 이들의 관계를 먼저 정의한 뒤 PostgreSQL의 테이블과 자료형으로 구현한다.
+    related_terms: [entity, attribute, relationship, normalization]
+    source_url: https://www.dataq.or.kr/www/sub/a_04.do
+
+  - id: entity
+    name: 엔터티
+    aliases: [Entity, 개체]
+    short_definition: 업무에서 독립적으로 식별하고 정보를 관리할 가치가 있는 대상이나 사건의 집합이다.
+    explanation: |
+      고객처럼 유형이 있는 대상뿐 아니라 주문, 계약, 수강 신청 같은 사건도 엔터티가 될 수 있다. 엔터티에는 둘 이상의 instance가 존재할 수 있고, 식별 가능한 속성과 다른 엔터티와의 업무 관계가 있어야 한다.
+
+      화면의 입력란을 그대로 엔터티로 옮기기보다 업무상 지속되는 의미를 찾는다.
+    example: 주문은 주문번호로 각각 식별되고 고객 및 상품과 관계를 가지므로 엔터티로 모델링한다.
+    related_terms: [instance, attribute, relationship, identifier]
+    source_url: https://www.dataq.or.kr/www/sub/a_04.do
+
+  - id: instance
+    name: 인스턴스
+    aliases: [Instance, occurrence, 인스턴스 어커런스]
+    short_definition: 엔터티에 속하는 하나의 구체적인 데이터 사례다.
+    explanation: |
+      엔터티가 '고객'이라는 집합의 정의라면 instance는 고객번호 C102인 실제 한 고객이다. 관계의 cardinality와 optionality는 추상적인 이름보다 실제 instance가 어떻게 연결되는지를 기준으로 확인하면 이해하기 쉽다.
+
+      관계형 데이터베이스에서는 보통 한 행으로 구현되지만 개념 자체를 행과 완전히 동일시하지는 않는다.
+    example: 고객 엔터티의 'C102, 김민수, 2026-08-30 가입' 한 건이 instance다.
+    related_terms: [entity, attribute, identifier]
+    source_url: https://www.dataq.or.kr/www/sub/a_04.do
+
+  - id: attribute
+    name: 속성
+    aliases: [Attribute, 애트리뷰트]
+    short_definition: 엔터티의 instance를 설명하거나 식별하는 더 이상 의미상 쪼개지지 않는 정보 항목이다.
+    explanation: |
+      속성은 업무상 하나의 의미와 값 범위를 가져야 한다. 이름과 전화번호를 한 열에 섞거나 여러 상품번호를 쉼표로 저장하면 검색과 제약조건 적용이 어려워진다.
+
+      기본 속성, 다른 값에서 계산되는 파생 속성, 관계를 통해 전달되는 속성처럼 성격을 구분하면 중복을 줄일 수 있다.
+    example: 주문의 주문일시와 주문상태는 속성이지만 고객명은 고객 엔터티에서 관리하고 주문에는 고객 식별자를 연결한다.
+    related_terms: [entity, domain, functional-dependency, normalization]
+    source_url: https://www.dataq.or.kr/www/sub/a_04.do
+
+  - id: domain
+    name: 도메인
+    aliases: [Domain, 속성 도메인]
+    short_definition: 한 속성이 가질 수 있는 값의 자료형, 범위, 형식, 의미를 정의한 집합이다.
+    explanation: |
+      같은 의미의 속성에는 일관된 도메인을 적용해야 데이터 결합과 검증이 쉬워진다. 도메인은 단순 SQL 자료형보다 넓으며 허용 코드, 길이, 단위, null 허용 여부 같은 업무 규칙도 포함한다.
+
+      물리 구현에서는 자료형, CHECK 제약조건, 참조 테이블 등으로 표현할 수 있다.
+    example: 주문상태 도메인을 `PENDING`, `PAID`, `CANCELLED`로 제한해 임의 문자열 입력을 막는다.
+    related_terms: [attribute, "null", data-model]
+    source_url: https://www.postgresql.org/docs/current/ddl-constraints.html
+
+  - id: relationship
+    name: 관계
+    aliases: [Relationship, 연관관계]
+    short_definition: 두 엔터티의 instance 사이에 존재하는 업무상 연관성을 나타낸다.
+    explanation: |
+      관계는 단순히 테이블을 JOIN할 수 있다는 기술적 사실이 아니라 '고객이 주문한다'처럼 업무에서 읽을 수 있는 규칙이어야 한다. 관계 이름, cardinality, optionality를 함께 정의해야 의미가 명확하다.
+
+      관계형 데이터베이스에서는 주로 primary key와 foreign key로 구현한다.
+    example: 한 고객은 여러 주문을 할 수 있고 각 주문은 반드시 한 고객에 속한다는 관계를 정의한다.
+    related_terms: [entity, cardinality, optionality, foreign-key]
+    source_url: https://www.dataq.or.kr/www/sub/a_04.do
+
+  - id: cardinality
+    name: 관계 차수
+    aliases: [Cardinality, 카디널리티, 대응수]
+    short_definition: 한 엔터티 instance가 다른 엔터티의 몇 개 instance와 관계를 맺을 수 있는지 나타내는 최대 수다.
+    explanation: |
+      대표적으로 1:1, 1:N, M:N 관계가 있다. cardinality는 현재 저장된 데이터 개수가 아니라 업무 규칙상 허용되는 연결 수를 뜻한다.
+
+      M:N 관계는 관계형 모델에서 보통 연결 엔터티를 추가해 두 개의 1:N 관계로 해소한다.
+    example: 한 주문에는 여러 상품이 들어가고 한 상품도 여러 주문에 들어가므로 주문과 상품 사이 M:N을 주문항목으로 해소한다.
+    related_terms: [relationship, optionality, associative-entity]
+    source_url: https://www.dataq.or.kr/www/sub/a_04.do
+
+  - id: optionality
+    name: 관계 선택성
+    aliases: [Optionality, 관계 참여도, 필수성]
+    short_definition: 엔터티 instance가 특정 관계에 반드시 참여해야 하는지, 참여하지 않아도 되는지를 나타내는 최소 수다.
+    explanation: |
+      필수 관계의 최소 cardinality는 1이고 선택 관계는 0이다. 이 규칙은 foreign key의 null 허용 여부나 별도 제약조건 설계에 영향을 준다.
+
+      현실 업무의 생성 순서와 예외를 확인하지 않고 모두 필수로 정하면 데이터 입력 자체가 불가능해질 수 있다.
+    example: 주문은 반드시 고객에 속하지만 고객은 가입 직후 주문이 0건일 수 있으므로 고객 쪽 주문 참여는 선택적이다.
+    related_terms: [relationship, cardinality, "null", foreign-key]
+    source_url: https://www.dataq.or.kr/www/sub/a_04.do
+
+  - id: associative-entity
+    name: 연관 엔터티
+    aliases: [Associative entity, 교차 엔터티, 연결 엔터티]
+    short_definition: M:N 관계를 두 개의 1:N 관계로 바꾸고 관계 자체의 속성을 관리하기 위해 만든 엔터티다.
+    explanation: |
+      단순 연결뿐 아니라 수량, 신청일, 역할처럼 두 대상의 조합에 종속된 속성을 가질 수 있다. 식별자는 양쪽 식별자의 조합이나 별도의 대리키를 사용할 수 있다.
+
+      관계 속성을 어느 한쪽 엔터티에 잘못 넣으면 반복 열과 갱신 이상이 생긴다.
+    example: 주문과 상품 사이에 주문항목을 두고 주문번호, 상품번호, 주문수량, 주문가격을 저장한다.
+    related_terms: [cardinality, relationship, foreign-key, identifier]
+    source_url: https://www.dataq.or.kr/www/sub/a_04.do
+
+  - id: identifier
+    name: 식별자
+    aliases: [Identifier, 식별 속성]
+    short_definition: 엔터티의 각 instance를 다른 instance와 유일하게 구분하는 하나 이상의 속성이다.
+    explanation: |
+      식별자는 유일성, 최소성, 불변성, 존재성을 고려해 선택한다. 업무에서 원래 존재하는 본질 식별자와 시스템이 만든 대리 식별자를 구분할 수 있다.
+
+      후보 식별자가 여러 개라면 하나를 primary key로 선택하고 나머지 유일성도 제약조건으로 보존한다.
+    example: 고객번호를 primary key로 쓰더라도 이메일이 업무상 유일해야 한다면 UNIQUE 제약조건을 별도로 둔다.
+    related_terms: [primary-key, entity, functional-dependency]
+    source_url: https://www.postgresql.org/docs/current/ddl-constraints.html
+
+  - id: primary-key
+    name: 기본키
+    aliases: [Primary key, PK, 주키]
+    short_definition: 테이블의 각 행을 유일하게 식별하도록 선택된 키로, 중복과 null을 허용하지 않는다.
+    explanation: |
+      primary key는 하나의 열일 수도 있고 여러 열의 조합일 수도 있다. 다른 테이블의 foreign key가 참조하는 기준이 되므로 값이 안정적이고 불필요하게 넓지 않은 편이 좋다.
+
+      대리키를 사용해도 업무상 중복을 막는 자연키의 UNIQUE 규칙을 잊지 않는다.
+    example: 주문 테이블은 변경되지 않는 주문번호를 primary key로 두고 주문 표시명과 분리한다.
+    related_terms: [identifier, foreign-key, candidate-key]
+    source_url: https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS
+
+  - id: candidate-key
+    name: 후보키
+    aliases: [Candidate key, 후보 식별자]
+    short_definition: 행을 유일하게 식별할 수 있고 불필요한 속성을 포함하지 않는 최소한의 속성 집합이다.
+    explanation: |
+      한 테이블에 후보키가 여러 개 있을 수 있으며 그중 하나를 primary key로 선택한다. 유일성만 만족한다고 모두 후보키인 것은 아니고, 구성 속성 일부만으로도 유일하면 최소성을 잃는다.
+
+      선택되지 않은 후보키는 대체키로서 UNIQUE 제약조건을 적용할 수 있다.
+    example: 사원번호와 회사 이메일이 각각 유일하고 최소라면 둘 다 후보키이고 사원번호를 primary key로 선택할 수 있다.
+    related_terms: [identifier, primary-key, functional-dependency]
+    source_url: https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS
+
+  - id: foreign-key
+    name: 외래키
+    aliases: [Foreign key, FK, 외부키]
+    short_definition: 다른 테이블의 primary key나 unique key를 참조해 데이터 사이의 참조 무결성을 보장하는 열 또는 열 집합이다.
+    explanation: |
+      foreign key는 존재하지 않는 부모 값을 참조하는 고아 데이터를 막는다. 삭제와 변경 시 RESTRICT, CASCADE, SET NULL 같은 동작은 업무 생명주기에 맞게 신중히 선택한다.
+
+      관계가 논리 모델에 존재한다고 물리 모델에서 모든 foreign key를 생략해도 되는 것은 아니다.
+    example: 주문의 고객번호 foreign key는 고객 테이블에 실제 존재하는 고객만 주문에 연결되도록 보장한다.
+    related_terms: [primary-key, relationship, referential-integrity, "null"]
+    source_url: https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK
+
+  - id: referential-integrity
+    name: 참조 무결성
+    aliases: [Referential integrity, 참조 무결성 제약]
+    short_definition: 관계로 연결된 데이터가 존재하고 일관되도록 유지하는 규칙이다.
+    explanation: |
+      자식의 foreign key 값은 부모의 참조 대상 값과 일치하거나 허용된 경우 null이어야 한다. 애플리케이션 코드만으로 검사하면 여러 입력 경로와 동시성 상황에서 누락될 수 있어 DB 제약조건이 중요한 방어선이 된다.
+
+      삭제 정책은 데이터 보존과 업무 의미를 반영해야 한다.
+    example: 고객을 삭제할 때 기존 주문까지 실수로 사라지지 않도록 삭제를 제한하거나 고객 상태만 비활성화한다.
+    related_terms: [foreign-key, primary-key, transaction]
+    source_url: https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK
+
+  - id: functional-dependency
+    name: 함수 종속
+    aliases: [Functional dependency, 함수적 종속, FD]
+    short_definition: 속성 집합 X의 값이 같으면 속성 Y의 값도 항상 같을 때 Y가 X에 함수적으로 종속된다고 한다.
+    explanation: |
+      `X → Y`로 표현하며 정규형을 판단하는 핵심 개념이다. 현재 우연히 값이 같은지가 아니라 업무 규칙상 X 하나가 Y를 결정하는지를 확인한다.
+
+      기본키가 아닌 속성이 다른 비키 속성을 결정하면 중복과 갱신 이상을 만들 수 있다.
+    example: 주문번호가 주문일자를 결정하므로 `주문번호 → 주문일자`이지만 주문일자가 주문번호를 결정하지는 않는다.
+    related_terms: [normalization, candidate-key, second-normal-form, third-normal-form]
+    source_url: https://learn.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description
+
+  - id: normalization
+    name: 정규화
+    aliases: [Normalization, 데이터 정규화]
+    short_definition: 함수 종속과 키를 기준으로 관계를 분해해 중복과 삽입·수정·삭제 이상을 줄이는 설계 과정이다.
+    explanation: |
+      정규화의 목적은 테이블 수를 늘리는 것이 아니라 하나의 사실을 한곳에서 일관되게 관리하는 것이다. 일반적으로 1NF, 2NF, 3NF 순서로 검토하며 분해 뒤에도 필요한 정보를 JOIN으로 복원할 수 있어야 한다.
+
+      성능을 위한 반정규화는 측정된 문제와 일관성 유지 방안을 갖고 의도적으로 수행한다.
+    example: 주문 행마다 반복되는 고객주소를 고객 테이블로 분리해 주소 변경 시 여러 주문을 수정하는 문제를 줄인다.
+    related_terms: [functional-dependency, first-normal-form, second-normal-form, third-normal-form]
+    source_url: https://learn.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description
+
+  - id: first-normal-form
+    name: 제1정규형
+    aliases: [1NF, First Normal Form, 제1 정규형]
+    short_definition: 각 행과 열의 교차점이 업무상 하나의 값만 가지며 반복되는 값 묶음이 없는 관계다.
+    explanation: |
+      한 열에 쉼표로 여러 상품번호를 저장하거나 상품1, 상품2처럼 반복 열을 두면 개별 값을 검색하고 제약하기 어렵다. 반복 집합을 별도 행이나 연관 엔터티로 분리한다.
+
+      '원자적 값'은 절대적으로 쪼갤 수 없다는 뜻보다 해당 업무에서 하나의 의미로 다룬다는 뜻이다.
+    example: 주문의 `상품목록="A,B,C"`를 주문항목의 세 행으로 분리한다.
+    related_terms: [normalization, attribute, associative-entity, second-normal-form]
+    source_url: https://learn.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description
+
+  - id: second-normal-form
+    name: 제2정규형
+    aliases: [2NF, Second Normal Form, 제2 정규형]
+    short_definition: 1NF를 만족하면서 모든 비키 속성이 복합 후보키 전체에 완전 함수 종속된 관계다.
+    explanation: |
+      복합키 일부만으로 결정되는 비키 속성이 있으면 부분 함수 종속이다. 이 속성을 해당 결정자와 함께 별도 관계로 분리해 중복과 갱신 이상을 줄인다.
+
+      후보키가 단일 속성이면 부분 종속이 생길 수 없어 1NF 관계는 자동으로 2NF 조건을 만족한다.
+    example: 예를 들어 `(주문번호, 상품번호)`가 키인 주문항목에서 상품명은 상품번호에만 종속되므로 상품 테이블로 분리한다.
+    related_terms: [first-normal-form, functional-dependency, candidate-key, third-normal-form]
+    source_url: https://learn.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description
+
+  - id: third-normal-form
+    name: 제3정규형
+    aliases: [3NF, Third Normal Form, 제3 정규형]
+    short_definition: 2NF를 만족하면서 비키 속성이 다른 비키 속성을 거쳐 후보키에 이행적으로 종속되지 않는 관계다.
+    explanation: |
+      비키 속성 A가 비키 속성 B를 결정하면 B는 키에 직접이 아니라 A를 거쳐 종속될 수 있다. 이 종속을 별도 관계로 분리해 같은 사실을 여러 행에서 반복하지 않게 한다.
+
+      업무 규칙을 모르면 함수 종속을 잘못 판단할 수 있으므로 데이터 표본만 보지 않는다.
+    example: 사원번호가 부서번호를, 부서번호가 부서명을 결정한다면 부서번호와 부서명을 부서 테이블로 분리한다.
+    related_terms: [second-normal-form, functional-dependency, normalization]
+    source_url: https://learn.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description
+
+  - id: "null"
+    name: "NULL"
+    aliases: [널, null value]
+    short_definition: 값이 0이나 빈 문자열인 것이 아니라 알 수 없거나 적용되지 않는 상태를 나타내는 특별한 표식이다.
+    explanation: |
+      SQL에서 NULL과의 일반 비교는 TRUE나 FALSE가 아니라 UNKNOWN이 되므로 `= NULL` 대신 `IS NULL`을 사용한다. 집계 함수와 JOIN에서도 NULL 처리 방식이 결과에 영향을 준다.
+
+      의미가 다른 '미입력', '해당 없음', '아직 미정'을 모두 한 NULL로 표현해도 되는지 업무 규칙을 검토한다.
+    example: 배송 전인 주문의 배송일시는 NULL일 수 있으며 `WHERE shipped_at IS NULL`로 미배송 주문을 찾는다.
+    related_terms: [optionality, domain, foreign-key]
+    source_url: https://www.postgresql.org/docs/current/functions-comparison.html#FUNCTIONS-COMPARISON-PRED-TABLE
+
+  - id: transaction
+    name: 트랜잭션
+    aliases: [Transaction, 거래 단위]
+    short_definition: 데이터베이스에서 모두 성공하거나 모두 취소돼야 하는 하나의 논리적 작업 단위다.
+    explanation: |
+      여러 SQL 문이 하나의 업무 상태 변경을 구성할 때 중간 실패로 일부만 반영되지 않도록 묶는다. 원자성, 일관성, 격리성, 지속성이라는 ACID 특성으로 설명한다.
+
+      모델의 무결성 제약과 트랜잭션을 함께 사용해야 동시 요청에서도 업무 규칙을 지킬 수 있다.
+    example: 계좌 이체에서 출금과 입금 중 하나라도 실패하면 전체 작업을 rollback한다.
+    related_terms: [referential-integrity, data-model]
+    source_url: https://www.postgresql.org/docs/current/tutorial-transactions.html
