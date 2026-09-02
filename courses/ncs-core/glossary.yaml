@@ -1,0 +1,335 @@
+version: 1
+course_id: ncs-core
+terms:
+  - id: ncs
+    name: 국가직무능력표준
+    aliases: [NCS, National Competency Standards]
+    short_definition: 산업 현장에서 직무를 수행하는 데 필요한 능력을 국가 차원에서 표준화한 체계다.
+    explanation: 직무별 지식·기술·태도와 평가 기준을 구조화해 교육, 훈련, 자격, 채용의 공통 언어로 활용한다.
+    example: 채용 공고의 능력단위와 직무기술서를 읽어 실제 수행 업무와 평가 요소를 확인한다.
+    related_terms: [job-common-competency, competency-unit]
+    source_url: https://www.ncs.go.kr/index.do
+
+  - id: job-common-competency
+    name: 직업공통능력
+    aliases: [직업기초능력, 공통역량]
+    short_definition: 직종과 직위에 관계없이 직업인이 공통으로 갖춰야 할 기본 능력이다.
+    explanation: 2026 체계는 의사소통, 수리, 문제해결, 자기관리, 대인관계, 디지털, 직업윤리의 7개 영역을 중심으로 한다.
+    example: 회의 내용을 정확히 전달하고, 표를 계산하며, 보안과 공정성을 지키는 행동이 포함된다.
+    related_terms: [ncs, competency-unit]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: competency-unit
+    name: 능력단위
+    aliases: [NCS 능력단위]
+    short_definition: 직무를 수행하기 위해 필요한 능력을 기능 중심으로 구분한 기본 구성 단위다.
+    explanation: 능력단위는 수행준거와 지식·기술·태도 등을 통해 무엇을 어느 수준으로 수행해야 하는지 설명한다.
+    example: 단순히 '소통을 잘함'이 아니라 회의 목적에 맞게 정보를 확인하고 결과를 기록하는 수행으로 본다.
+    related_terms: [ncs, job-common-competency]
+    source_url: https://www.ncs.go.kr/index.do
+
+  - id: communication
+    name: 의사소통능력
+    aliases: [업무 의사소통]
+    short_definition: 문서와 말을 목적에 맞게 이해·표현하고 상호 확인하는 능력이다.
+    explanation: 독해와 작성뿐 아니라 경청, 질문, 보고, 비언어적 맥락, 수신자에 맞춘 표현을 포함한다.
+    example: 장애 사실, 영향, 임시 조치, 필요한 결정을 순서대로 책임자에게 보고한다.
+    related_terms: [active-listening, fact-opinion, meeting-minutes]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: active-listening
+    name: 적극적 경청
+    aliases: [Active Listening]
+    short_definition: 상대의 핵심 의미를 듣고 질문과 재진술로 이해가 맞는지 확인하는 행동이다.
+    explanation: 침묵하거나 무조건 동의하는 태도가 아니라 감정과 사실, 요구 조건을 분리해 확인하는 과정이다.
+    example: “납기가 걱정된다는 말은 15일까지 시험 성적서를 함께 받아야 한다는 뜻인가요?”라고 확인한다.
+    related_terms: [communication, open-question]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: open-question
+    name: 열린 질문
+    aliases: [개방형 질문]
+    short_definition: 예·아니오를 넘어 상대가 정보와 생각을 설명하도록 돕는 질문이다.
+    explanation: 원인이나 요구가 불명확할 때 성급한 결론을 피하고 필요한 맥락을 얻는 데 유용하다.
+    example: “어떤 상황에서 오류가 가장 자주 발생했나요?”라고 묻는다.
+    related_terms: [active-listening, communication]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: fact-opinion
+    name: 사실과 의견
+    aliases: [Fact vs Opinion]
+    short_definition: 검증 가능한 관찰과 해석·평가를 구분하는 독해 기준이다.
+    explanation: 업무 판단에서는 의견도 참고할 수 있지만 근거와 사실처럼 다루지 않아야 한다.
+    example: “반품률이 7%다”는 사실이고 “포장이 형편없다”는 추가 확인이 필요한 평가다.
+    related_terms: [communication, evidence]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: meeting-minutes
+    name: 회의록
+    aliases: [Minutes]
+    short_definition: 회의의 결정, 담당, 기한, 근거와 미결 사항을 남기는 업무 기록이다.
+    explanation: 모든 발언을 옮기는 문서보다 합의한 행동과 후속 추적이 가능하도록 작성하는 것이 핵심이다.
+    example: “A안 적용, 담당 김OO, 8월 12일, 보안 검토 후 배포”를 기록한다.
+    related_terms: [communication, action-item]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: action-item
+    name: 실행 항목
+    aliases: [Action Item]
+    short_definition: 회의나 계획에서 누가 언제까지 무엇을 할지 특정한 후속 행동이다.
+    explanation: 동사가 없는 추상적 결론보다 담당자, 완료 기준, 기한을 명확히 해야 추적할 수 있다.
+    example: “운영팀이 금요일 17시까지 오류 로그 30건을 분류한다.”
+    related_terms: [meeting-minutes, smart-goal]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: numeracy
+    name: 수리능력
+    aliases: [업무 수리]
+    short_definition: 수와 도표를 이해하고 업무 목적에 맞게 계산·해석하는 능력이다.
+    explanation: 사칙연산뿐 아니라 단위, 비율, 변화율, 평균, 확률, 도표의 기준을 정확히 읽는 능력을 포함한다.
+    example: 채널별 문의 수와 처리 시간을 이용해 필요한 인력을 계산한다.
+    related_terms: [change-rate, weighted-average, break-even-point]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: change-rate
+    name: 증감률
+    aliases: [변화율]
+    short_definition: 기준 값에 비해 얼마나 증가하거나 감소했는지를 백분율로 나타낸 값이다.
+    explanation: 새 값이 아니라 차이를 기준 값으로 나눈다. 비교 시 어느 시점이 분모인지가 중요하다.
+    example: 80건에서 100건이면 증감률은 (100-80)/80=25%다.
+    related_terms: [numeracy, percentage-point]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: percentage-point
+    name: 퍼센트포인트
+    aliases: ["%p", percentage point]
+    short_definition: 두 백분율 수치의 산술적인 차이다.
+    explanation: 20%에서 25%가 되면 5%p 상승이며, 상대 증감률은 25%로 서로 다르다.
+    example: 불량률이 8%에서 5%로 줄면 3%p 하락이다.
+    related_terms: [change-rate, numeracy]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: weighted-average
+    name: 가중평균
+    aliases: [Weighted Average]
+    short_definition: 각 값의 중요도나 수량을 반영해 계산한 평균이다.
+    explanation: 단순평균과 달리 값마다 다른 가중치를 곱한 합을 전체 가중치로 나눈다.
+    example: 판매량이 다른 두 상품의 평균 단가를 구할 때 판매량을 가중치로 사용한다.
+    related_terms: [numeracy]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: break-even-point
+    name: 손익분기점
+    aliases: [BEP, Break-even Point]
+    short_definition: 총수익과 총비용이 같아 이익이 0이 되는 판매량이나 매출이다.
+    explanation: 단위당 공헌이익이 일정하면 고정비를 단가와 단위 변동비의 차이로 나눠 수량을 구한다.
+    example: 고정비 100만 원, 단가 3만 원, 변동비 2만 원이면 100개가 손익분기 수량이다.
+    related_terms: [numeracy]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: problem-solving
+    name: 문제해결능력
+    aliases: [Problem Solving]
+    short_definition: 기대와 현실의 차이를 정의하고 원인을 검증해 대안을 실행·평가하는 능력이다.
+    explanation: 아이디어를 빨리 내는 것보다 문제 범위, 원인 증거, 평가 기준, 실행 후 측정을 연결하는 것이 중요하다.
+    example: 지연의 원인 후보를 로그로 검증하고 작은 개선을 적용한 뒤 처리시간을 다시 측정한다.
+    related_terms: [root-cause, decision-matrix, pdca]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: root-cause
+    name: 근본원인
+    aliases: [Root Cause]
+    short_definition: 제거하거나 통제했을 때 문제의 재발 가능성을 실질적으로 낮추는 원인이다.
+    explanation: 가장 먼저 보이는 증상이나 특정 사람을 원인으로 단정하지 않고 데이터와 인과 구조로 확인한다.
+    example: 반복 오입력의 원인이 담당자 부주의가 아니라 단위 표시가 없는 입력 화면일 수 있다.
+    related_terms: [problem-solving, five-whys]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: five-whys
+    name: 5 Why
+    aliases: [왜 다섯 번]
+    short_definition: 관찰된 문제에서 원인 방향으로 ‘왜’를 반복해 탐색하는 질문 기법이다.
+    explanation: 반드시 다섯 번이어야 하는 것은 아니며, 각 인과 연결을 증거로 확인해야 한다.
+    example: 배송 지연→출고 지연→승인 대기→대체 승인자 미지정까지 원인 사슬을 탐색한다.
+    related_terms: [root-cause, problem-solving]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: decision-matrix
+    name: 의사결정행렬
+    aliases: [Decision Matrix]
+    short_definition: 여러 대안을 공통 기준과 가중치로 비교하는 도구다.
+    explanation: 결론을 본 뒤 기준을 바꾸지 않도록 평가 전에 기준·가중치·점수 규칙을 합의한다.
+    example: 공급사를 가격 30, 품질 40, 납기 30의 가중치로 비교한다.
+    related_terms: [problem-solving, evidence]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: pdca
+    name: PDCA
+    aliases: [Plan Do Check Act]
+    short_definition: 계획·실행·확인·조정으로 개선을 반복하는 순환 구조다.
+    explanation: 실행 자체로 끝내지 않고 결과를 기준과 비교해 효과가 있으면 표준화하고 아니면 다시 조정한다.
+    example: 새 응대 스크립트를 일부 팀에 적용하고 해결률을 비교한 뒤 개선한다.
+    related_terms: [problem-solving, evidence]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: evidence
+    name: 근거
+    aliases: [Evidence]
+    short_definition: 주장이나 판단을 확인·반박할 수 있는 관찰, 데이터, 기록이다.
+    explanation: 권위자의 추측이나 한 번의 인상보다 출처, 표본, 측정 기준과 재현 가능성을 함께 본다.
+    example: “업무가 느리다” 대신 6주간 단계별 처리시간 로그를 비교한다.
+    related_terms: [fact-opinion, problem-solving]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: self-management
+    name: 자기관리능력
+    aliases: [Self-management]
+    short_definition: 자신의 역할·역량·자원을 관리하고 목표에 맞게 행동을 조정하는 능력이다.
+    explanation: 목표 설정, 시간·스트레스 관리, 자기개발, 경력계획, 피드백 활용을 포함한다.
+    example: 중요 과제 시간을 먼저 확보하고 주간 결과를 측정해 다음 계획을 조정한다.
+    related_terms: [smart-goal, priority, feedback]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: smart-goal
+    name: SMART 목표
+    aliases: [SMART]
+    short_definition: 구체성·측정 가능성·달성 가능성·관련성·기한을 갖춘 목표다.
+    explanation: 추상적인 의지를 관찰 가능한 결과와 일정으로 바꿔 실행과 검토를 가능하게 한다.
+    example: “매주 금요일까지 고객 문의 20건을 분류하고 정확도 95%를 확인한다.”
+    related_terms: [self-management, action-item]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: priority
+    name: 우선순위
+    aliases: [Priority]
+    short_definition: 중요도, 긴급도, 위험, 의존관계를 고려해 먼저 할 일을 정한 순서다.
+    explanation: 가장 큰 목소리나 가장 쉬운 일부터 하는 것이 아니라 목표에 미치는 영향과 지연 비용을 비교한다.
+    example: 오늘 마감이면서 안전에 영향을 주는 점검을 장기 보고서 편집보다 먼저 처리한다.
+    related_terms: [self-management, risk]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: feedback
+    name: 피드백
+    aliases: [Feedback]
+    short_definition: 행동과 결과의 차이를 알려 다음 수행을 개선하게 하는 정보다.
+    explanation: 인격 평가와 분리하고, 구체적 상황·관찰 행동·영향·다음 행동으로 다루면 적용 가능성이 높다.
+    example: “보고가 별로다” 대신 “결론이 3쪽에 있어 의사결정이 늦어졌다. 다음에는 첫 문단에 써 달라”고 말한다.
+    related_terms: [self-management, interpersonal]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: interpersonal
+    name: 대인관계능력
+    aliases: [Interpersonal Competency]
+    short_definition: 공동 목표를 위해 타인과 협력하고 갈등·협상·고객 관계를 다루는 능력이다.
+    explanation: 관계 유지뿐 아니라 역할, 정보, 기대와 이견을 안전하게 조정하는 수행을 포함한다.
+    example: 납기 갈등에서 양 팀의 제약을 확인하고 단계 납품과 검수 기준을 합의한다.
+    related_terms: [conflict-resolution, interest-position, psychological-safety]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: conflict-resolution
+    name: 갈등 해결
+    aliases: [Conflict Resolution]
+    short_definition: 사람과 문제를 분리하고 공동 목표와 이해를 바탕으로 실행 가능한 합의를 만드는 과정이다.
+    explanation: 회피나 권위로 누르기보다 사실 확인, 이해 탐색, 대안 생성, 후속 추적을 연결한다.
+    example: 두 부서의 자원 충돌을 기한·품질·필수 범위 기준으로 재협상한다.
+    related_terms: [interpersonal, interest-position]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: interest-position
+    name: 이해와 주장
+    aliases: [Interest and Position]
+    short_definition: 상대가 겉으로 요구하는 안과 그 요구로 충족하려는 실제 필요를 구분하는 협상 관점이다.
+    explanation: 주장은 충돌해도 그 뒤의 이해를 알면 양쪽 필요를 만족하는 새로운 대안을 찾을 수 있다.
+    example: “금요일 전체 납품”의 실제 이해가 월요일 시연이라면 핵심 기능 우선 납품이 대안이 될 수 있다.
+    related_terms: [conflict-resolution, interpersonal]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: psychological-safety
+    name: 심리적 안전
+    aliases: [Psychological Safety]
+    short_definition: 질문·실수·우려·반대 의견을 보복 두려움 없이 말할 수 있다는 팀의 믿음이다.
+    explanation: 기준 없는 편안함이 아니라 위험과 오류를 빨리 드러내 공동 성과를 높이는 환경이다.
+    example: 신입이 발견한 안전 위험을 직급과 관계없이 검토한다.
+    related_terms: [interpersonal, work-ethics]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: digital
+    name: 디지털능력
+    aliases: [Digital Competency]
+    short_definition: 디지털 도구와 데이터를 안전하고 책임 있게 활용해 업무 결과를 만드는 능력이다.
+    explanation: 도구 조작, 데이터 품질, 정보보호, AI 결과 검증과 디지털 책임을 함께 포함한다.
+    example: AI 요약을 사용하되 기밀정보 입력을 피하고 원문과 수치를 사람이 검증한다.
+    related_terms: [data-quality, least-privilege, ai-validation]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: data-quality
+    name: 데이터 품질
+    aliases: [Data Quality]
+    short_definition: 데이터가 목적에 맞게 정확·완전·일관·적시·유일한 정도다.
+    explanation: 잘못된 기준일, 중복 키, 결측, 단위 불일치는 분석 결과 전체를 왜곡할 수 있다.
+    example: 고객 ID 중복과 주문 취소 상태를 확인한 뒤 매출을 집계한다.
+    related_terms: [digital, evidence]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: least-privilege
+    name: 최소 권한
+    aliases: [Least Privilege]
+    short_definition: 업무 수행에 필요한 최소한의 시스템·데이터 권한만 부여하는 원칙이다.
+    explanation: 편의를 위해 과도한 권한을 공유하면 실수와 침해의 피해 범위가 커진다. 역할 변경 시 권한을 회수한다.
+    example: 외주 검수자에게 전체 고객 DB가 아니라 마스킹된 검수 데이터 읽기 권한만 준다.
+    related_terms: [digital, personal-data]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: ai-validation
+    name: AI 결과 검증
+    aliases: [AI 검증, Human Review]
+    short_definition: AI 산출물의 사실·수치·출처·누락·편향을 원자료와 기준으로 확인하는 과정이다.
+    explanation: AI를 사용해도 중요한 결정과 외부 전달의 최종 책임은 사람과 조직에 남는다.
+    example: 회의 요약의 결정 사항과 담당자를 녹취 원문과 대조한 뒤 배포한다.
+    related_terms: [digital, evidence, personal-data]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: personal-data
+    name: 개인정보 최소화
+    aliases: [Data Minimization]
+    short_definition: 정당한 업무 목적에 필요한 범위의 개인정보만 수집·사용·보관하는 원칙이다.
+    explanation: 나중에 쓸 수 있다는 이유만으로 정보를 모으지 않고 보관 기간과 접근권한을 관리한다.
+    example: 만족도 조사에서 통계에 필요 없는 주민등록번호를 받지 않는다.
+    related_terms: [digital, least-privilege, work-ethics]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: work-ethics
+    name: 직업윤리
+    aliases: [Work Ethics]
+    short_definition: 직업인으로서 정직·책임·공정·안전·공공성을 행동으로 지키는 능력이다.
+    explanation: 결과가 좋아 보이더라도 기밀, 이해충돌, 안전, 절차를 무시하지 않고 판단 근거와 책임을 남긴다.
+    example: 일정 지연 압박에도 안전 점검 누락을 보고하고 작업을 중지한다.
+    related_terms: [conflict-of-interest, accountability, risk]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: conflict-of-interest
+    name: 이해충돌
+    aliases: [Conflict of Interest]
+    short_definition: 사적 이해관계가 직무상 공정한 판단에 영향을 주거나 그렇게 보일 수 있는 상태다.
+    explanation: 실제 특혜가 없더라도 관계를 공개하고 필요하면 평가나 의사결정에서 회피해야 신뢰를 보호할 수 있다.
+    example: 친족 업체가 입찰하면 관계를 신고하고 평가위원에서 빠진다.
+    related_terms: [work-ethics, accountability]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: accountability
+    name: 책무성
+    aliases: [Accountability]
+    short_definition: 자신의 결정과 결과를 설명하고 필요한 조치를 끝까지 추적하는 책임이다.
+    explanation: 업무를 위임했어도 확인과 보고, 오류 수정의 책임까지 사라지는 것은 아니다.
+    example: 잘못 배포한 보고서를 숨기지 않고 영향 대상, 수정본, 재발 방지책을 보고한다.
+    related_terms: [work-ethics, action-item]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do
+
+  - id: risk
+    name: 위험
+    aliases: [Risk]
+    short_definition: 불확실한 사건이 목표·안전·품질에 미칠 가능성과 영향의 조합이다.
+    explanation: 발생 가능성이 낮아도 피해가 매우 크면 우선 통제할 수 있으며, 통제 후 잔여 위험도 확인한다.
+    example: 드물지만 인명 피해가 가능한 설비 결함을 즉시 격리하고 보고한다.
+    related_terms: [work-ethics, priority, problem-solving]
+    source_url: https://www.ncs.go.kr/unity/th03/TH0308.do

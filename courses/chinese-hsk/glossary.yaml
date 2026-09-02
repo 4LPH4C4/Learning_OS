@@ -1,0 +1,256 @@
+version: 1
+course_id: chinese-hsk
+terms:
+  - id: hsk
+    name: HSK
+    aliases: [汉语水平考试, 중국어수평고시]
+    short_definition: 중국어를 제2언어로 사용하는 학습자의 중국어 능력을 평가하는 표준화 시험 체계다.
+    explanation: |
+      HSK는 중국어고시서비스가 안내하는 시험 체계다. HSK 3.0 능력 체계는 1~9급으로 구성되지만, 실제 시행 방식과 지역별 일정은 바뀔 수 있으므로 응시 전 최신 공식 공지를 확인해야 한다.
+      이 코스의 배치 단계는 공식 시험 성적이 아니라 학습 시작점을 뜻한다.
+    example: 배치진단에서 HSK 4를 추천받아도 공식 HSK 4 자격을 취득한 것은 아니다.
+    related_terms: [hsk-3-0, placement-assessment]
+    source_url: https://www.chinesetest.cn/HSK
+  - id: hsk-3-0
+    name: HSK 3.0
+    aliases: [HSK新标准, HSK 신표준]
+    short_definition: 중국어 의사소통 과업과 언어 지식을 단계화한 1~9급의 최신 능력 체계다.
+    explanation: |
+      어휘 수만 세는 체계가 아니라 음절·한자·어휘·문법과 듣기·말하기·읽기·쓰기·번역 등의 과업을 함께 본다. 등급별 시험 운영 세부사항과 능력 강목은 공식 사이트가 기준이다.
+    example: 상위 단계에서는 일상 대화뿐 아니라 학술·직업적 텍스트의 해석과 정교한 표현을 연습한다.
+    related_terms: [hsk, communicative-competence]
+    source_url: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-assessment
+    name: 배치진단
+    aliases: [placement test, 진단평가, 권장 시작 단계]
+    short_definition: 합격 여부가 아니라 학습자가 가장 효율적으로 시작할 난이도를 찾는 평가다.
+    explanation: |
+      짧은 표본으로 현재 지식을 추정하므로 공식 자격을 대신하지 않는다. 점수뿐 아니라 영역별 오답과 실제 듣기·말하기 수행을 함께 보고 시작 단계를 조정해야 한다.
+    example: 읽기 점수는 높지만 즉석 말하기가 어려우면 추천 단계의 회화 과제를 추가한다.
+    related_terms: [hsk, receptive-skills, productive-skills]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: pinyin
+    name: 병음
+    aliases: [拼音, 汉语拼音, Pinyin]
+    short_definition: 표준중국어 음절과 성조를 로마자로 나타내는 표기 체계다.
+    explanation: |
+      병음은 한자의 뜻을 대신하는 문자가 아니라 발음을 기록하고 찾고 입력하게 돕는다. 같은 병음을 가진 한자가 많으므로 실제 단어와 문맥을 함께 익혀야 한다.
+    example: shì는 是, 事, 市 등 여러 글자가 될 수 있다.
+    related_terms: [initial, final, tone, hanzi]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: initial
+    name: 성모
+    aliases: [声母, initial]
+    short_definition: 중국어 음절 앞부분의 자음 성분이다.
+    explanation: z/c/s와 zh/ch/sh, j/q/x처럼 한국어에 정확히 대응하지 않는 대비는 혀 위치와 기류를 함께 연습해야 한다.
+    example: zì와 zhì는 성모가 달라 구분해서 발음해야 한다.
+    related_terms: [pinyin, final, tone]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: final
+    name: 운모
+    aliases: [韵母, final]
+    short_definition: 중국어 음절에서 성모 뒤에 오는 모음과 말음 성분이다.
+    explanation: 단운모와 복운모, -n/-ng 말음 등을 포함하며 성조의 음높이 변화가 실리는 중심이다.
+    example: jìn과 jìng은 운모 끝이 달라 의미가 달라질 수 있다.
+    related_terms: [pinyin, initial, tone]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: tone
+    name: 성조
+    aliases: [声调, tone]
+    short_definition: 음절 전체의 음높이 윤곽으로 어휘 의미를 구별하는 요소다.
+    explanation: 표준중국어의 네 기본 성조와 경성을 말한다. 연속 발화에서는 3성, 一, 不 등에 변조가 생길 수 있지만 기본 표기는 사전형을 유지한다.
+    example: mā, má, mǎ, mà는 자음과 모음이 같아도 성조가 다르다.
+    related_terms: [tone-sandhi, neutral-tone, pinyin]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: tone-sandhi
+    name: 성조 변조
+    aliases: [变调, tone sandhi]
+    short_definition: 음절이 이어질 때 주변 성조에 따라 실제 발음이 규칙적으로 달라지는 현상이다.
+    explanation: 대표적으로 3성 두 개가 이어질 때 앞 3성이 2성처럼 발음되는 현상이 있다. 철자와 실제 발음을 분리해 이해한다.
+    example: 你好는 표기는 nǐ hǎo지만 실제로 앞 음절이 ní에 가깝게 들린다.
+    related_terms: [tone, pinyin]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: neutral-tone
+    name: 경성
+    aliases: [轻声, neutral tone]
+    short_definition: 고정된 기본 성조보다 앞 음절에 기대 짧고 가볍게 실현되는 음절이다.
+    explanation: 경성은 단순히 작게 말하는 것이 아니며 단어의 자연스러운 리듬과 때로는 의미 구분에 관여한다.
+    example: 妈妈의 두 번째 妈는 보통 경성으로 발음한다.
+    related_terms: [tone, pinyin]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: hanzi
+    name: 한자
+    aliases: [汉字, Chinese character]
+    short_definition: 중국어를 기록하는 문자 단위다.
+    explanation: 글자의 형태, 발음, 의미, 단어 안의 쓰임을 함께 연결해야 한다. 같은 글자도 단어와 문맥에 따라 읽기와 의미가 달라질 수 있다.
+    example: 学을 xué라는 소리와 배우다라는 의미, 学习·学生 같은 단어로 연결한다.
+    related_terms: [radical, pinyin, word]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: radical
+    name: 부수
+    aliases: [部首, radical]
+    short_definition: 한자를 사전에서 분류하고 형태·의미 단서를 찾을 때 사용하는 대표 구성 요소다.
+    explanation: 부수만으로 뜻을 확정할 수는 없지만 낯선 글자의 의미 범주와 검색 방법을 추정하는 데 도움이 된다.
+    example: 河, 海의 氵는 물과 관련된 의미 단서를 준다.
+    related_terms: [hanzi]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: word
+    name: 단어
+    aliases: [词, 词语, word]
+    short_definition: 문장 안에서 의미와 문법 기능을 수행하는 어휘 단위다.
+    explanation: 중국어 글에는 띄어쓰기가 없으므로 글자 경계와 단어 경계가 다를 수 있다. 글자 하나씩 번역하지 않고 자주 결합하는 단위로 읽는다.
+    example: 图书馆은 세 글자지만 하나의 단어로 도서관을 뜻한다.
+    related_terms: [hanzi, collocation]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: measure-word
+    name: 양사
+    aliases: [量词, classifier, measure word]
+    short_definition: 수량사나 지시사와 명사 사이에서 대상의 단위를 나타내는 말이다.
+    explanation: 个는 넓게 쓰이지만 本, 张, 杯, 件처럼 명사와 관습적으로 결합하는 양사를 익히면 표현이 자연스럽고 정확해진다.
+    example: 一本书, 两张票, 三杯茶.
+    related_terms: [word, collocation]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: aspect
+    name: 상
+    aliases: [体, grammatical aspect]
+    short_definition: 사건을 완료·경험·진행 같은 관점에서 바라보는 문법 범주다.
+    explanation: 중국어는 동사 굴절보다 了, 过, 着와 시간 표현을 이용해 사건의 모습을 나타낸다. 한국어 과거형과 일대일로 바꾸지 않는다.
+    example: 看了는 완결된 동작, 看过는 경험, 正在看은 진행을 중심으로 본다.
+    related_terms: [le-particle, guo-particle]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: le-particle
+    name: 了
+    aliases: [완료 了, 변화 了]
+    short_definition: 동작의 완결 또는 새로운 상황의 성립을 나타내는 조사다.
+    explanation: 동사 뒤 了와 문장 끝 了의 초점이 다를 수 있다. 과거 사건이면 언제나 넣는 단순 과거 표지가 아니다.
+    example: 我吃了饭은 식사 동작의 완결, 下雨了는 비가 오기 시작한 상황 변화다.
+    related_terms: [aspect, guo-particle]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: guo-particle
+    name: 过
+    aliases: [경험 过, experiential guo]
+    short_definition: 어떤 일을 이전에 경험한 적이 있음을 나타내는 상 표지다.
+    explanation: 구체적인 한 번의 완료보다 현재와 관련된 경험 유무에 초점을 둔다. 부정은 흔히 没有…过를 사용한다.
+    example: 我去过北京은 베이징에 가 본 경험이 있다는 뜻이다.
+    related_terms: [aspect, le-particle]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: complement
+    name: 보어
+    aliases: [补语, complement]
+    short_definition: 동사나 형용사 뒤에서 결과, 방향, 가능, 정도 등을 보충하는 성분이다.
+    explanation: 看懂, 写完처럼 동작이 어떤 결과에 이르렀는지 표현해 중국어 사건 구조를 정밀하게 만든다.
+    example: 听懂는 듣는 행동이 이해라는 결과에 이르렀음을 뜻한다.
+    related_terms: [result-complement, directional-complement]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: result-complement
+    name: 결과 보어
+    aliases: [结果补语, result complement]
+    short_definition: 동작 뒤에 실제로 생긴 결과를 나타내는 보어다.
+    explanation: 到, 完, 懂, 见, 好 등이 동사 뒤에 붙어 단순 동작과 결과 달성을 구분한다.
+    example: 找到는 찾아보는 행동이 아니라 결국 찾았다는 결과다.
+    related_terms: [complement, aspect]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: directional-complement
+    name: 방향 보어
+    aliases: [趋向补语, directional complement]
+    short_definition: 동작의 공간 방향과 화자·기준점에 대한 접근 또는 이탈을 나타내는 보어다.
+    explanation: 上, 下, 进, 出 등과 来, 去를 결합해 이동 경로를 구체화한다.
+    example: 拿进来는 물건을 들고 안쪽의 기준점으로 가져온다는 뜻이다.
+    related_terms: [complement]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: ba-construction
+    name: 把자문
+    aliases: [把字句, ba construction]
+    short_definition: 영향을 받는 특정 목적어를 동사 앞에 두어 처리와 결과를 부각하는 문형이다.
+    explanation: 보통 목적어가 특정되고 동사 뒤에 결과·방향·수량 같은 정보가 필요하다. 모든 목적어 문장을 기계적으로 把자문으로 바꾸지는 않는다.
+    example: 我把门关上了는 문을 닫힌 상태로 만든 결과를 강조한다.
+    related_terms: [bei-construction, result-complement]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: bei-construction
+    name: 被자문
+    aliases: [被字句, passive construction]
+    short_definition: 사건의 영향을 받은 대상을 주제로 삼는 대표적인 피동 문형이다.
+    explanation: 부정적 사건에만 쓰이지 않으며 행위자가 알려지지 않았거나 중요하지 않으면 생략할 수 있다.
+    example: 会议被取消了는 회의가 취소됐다는 결과에 초점을 둔다.
+    related_terms: [ba-construction]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: collocation
+    name: 결합 관계
+    aliases: [搭配, collocation]
+    short_definition: 특정 단어들이 관습적으로 자주 함께 쓰이는 관계다.
+    explanation: 사전 뜻이 비슷한 유의어도 자연스럽게 결합하는 주어와 목적어가 다르다. 단어를 고립된 번역이 아니라 문장 덩어리로 학습한다.
+    example: 改善环境, 提高效率, 提升质量, 改进方法.
+    related_terms: [word, register]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: register
+    name: 레지스터
+    aliases: [语体, register, 문체]
+    short_definition: 관계, 상황, 매체, 목적에 따라 선택되는 말투와 어휘의 층위다.
+    explanation: 친구 대화와 기관 보고서는 같은 의미라도 직접성, 격식, 어휘 선택이 다르다. 어려운 단어가 언제나 더 좋은 표현은 아니다.
+    example: 일상적인 因为를 공식 글에서 由于 또는 鉴于로 조정할 수 있다.
+    related_terms: [collocation, communicative-competence]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: cohesion
+    name: 응집
+    aliases: [衔接, cohesion]
+    short_definition: 연결어, 지시어, 반복 등을 통해 문장들이 표면적으로 연결되는 성질이다.
+    explanation: 지시어의 선행사와 논리 연결을 추적하면 긴 글에서 문장 배열과 관점 전환을 파악할 수 있다.
+    example: 然而는 앞 내용과 뒤 내용의 전환 관계를 드러낸다.
+    related_terms: [coherence, register]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: coherence
+    name: 일관성
+    aliases: [连贯, coherence]
+    short_definition: 글이나 말의 생각들이 하나의 논리적 방향을 이루는 성질이다.
+    explanation: 문법적으로 연결어가 많아도 핵심 주제와 근거 관계가 어긋나면 일관성이 낮다.
+    example: 주제문 뒤에 근거와 사례가 이어지고 제한을 거쳐 결론으로 돌아온다.
+    related_terms: [cohesion, argument]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: argument
+    name: 논증
+    aliases: [论证, argument]
+    short_definition: 근거와 추론을 통해 특정 결론을 받아들일 이유를 제시하는 구조다.
+    explanation: 주장과 자료 사이의 연결, 숨은 전제, 반론과 제한을 함께 평가해야 한다. 상관관계를 곧바로 인과관계로 바꾸지 않는다.
+    example: 원격근무 뒤 생산성이 올랐다는 관찰만으로 원격근무가 유일한 원인이라고 단정하지 않는다.
+    related_terms: [summary, synthesis]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: summary
+    name: 요약
+    aliases: [概括, 摘要, summary]
+    short_definition: 원문의 핵심 관계와 범위를 보존하면서 세부를 압축한 표현이다.
+    explanation: 좋은 요약은 길이만 줄이지 않고 주체, 범위, 확실성, 인과 강도, 제한을 정확히 유지한다.
+    example: 원문의 可能를 요약에서 一定으로 바꾸지 않는다.
+    related_terms: [argument, synthesis]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: synthesis
+    name: 종합
+    aliases: [综合, synthesis]
+    short_definition: 여러 자료를 비교 축과 질문에 따라 연결해 새로운 통합 판단을 만드는 작업이다.
+    explanation: 자료를 하나씩 요약해 나열하는 것과 다르다. 공통점, 충돌, 증거 수준, 적용 조건을 함께 평가한다.
+    example: 세 보고서를 생산성·협업·직무 유형별로 비교해 조건부 권고를 만든다.
+    related_terms: [summary, argument]
+    source_url: https://www.chinesetest.cn/syllabus
+  - id: receptive-skills
+    name: 수용 기능
+    aliases: [理解技能, receptive skills, 듣기와 읽기]
+    short_definition: 듣거나 읽은 언어를 해석하는 능력이다.
+    explanation: 선택형 텍스트 진단은 읽기를 주로 측정하며 실제 음성의 속도·억양을 처리하는 듣기는 별도 평가가 필요하다.
+    example: 문장을 읽어 맞히는 것과 같은 문장을 한 번 듣고 이해하는 것은 다른 수행이다.
+    related_terms: [productive-skills, placement-assessment]
+    source_url: https://www.chinesetest.cn/Development?lang=cn
+  - id: productive-skills
+    name: 산출 기능
+    aliases: [表达技能, productive skills, 말하기와 쓰기]
+    short_definition: 자신의 의도에 맞게 언어를 말하거나 써서 만들어 내는 능력이다.
+    explanation: 정답을 알아보는 인식 능력보다 회상, 발음, 어순 구성, 담화 조절이 더 필요하다. 녹음과 장문 과제로 따로 확인한다.
+    example: 성조 답을 고르는 것과 1분 동안 정확한 성조로 즉답하는 것은 다르다.
+    related_terms: [receptive-skills, communicative-competence]
+    source_url: https://www.chinesetest.cn/Development?lang=cn
+  - id: communicative-competence
+    name: 의사소통 능력
+    aliases: [交际能力, communicative competence]
+    short_definition: 언어 지식을 실제 목적과 상황에 맞게 사용해 의미를 주고받는 능력이다.
+    explanation: 문법 정확성뿐 아니라 상대, 관계, 과업, 담화 맥락에 맞는 표현 선택과 이해 조정 전략을 포함한다.
+    example: 못 알아들었을 때 请再说一遍이라고 요청해 대화를 이어 간다.
+    related_terms: [receptive-skills, productive-skills, register]
+    source_url: https://www.chinesetest.cn/Development?lang=cn

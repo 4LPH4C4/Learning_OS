@@ -48,6 +48,7 @@ class Lesson:
     source_id: str | None = None
     url: str | None = None
     language: str | None = None
+    level: str | None = None
     required: bool = True
     skills: tuple[str, ...] = ()
     study_steps: tuple[StudyStep, ...] = ()

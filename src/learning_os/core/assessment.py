@@ -28,6 +28,8 @@ class QuizQuestion:
     explanation: str
     incorrect_explanations: tuple[tuple[str, str], ...] = ()
     source_ref: str | None = None
+    level: str | None = None
+    sets: tuple[str, ...] = ()
     content_hash: str = ""
 
     def option_text(self, option_id: str) -> str:

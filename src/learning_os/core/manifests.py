@@ -212,6 +212,11 @@ def _parse_lesson(
         source_id=source_id,
         url=url,
         language=str(raw["language"]) if raw.get("language") else None,
+        level=(
+            _id(raw["level"], f"{context}.level")
+            if raw.get("level")
+            else None
+        ),
         required=bool(raw.get("required", True)),
         skills=_strings(raw.get("skills", []), f"{context}.skills"),
         study_steps=tuple(study_steps),
@@ -307,7 +312,7 @@ def load_manifest(manifest_path: Path) -> Course:
         data.get("glossary_path"), course_root, "course.glossary_path"
     )
 
-    return Course(
+    course = Course(
         schema_version=schema_version,
         id=course_id,
         title=str(_required(data, "title", "course")),
@@ -334,3 +339,11 @@ def load_manifest(manifest_path: Path) -> Course:
         ),
         glossary_path=glossary_path,
     )
+    try:
+        from learning_os.core.adaptive import mock_exam_sets, placement_config
+
+        placement_config(course)
+        mock_exam_sets(course)
+    except ValueError as exc:
+        raise ManifestError(str(exc)) from exc
+    return course

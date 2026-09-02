@@ -16,6 +16,9 @@ def test_all_registered_courses_have_valid_substantial_glossaries() -> None:
     expected_counts = {
         "ai-for-beginners": 20,
         "aice-associate": 35,
+        "chinese-hsk": 31,
+        "english-cefr": 15,
+        "ncs-core": 37,
         "pspo-i": 26,
         "sqld": 21,
     }

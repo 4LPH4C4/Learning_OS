@@ -21,11 +21,9 @@ def test_app_dashboard_smoke() -> None:
 
     assert not result.exception
     assert "Learning OS" in result.title[0].value
-    assert "Today's Study" in [header.value for header in result.header]
+    assert "오늘의 학습" in [header.value for header in result.header]
     page_text = "\n".join(markdown.value for markdown in result.markdown)
-    assert "AICE Associate" in page_text
-    assert "PSPO I" in page_text
-    assert "AI for Beginners" in page_text
+    assert "선택 Course" in page_text
 
 
 def test_local_markdown_loader_reads_and_reports_missing() -> None:

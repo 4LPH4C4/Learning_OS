@@ -1,0 +1,154 @@
+schema_version: 1
+id: ncs-core
+title: NCS 직업공통능력 — 이론과 종합 모의고사 10회
+description: 2026 NCS 직업공통능력 7개 영역을 직무 상황에 적용하고, 회차별 50문항 종합 모의고사로 시간 관리와 판단 근거까지 훈련하는 과정
+category: career-competency
+source_type: local
+status: active
+glossary_path: glossary.yaml
+schedule:
+  priority: 70
+  estimated_hours: 38
+  weekly_target_hours: 5
+prerequisites:
+  - 중학교 수준의 사칙연산·백분율·비례식
+  - 업무 문서와 표를 읽을 수 있는 한국어 독해력
+skills:
+  - communication
+  - numeracy
+  - problem-solving
+  - self-management
+  - interpersonal
+  - digital
+  - work-ethics
+content_sources:
+  - id: local-content
+    type: local
+    base_path: .
+completion_criteria:
+  type: all_required_lessons
+quiz_settings:
+  mock_exam:
+    question_count: 50
+    duration_minutes: 60
+    target_score: 60
+  mock_exam_sets:
+    - {id: round-01, title: 종합 모의고사 1회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-02, title: 종합 모의고사 2회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-03, title: 종합 모의고사 3회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-04, title: 종합 모의고사 4회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-05, title: 종합 모의고사 5회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-06, title: 종합 모의고사 6회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-07, title: 종합 모의고사 7회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-08, title: 종합 모의고사 8회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-09, title: 종합 모의고사 9회, question_count: 50, duration_minutes: 60, target_score: 60}
+    - {id: round-10, title: 종합 모의고사 10회, question_count: 50, duration_minutes: 60, target_score: 60}
+modules:
+  - id: orientation
+    title: 2026 NCS와 풀이 체계
+    order: 1
+    lessons:
+      - id: framework-2026
+        title: 2026 직업공통능력 7개와 기존 10개 영역 읽기
+        type: markdown
+        duration_minutes: 45
+        content_path: lessons/framework-2026.md
+        language: ko
+        required: true
+        skills: [communication, numeracy, problem-solving, self-management, interpersonal, digital, work-ethics]
+  - id: communication-module
+    title: 의사소통능력
+    order: 2
+    lessons:
+      - id: communication-theory-strategy
+        title: 업무 문서 독해·작성·경청 전략
+        type: markdown
+        duration_minutes: 80
+        content_path: lessons/communication-theory-strategy.md
+        language: ko
+        required: true
+        skills: [communication]
+  - id: numeracy-module
+    title: 수리능력
+    order: 3
+    lessons:
+      - id: numeracy-theory-strategy
+        title: 도표·비율·속도·원가 계산 전략
+        type: markdown
+        duration_minutes: 100
+        content_path: lessons/numeracy-theory-strategy.md
+        language: ko
+        required: true
+        skills: [numeracy]
+  - id: problem-solving-module
+    title: 문제해결능력
+    order: 4
+    lessons:
+      - id: problem-solving-theory-strategy
+        title: 원인 분석·대안 평가·실행 검증 전략
+        type: markdown
+        duration_minutes: 85
+        content_path: lessons/problem-solving-theory-strategy.md
+        language: ko
+        required: true
+        skills: [problem-solving]
+  - id: self-management-module
+    title: 자기관리능력
+    order: 5
+    lessons:
+      - id: self-management-theory-strategy
+        title: 목표·시간·학습·경력 관리 전략
+        type: markdown
+        duration_minutes: 70
+        content_path: lessons/self-management-theory-strategy.md
+        language: ko
+        required: true
+        skills: [self-management]
+  - id: interpersonal-module
+    title: 대인관계능력
+    order: 6
+    lessons:
+      - id: interpersonal-theory-strategy
+        title: 협업·갈등·협상·고객 대응 전략
+        type: markdown
+        duration_minutes: 80
+        content_path: lessons/interpersonal-theory-strategy.md
+        language: ko
+        required: true
+        skills: [interpersonal]
+  - id: digital-module
+    title: 디지털능력
+    order: 7
+    lessons:
+      - id: digital-theory-strategy
+        title: 데이터·도구·AI·정보보호 활용 전략
+        type: markdown
+        duration_minutes: 90
+        content_path: lessons/digital-theory-strategy.md
+        language: ko
+        required: true
+        skills: [digital]
+  - id: work-ethics-module
+    title: 직업윤리
+    order: 8
+    lessons:
+      - id: work-ethics-theory-strategy
+        title: 책임·공정·안전·이해충돌 판단 전략
+        type: markdown
+        duration_minutes: 75
+        content_path: lessons/work-ethics-theory-strategy.md
+        language: ko
+        required: true
+        skills: [work-ethics]
+  - id: mock-exam-module
+    title: 종합 모의고사 운영
+    order: 9
+    lessons:
+      - id: mock-exam-strategy
+        title: 10회 모의고사 풀이·오답·재응시 프로토콜
+        type: markdown
+        duration_minutes: 60
+        content_path: lessons/mock-exam-strategy.md
+        language: ko
+        required: true
+        skills: [communication, numeracy, problem-solving, self-management, interpersonal, digital, work-ethics]

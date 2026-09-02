@@ -13,7 +13,7 @@ Phase 1은 아래 10개 완료 조건이 통과하는 즉시 끝낸다.
 1. `start.bat`으로 앱이 실행된다.
 2. 브라우저에서 Learning OS가 열린다.
 3. AICE Associate, PSPO I, Microsoft AI-For-Beginners가 표시된다.
-4. Today's Study가 표시된다.
+4. 오늘의 학습이 표시된다.
 5. 로컬 Markdown Lesson을 열람할 수 있다.
 6. AICE Jupyter Notebook을 열 수 있다.
 7. AI-For-Beginners 원본 Lesson 또는 Notebook에 접근할 수 있다.
@@ -181,11 +181,11 @@ Migration은 순서가 있는 SQL 파일로 관리하고 앱 시작 때 트랜�
 
 Phase 2에서 `skills`, `course_skills`, `lesson_skills`, `quiz_questions`, `quiz_attempts`, `reviews`, `notes`를 migration으로 추가한다.
 
-### 4.3 Today's Study v1
+### 4.3 오늘의 학습 v1
 
 Phase 1은 예측 모델이나 weakness 계산 없이 재현 가능한 규칙을 사용한다.
 
-1. `status: active`인 Course만 후보로 둔다.
+1. 사용자가 Courses에서 선택한 `status: active` Course만 후보로 둔다.
 2. 완료되지 않은 required Lesson 중 Course별 첫 Lesson을 찾는다.
 3. Course priority 내림차순, target date 오름차순으로 정렬한다.
 4. 선택 시간 안에서 가능한 Lesson을 최대 3개 배치한다.
@@ -219,8 +219,11 @@ Phase 2 콘텐츠 확장 결과는 다음과 같다.
 |---|---|
 | AICE Associate | 5개 모듈, 17개 Lesson, 실행 가능한 Notebook 2개, 출처가 연결된 독창 문항 28개 |
 | PSPO I | 공식 12개 Focus Area, 7개 모듈, 16개 Lesson, 출처가 연결된 독창 문항 80개와 full mock |
+| English — CEFR A1 to C2 | 36문항 단계 진단, A1~C2별 실용 Lesson 2개, 진단 기반 학습 경로 |
+| 중국어 — 입문부터 HSK 9까지 | 50문항 단계 진단, 입문·HSK 1~9별 실용 Lesson 2개, 진단 기반 학습 경로 |
+| NCS 직업공통능력 | 2026년 7개 영역 이론, 회차별 50문항·60분 종합 모의고사 10회 |
 
-두 Course는 시험 범위 암기에 그치지 않는다. AICE는 재현 가능한 tabular ML pipeline을 실행하고, PSPO는 제품 방향·가치 검증·Backlog·예측·이해관계자 의사결정 산출물을 작성해야 완료된다.
+모든 Course는 시험 범위 암기에 그치지 않는다. AICE는 재현 가능한 tabular ML pipeline을 실행하고, PSPO는 제품 방향·가치 검증·Backlog·예측·이해관계자 의사결정 산출물을 작성한다. 외국어는 녹음·작문·상황 수행 과제를 포함하고, NCS는 계산과 직무 판단의 근거를 설명하며 오답을 분류한다.
 
 ## 6. 실행 순서
 
@@ -278,7 +281,7 @@ Main Agent는 `config.py`, shared model/interface, dependency 변경, integratio
 
 1. 깨끗한 환경에서 `start.bat` 실행
 2. 세 활성 Course 확인
-3. Today's Study에서 첫 Lesson 시작
+3. 오늘의 학습에서 첫 Lesson 시작
 4. AICE Markdown과 Notebook 열기
 5. PSPO Lesson 열고 완료
 6. AI-For-Beginners source 준비 후 원본 콘텐츠 열기
@@ -316,7 +319,7 @@ Phase 2는 실사용 피드백을 우선 반영하되 기본 순서는 아래와
 | 순서 | Epic | 완료 판단 |
 |---:|---|---|
 | 1 | Quiz Engine | Course 독립 문항 schema, 응답/정확도/confidence 저장 |
-| 2 | Spaced Repetition | 1/2/4/7/14/30일 규칙과 Today's Review |
+| 2 | Spaced Repetition | 1/2/4/7/14/30일 규칙과 복습 퀴즈 |
 | 3 | PSPO Scenario Practice | 정답·오답 근거와 Scrum principle 제공 |
 | 4 | AICE Practice Validation | Notebook 연습과 재현 가능한 answer check |
 | 5 | Curriculum Scheduler | 시험일, 시간, 우선순위, 진도 기반 일정 |
@@ -327,6 +330,9 @@ Phase 2는 실사용 피드백을 우선 반영하되 기본 순서는 아래와
 | 10 | AI Tutor | optional provider abstraction |
 | 11 | Generic Course Import | local/GitHub를 넘어 PDF/URL 확장 |
 | 12 | Language Support | vocabulary/reading/listening/speaking 등 lesson type |
+| 13 | Adaptive Placement | Manifest 기반 단계 진단, 권장 시작점 저장, 학습 경로 필터 |
+| 14 | Fixed Mock Sets | NCS 10회×50문항 고정 세트, 회차 선택과 최근 점수 저장 |
+| 15 | Course Selection Flow | 선택 Course만 오늘의 학습·복습에 노출, 선택값 로컬 저장 |
 
 각 Epic은 별도 migration과 기존 MVP regression test를 포함한다. P0 오류가 있으면 Phase 2 기능보다 먼저 고친다.
 
@@ -368,5 +374,6 @@ Phase 2는 실사용 피드백을 우선 반영하되 기본 순서는 아래와
 | P2-10 | optional AI Tutor | `AIProvider` Protocol과 disabled default |
 | P2-11 | Generic Import | URL/PDF/Markdown → Manifest Course |
 | P2-12 | Language 확장 | ko/en 필터와 url/pdf/vocabulary/listening/speaking type |
+| P2-13 | Course 선택 흐름 | `selected_course_ids` 설정과 오늘의 학습·복습 공통 필터 |
 
-모든 Phase 1 regression test를 함께 통과하고 실제 브라우저에서 Today → Course → Quiz → Review → Insights 흐름을 확인해야 Phase 2를 완료로 본다.
+모든 Phase 1 regression test를 함께 통과하고 실제 브라우저에서 Courses 선택 → 오늘의 학습 → Quiz → 복습 → Insights 흐름을 확인해야 Phase 2를 완료로 본다.

@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import Iterable, Mapping
 
 from learning_os.core.assessment import QuizQuestion
+from learning_os.core.adaptive import MockExamSet
 from learning_os.core.models import Course
 
 
@@ -29,6 +30,14 @@ def profile_for(course: Course, mode: str) -> PracticeProfile:
             else None
         ),
         target_score=max(0, min(100, int(raw.get("target_score", 80)))),
+    )
+
+
+def profile_for_set(exam_set: MockExamSet) -> PracticeProfile:
+    return PracticeProfile(
+        question_count=exam_set.question_count,
+        duration_minutes=exam_set.duration_minutes,
+        target_score=exam_set.target_score,
     )
 
 

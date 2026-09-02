@@ -1,0 +1,280 @@
+schema_version: 1
+id: chinese-hsk
+title: 중국어 — 입문부터 HSK 9까지
+description: 50문항 배치진단으로 권장 시작 단계를 찾고, 생활 중국어와 HSK 3.0 역량을 입문부터 HSK 9까지 함께 키우는 과정
+category: language
+source_type: local
+status: active
+glossary_path: glossary.yaml
+schedule:
+  priority: 70
+  estimated_hours: 25
+  weekly_target_hours: 4
+prerequisites: []
+skills:
+  - chinese-pinyin
+  - chinese-vocabulary
+  - chinese-grammar
+  - chinese-reading
+  - chinese-writing
+  - chinese-communication
+content_sources:
+  - id: local-content
+    type: local
+    base_path: .
+completion_criteria:
+  type: all_required_lessons
+quiz_settings:
+  placement:
+    lesson_id: placement-diagnostic
+    question_set: placement
+    question_count: 50
+    duration_minutes: 60
+    level_pass_score: 60
+    cumulative_pass_score: 65
+    title: 중국어 권장 시작 단계 진단
+    result_notice: 이 결과는 읽기 중심의 학습 배치 참고값이며 공식 HSK 성적이 아니다. 듣기와 말하기는 별도 수행평가가 필요하다.
+    levels:
+      - {id: beginner, label: 입문, min_score: 0}
+      - {id: hsk1, label: HSK 1, min_score: 10}
+      - {id: hsk2, label: HSK 2, min_score: 20}
+      - {id: hsk3, label: HSK 3, min_score: 30}
+      - {id: hsk4, label: HSK 4, min_score: 40}
+      - {id: hsk5, label: HSK 5, min_score: 50}
+      - {id: hsk6, label: HSK 6, min_score: 60}
+      - {id: hsk7, label: HSK 7, min_score: 70}
+      - {id: hsk8, label: HSK 8, min_score: 80}
+      - {id: hsk9, label: HSK 9, min_score: 90}
+modules:
+  - id: placement
+    title: 시작 단계 진단
+    order: 0
+    lessons:
+      - id: placement-diagnostic
+        title: 중국어 배치진단과 학습 경로
+        type: markdown
+        duration_minutes: 70
+        content_path: lessons/placement-diagnostic.md
+        language: ko
+        required: true
+        skills: [chinese-pinyin, chinese-vocabulary, chinese-grammar, chinese-reading]
+  - id: beginner-foundations
+    title: 입문 — 소리와 생존 표현
+    order: 1
+    lessons:
+      - id: beginner-pinyin
+        title: 성조·병음·한자 입력의 첫 원리
+        level: beginner
+        type: markdown
+        duration_minutes: 45
+        content_path: lessons/beginner-pinyin.md
+        language: ko
+        required: true
+        skills: [chinese-pinyin, chinese-communication]
+      - id: beginner-survival
+        title: 인사·소개·숫자로 첫 대화 만들기
+        level: beginner
+        type: markdown
+        duration_minutes: 45
+        content_path: lessons/beginner-survival.md
+        language: ko
+        required: true
+        skills: [chinese-vocabulary, chinese-communication]
+  - id: hsk1-foundations
+    title: HSK 1 — 기본 문장
+    order: 2
+    lessons:
+      - id: hsk1-sentence-core
+        title: 是·有·在와 기본 어순
+        level: hsk1
+        type: markdown
+        duration_minutes: 45
+        content_path: lessons/hsk1-sentence-core.md
+        language: ko
+        required: true
+        skills: [chinese-grammar, chinese-vocabulary]
+      - id: hsk1-daily-tasks
+        title: 시간·장소·구매 상황 수행하기
+        level: hsk1
+        type: markdown
+        duration_minutes: 45
+        content_path: lessons/hsk1-daily-tasks.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-communication]
+  - id: hsk2-expansion
+    title: HSK 2 — 일상 확장
+    order: 3
+    lessons:
+      - id: hsk2-aspect-comparison
+        title: 了·过·在와 비교 표현
+        level: hsk2
+        type: markdown
+        duration_minutes: 50
+        content_path: lessons/hsk2-aspect-comparison.md
+        language: ko
+        required: true
+        skills: [chinese-grammar, chinese-vocabulary]
+      - id: hsk2-plans-experience
+        title: 계획과 경험을 묻고 답하기
+        level: hsk2
+        type: markdown
+        duration_minutes: 50
+        content_path: lessons/hsk2-plans-experience.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-communication]
+  - id: hsk3-independence
+    title: HSK 3 — 독립적 생활 중국어
+    order: 4
+    lessons:
+      - id: hsk3-complements
+        title: 결과·방향 보어와 把자문 입문
+        level: hsk3
+        type: markdown
+        duration_minutes: 55
+        content_path: lessons/hsk3-complements.md
+        language: ko
+        required: true
+        skills: [chinese-grammar, chinese-writing]
+      - id: hsk3-notices-messages
+        title: 공지·메시지·짧은 이야기 읽기
+        level: hsk3
+        type: markdown
+        duration_minutes: 55
+        content_path: lessons/hsk3-notices-messages.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-communication]
+  - id: hsk4-connected-discourse
+    title: HSK 4 — 연결된 설명
+    order: 5
+    lessons:
+      - id: hsk4-complex-sentences
+        title: 복문 연결과 피동·처치 표현
+        level: hsk4
+        type: markdown
+        duration_minutes: 60
+        content_path: lessons/hsk4-complex-sentences.md
+        language: ko
+        required: true
+        skills: [chinese-grammar, chinese-writing]
+      - id: hsk4-work-study
+        title: 학업·업무 문제를 설명하고 해결하기
+        level: hsk4
+        type: markdown
+        duration_minutes: 60
+        content_path: lessons/hsk4-work-study.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-communication]
+  - id: hsk5-authentic-texts
+    title: HSK 5 — 실제 텍스트
+    order: 6
+    lessons:
+      - id: hsk5-cohesion-register
+        title: 문단 응집과 문어·구어 레지스터
+        level: hsk5
+        type: markdown
+        duration_minutes: 65
+        content_path: lessons/hsk5-cohesion-register.md
+        language: ko
+        required: true
+        skills: [chinese-grammar, chinese-writing]
+      - id: hsk5-news-opinion
+        title: 뉴스·칼럼의 주장과 근거 읽기
+        level: hsk5
+        type: markdown
+        duration_minutes: 65
+        content_path: lessons/hsk5-news-opinion.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-communication]
+  - id: hsk6-precision
+    title: HSK 6 — 정확한 요약과 논증
+    order: 7
+    lessons:
+      - id: hsk6-nuance-collocation
+        title: 유의어 뉘앙스와 결합 관계
+        level: hsk6
+        type: markdown
+        duration_minutes: 70
+        content_path: lessons/hsk6-nuance-collocation.md
+        language: ko
+        required: true
+        skills: [chinese-vocabulary, chinese-grammar]
+      - id: hsk6-summary-argument
+        title: 장문 요약과 논증 재구성
+        level: hsk6
+        type: markdown
+        duration_minutes: 70
+        content_path: lessons/hsk6-summary-argument.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-writing]
+  - id: hsk7-academic-professional
+    title: HSK 7 — 학술·직업 담화
+    order: 8
+    lessons:
+      - id: hsk7-academic-reading
+        title: 학술 텍스트의 구조와 태도
+        level: hsk7
+        type: markdown
+        duration_minutes: 75
+        content_path: lessons/hsk7-academic-reading.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-vocabulary]
+      - id: hsk7-professional-briefing
+        title: 전문 브리핑과 회의 조정
+        level: hsk7
+        type: markdown
+        duration_minutes: 75
+        content_path: lessons/hsk7-professional-briefing.md
+        language: ko
+        required: true
+        skills: [chinese-writing, chinese-communication]
+  - id: hsk8-analysis
+    title: HSK 8 — 비판적 분석
+    order: 9
+    lessons:
+      - id: hsk8-rhetoric-implication
+        title: 수사·함의·관점 분석
+        level: hsk8
+        type: markdown
+        duration_minutes: 80
+        content_path: lessons/hsk8-rhetoric-implication.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-grammar]
+      - id: hsk8-synthesis-writing
+        title: 다중 자료 종합과 설득 글쓰기
+        level: hsk8
+        type: markdown
+        duration_minutes: 80
+        content_path: lessons/hsk8-synthesis-writing.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-writing]
+  - id: hsk9-mastery
+    title: HSK 9 — 정교한 언어 수행
+    order: 10
+    lessons:
+      - id: hsk9-crossdomain-interpretation
+        title: 분야 횡단 해석과 문화적 전제
+        level: hsk9
+        type: markdown
+        duration_minutes: 90
+        content_path: lessons/hsk9-crossdomain-interpretation.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-vocabulary]
+      - id: hsk9-capstone
+        title: HSK 9 캡스톤 — 조사·발표·논증
+        level: hsk9
+        type: markdown
+        duration_minutes: 120
+        content_path: lessons/hsk9-capstone.md
+        language: ko
+        required: true
+        skills: [chinese-reading, chinese-writing, chinese-communication]

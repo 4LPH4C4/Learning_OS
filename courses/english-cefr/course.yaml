@@ -1,0 +1,193 @@
+schema_version: 1
+id: english-cefr
+title: English — CEFR A1 to C2
+description: 읽기·어휘·문법·상황 판단 진단으로 권장 시작 등급을 정하고, CEFR A1부터 C2까지 실제 의사소통 능력을 단계적으로 키우는 영어 과정
+category: language
+source_type: local
+status: active
+glossary_path: glossary.yaml
+schedule:
+  target_date: null
+  priority: 80
+  estimated_hours: 26
+  weekly_target_hours: 3
+prerequisites: []
+skills:
+  - english-reading
+  - english-writing
+  - english-speaking
+  - english-listening
+  - english-interaction
+  - english-language-control
+content_sources:
+  - id: local-content
+    type: local
+    base_path: .
+completion_criteria:
+  type: all_required_lessons
+quiz_settings:
+  placement:
+    lesson_id: placement-assessment
+    question_set: placement
+    question_count: 36
+    duration_minutes: 35
+    level_pass_score: 60
+    cumulative_pass_score: 65
+    result_label: CEFR 권장 시작 등급
+    disclaimer: 이 진단은 읽기·어휘·문법·상황 판단 중심의 학습 배치용 평가이며 공인 CEFR 인증이 아니다. 듣기와 말하기는 별도 수행 과제로 확인해야 한다.
+    levels:
+      - {id: a1, label: CEFR A1, min_score: 0}
+      - {id: a2, label: CEFR A2, min_score: 17}
+      - {id: b1, label: CEFR B1, min_score: 34}
+      - {id: b2, label: CEFR B2, min_score: 51}
+      - {id: c1, label: CEFR C1, min_score: 68}
+      - {id: c2, label: CEFR C2, min_score: 84}
+modules:
+  - id: placement
+    title: 시작 등급 진단
+    order: 1
+    lessons:
+      - id: placement-assessment
+        title: CEFR 영어 레벨 진단
+        type: markdown
+        duration_minutes: 45
+        study_steps:
+          - {label: 진단 범위와 한계 확인, duration_minutes: 5, outcome: 결과를 공인 성적이 아닌 학습 출발점으로 해석한다.}
+          - {label: 36문항 진단, duration_minutes: 35, outcome: 도움 없이 읽기·어휘·문법·상황 판단 문항을 해결한다.}
+          - {label: 권장 등급과 수행 과제 확인, duration_minutes: 5, outcome: 듣기·말하기 자가 확인과 다음 학습 단계를 정한다.}
+        content_path: lessons/placement-assessment.md
+        language: ko
+        required: true
+        skills: [english-reading, english-language-control]
+  - id: level-a1
+    title: A1 — 익숙한 일상의 첫 표현
+    order: 2
+    lessons:
+      - id: a1-survival-communication
+        title: 인사·소개·기본 요청
+        type: markdown
+        duration_minutes: 60
+        content_path: lessons/a1-survival-communication.md
+        language: ko
+        level: a1
+        required: true
+        skills: [english-speaking, english-listening, english-interaction]
+      - id: a1-basic-sentences
+        title: 아주 짧은 문장 읽고 쓰기
+        type: markdown
+        duration_minutes: 60
+        content_path: lessons/a1-basic-sentences.md
+        language: ko
+        level: a1
+        required: true
+        skills: [english-reading, english-writing, english-language-control]
+  - id: level-a2
+    title: A2 — 반복되는 생활 과업
+    order: 3
+    lessons:
+      - id: a2-routines-and-transactions
+        title: 일상 설명과 생활 거래
+        type: markdown
+        duration_minutes: 70
+        content_path: lessons/a2-routines-and-transactions.md
+        language: ko
+        level: a2
+        required: true
+        skills: [english-speaking, english-listening, english-interaction]
+      - id: a2-connected-messages
+        title: 연결된 메시지와 경험 쓰기
+        type: markdown
+        duration_minutes: 70
+        content_path: lessons/a2-connected-messages.md
+        language: ko
+        level: a2
+        required: true
+        skills: [english-reading, english-writing, english-language-control]
+  - id: level-b1
+    title: B1 — 독립적인 일상 의사소통
+    order: 4
+    lessons:
+      - id: b1-narrative-and-opinion
+        title: 경험 서술과 의견 설명
+        type: markdown
+        duration_minutes: 80
+        content_path: lessons/b1-narrative-and-opinion.md
+        language: ko
+        level: b1
+        required: true
+        skills: [english-speaking, english-writing, english-language-control]
+      - id: b1-real-world-tasks
+        title: 여행·업무의 실제 문제 해결
+        type: markdown
+        duration_minutes: 80
+        content_path: lessons/b1-real-world-tasks.md
+        language: ko
+        level: b1
+        required: true
+        skills: [english-reading, english-listening, english-interaction]
+  - id: level-b2
+    title: B2 — 복잡한 정보와 자연스러운 상호작용
+    order: 5
+    lessons:
+      - id: b2-argument-and-evidence
+        title: 논증 구조와 근거 평가
+        type: markdown
+        duration_minutes: 90
+        content_path: lessons/b2-argument-and-evidence.md
+        language: ko
+        level: b2
+        required: true
+        skills: [english-reading, english-writing, english-language-control]
+      - id: b2-fluent-interaction
+        title: 회의·토론에서 유창하게 상호작용하기
+        type: markdown
+        duration_minutes: 90
+        content_path: lessons/b2-fluent-interaction.md
+        language: ko
+        level: b2
+        required: true
+        skills: [english-speaking, english-listening, english-interaction]
+  - id: level-c1
+    title: C1 — 전문·학술 맥락의 유연한 영어
+    order: 6
+    lessons:
+      - id: c1-nuanced-reading-writing
+        title: 함의 읽기와 정교한 글쓰기
+        type: markdown
+        duration_minutes: 105
+        content_path: lessons/c1-nuanced-reading-writing.md
+        language: ko
+        level: c1
+        required: true
+        skills: [english-reading, english-writing, english-language-control]
+      - id: c1-professional-discourse
+        title: 전문 담화와 전략적 상호작용
+        type: markdown
+        duration_minutes: 105
+        content_path: lessons/c1-professional-discourse.md
+        language: ko
+        level: c1
+        required: true
+        skills: [english-speaking, english-listening, english-interaction]
+  - id: level-c2
+    title: C2 — 거의 모든 맥락에서 정확하고 섬세한 영어
+    order: 7
+    lessons:
+      - id: c2-synthesis-and-style
+        title: 복수 자료 종합과 문체 제어
+        type: markdown
+        duration_minutes: 120
+        content_path: lessons/c2-synthesis-and-style.md
+        language: ko
+        level: c2
+        required: true
+        skills: [english-reading, english-writing, english-language-control]
+      - id: c2-precision-and-mediation
+        title: 의미의 미세 조정과 고난도 중재
+        type: markdown
+        duration_minutes: 120
+        content_path: lessons/c2-precision-and-mediation.md
+        language: ko
+        level: c2
+        required: true
+        skills: [english-speaking, english-listening, english-interaction]

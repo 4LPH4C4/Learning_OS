@@ -5,7 +5,7 @@ from collections import defaultdict
 import html
 import sys
 import time
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import streamlit as st
@@ -23,7 +23,24 @@ from learning_os.core.glossary import (  # noqa: E402
     load_glossary,
     terms_in_content,
 )
+from learning_os.core.adaptive import (  # noqa: E402
+    MockExamSet,
+    PlacementResult,
+    eligible_lessons,
+    mock_exam_sets,
+    personalize_course,
+    placement_config,
+    placement_result,
+    placement_setting_key,
+    recommend_placement,
+)
 from learning_os.core.insights import StudyActivity  # noqa: E402
+from learning_os.core.course_selection import (  # noqa: E402
+    SELECTED_COURSE_IDS_SETTING,
+    normalize_selected_course_ids,
+    selectable_courses,
+    selected_courses,
+)
 from learning_os.core.models import (  # noqa: E402
     Course,
     Lesson,
@@ -31,7 +48,12 @@ from learning_os.core.models import (  # noqa: E402
     StudyStep,
 )
 from learning_os.core.assessment import QuizQuestion, evaluate_answer  # noqa: E402
-from learning_os.core.practice import profile_for, score_percent, select_questions  # noqa: E402
+from learning_os.core.practice import (  # noqa: E402
+    profile_for,
+    profile_for_set,
+    score_percent,
+    select_questions,
+)
 from learning_os.core.scheduler import build_curriculum_plan  # noqa: E402
 from learning_os.integrations.content_loader import (  # noqa: E402
     ContentUnavailableError,
@@ -102,6 +124,9 @@ def start_practice_flow(
     parent: str,
     duration_minutes: int | None = None,
     target_score: int | None = None,
+    placement_course_id: str | None = None,
+    placement_lesson_id: str | None = None,
+    exam_set: MockExamSet | None = None,
 ) -> None:
     if not questions:
         st.warning("시작할 문항이 아직 없어. Course의 questions.yaml을 확인해라.")
@@ -115,14 +140,119 @@ def start_practice_flow(
         "question_refs": [(question.course_id, question.id) for question in questions],
         "position": 0,
         "correct": 0,
+        "correct_question_refs": [],
         "question_started": time.monotonic(),
         "practice_started": time.monotonic(),
         "duration_minutes": duration_minutes,
         "target_score": target_score,
+        "placement_course_id": placement_course_id,
+        "placement_lesson_id": placement_lesson_id,
+        "exam_set_id": exam_set.id if exam_set else None,
+        "exam_set_title": exam_set.title if exam_set else None,
     }
     st.session_state.practice_parent = parent
     st.session_state.pop("practice_feedback", None)
     go("practice")
+
+
+def stored_placement_result(app: LearningRuntime, course: Course) -> PlacementResult | None:
+    return placement_result(
+        app.learning.get_setting(placement_setting_key(course.id)),
+        course,
+    )
+
+
+def adaptive_course(app: LearningRuntime, course: Course) -> Course:
+    return personalize_course(course, stored_placement_result(app, course))
+
+
+def current_learning_level(
+    app: LearningRuntime,
+    course: Course,
+    result: PlacementResult,
+) -> str:
+    statuses = app.progress.statuses()
+    path = adaptive_course(app, course)
+    next_level = next(
+        (
+            lesson.level
+            for lesson in path.required_lessons
+            if lesson.level is not None
+            and statuses.get((course.id, lesson.id)) != "completed"
+        ),
+        None,
+    )
+    if next_level is not None:
+        return next_level
+    completed_levels = [lesson.level for lesson in path.lessons if lesson.level is not None]
+    return completed_levels[-1] if completed_levels else result.level_id
+
+
+def mock_result_setting_key(course_id: str, set_id: str) -> str:
+    return f"mock-exam-result:{course_id}:{set_id}"
+
+
+def start_placement_assessment(
+    app: LearningRuntime,
+    course: Course,
+    *,
+    parent: str = "courses",
+) -> None:
+    config = placement_config(course)
+    if config is None:
+        st.warning("이 Course에는 진단평가 설정이 없어.")
+        return
+    app.progress.mark_started(course.id, config.lesson_id)
+    available = app.questions.for_set(course.id, config.question_set)
+    questions = select_questions(
+        available,
+        count=min(config.question_count, len(available)),
+        seed=f"{course.id}:{config.question_set}:v1",
+    )
+    if len(questions) < config.question_count:
+        st.warning(
+            f"진단 문항이 {len(questions)}개뿐이야. 설정된 {config.question_count}개를 확인해라."
+        )
+        return
+    start_practice_flow(
+        app,
+        questions,
+        mode="practice",
+        parent=parent,
+        duration_minutes=config.duration_minutes,
+        placement_course_id=course.id,
+        placement_lesson_id=config.lesson_id,
+    )
+
+
+def start_mock_exam_set(
+    app: LearningRuntime,
+    course: Course,
+    exam_set: MockExamSet,
+    *,
+    parent: str = "courses",
+) -> None:
+    profile = profile_for_set(exam_set)
+    available = app.questions.for_set(course.id, exam_set.id)
+    questions = select_questions(
+        available,
+        count=min(profile.question_count, len(available)),
+        seed=f"{course.id}:{exam_set.id}:fixed",
+    )
+    if len(questions) < profile.question_count:
+        st.warning(
+            f"{exam_set.title} 문항이 {len(questions)}개뿐이야. 설정된 {profile.question_count}개를 확인해라."
+        )
+        return
+    start_practice_flow(
+        app,
+        questions,
+        mode="mock_exam",
+        parent=parent,
+        duration_minutes=profile.duration_minutes,
+        target_score=profile.target_score,
+        exam_set=exam_set,
+    )
 
 
 def start_course_practice(
@@ -133,6 +263,21 @@ def start_course_practice(
     parent: str = "courses",
 ) -> None:
     available = app.questions.for_course(course.id)
+    placement = placement_config(course)
+    if placement is not None:
+        result = stored_placement_result(app, course)
+        if result is None:
+            st.info("먼저 레벨 진단평가를 완료해라.")
+            return
+        learning_level = current_learning_level(app, course, result)
+        level_questions = tuple(
+            question for question in available if question.level == learning_level
+        )
+        available = level_questions or tuple(
+            question
+            for question in available
+            if placement.question_set not in question.sets
+        )
     profile = profile_for(course, mode)
     weakness = {
         insight.topic: insight.weakness
@@ -156,7 +301,7 @@ def start_course_practice(
 
 
 def progress_percent(app: LearningRuntime, course: Course) -> tuple[int, int, int]:
-    completed, total = app.progress.progress_for(course)
+    completed, total = app.progress.progress_for(adaptive_course(app, course))
     percent = round(completed / total * 100) if total else 0
     return completed, total, percent
 
@@ -192,6 +337,13 @@ def stored_languages(app: LearningRuntime) -> set[str]:
         return {"ko", "en"}
     result = {str(language) for language in value if language in {"ko", "en"}}
     return result or {"ko", "en"}
+
+
+def stored_selected_course_ids(app: LearningRuntime) -> tuple[str, ...]:
+    return normalize_selected_course_ids(
+        app.catalog.courses,
+        app.learning.get_setting(SELECTED_COURSE_IDS_SETTING, []),
+    )
 
 
 def inferred_study_steps(lesson: Lesson) -> tuple[StudyStep, ...]:
@@ -367,10 +519,12 @@ def render_source_status(app: LearningRuntime, course: Course) -> None:
 
 
 def next_required_lesson(
+    app: LearningRuntime,
     course: Course,
     statuses: dict[tuple[str, str], str],
     allowed_languages: set[str],
 ) -> Lesson | None:
+    course = adaptive_course(app, course)
     return next(
         (
             lesson
@@ -390,7 +544,11 @@ def resolve_daily_recommendations(
     for item in items:
         course = app.course(item.course_id)
         lesson = app.lesson(item.course_id, item.lesson_id)
-        if course is not None and lesson is not None:
+        if (
+            course is not None
+            and lesson is not None
+            and lesson in eligible_lessons(course, stored_placement_result(app, course))
+        ):
             resolved.append(
                 StudyRecommendation(course=course, lesson=lesson, reason="오늘 계획에 고정")
             )
@@ -433,6 +591,9 @@ def dashboard(app: LearningRuntime) -> None:
     current_date = date.today()
     today_id = current_date.isoformat()
     today_text = current_date.strftime("%Y.%m.%d")
+    selected_ids = stored_selected_course_ids(app)
+    learning_courses = selected_courses(app.catalog.courses, selected_ids)
+    selected_id_set = set(selected_ids)
     st.markdown(f'<div class="eyebrow">TODAY · {today_text}</div>', unsafe_allow_html=True)
     st.title("Learning OS")
     st.markdown(
@@ -441,22 +602,36 @@ def dashboard(app: LearningRuntime) -> None:
     )
 
     statuses = app.progress.statuses()
-    completed_today = app.progress.completed_lesson_count_on(today_id)
-    active_courses = sum(1 for course in app.catalog.courses if course.status == "active")
-    due_reviews = app.due_reviews()
+    completed_today = sum(
+        1
+        for item in app.progress.completed_lessons_on(today_id)
+        if item.course_id in selected_id_set
+    )
+    due_reviews = tuple(
+        item
+        for item in app.due_reviews()
+        if item.question.course_id in selected_id_set
+    )
     c1, c2, c3 = st.columns(3)
     with c1:
         st.markdown(f'<div class="metric-number">{completed_today}</div><div class="metric-label">완료 Lesson</div>', unsafe_allow_html=True)
     with c2:
-        st.markdown(f'<div class="metric-number">{active_courses}</div><div class="metric-label">활성 Course</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-number">{len(learning_courses)}</div><div class="metric-label">선택 Course</div>', unsafe_allow_html=True)
     with c3:
         st.markdown(
             f'<div class="metric-number">{len(due_reviews)}</div><div class="metric-label">복습 예정</div>',
             unsafe_allow_html=True,
         )
 
+    if not learning_courses:
+        st.header("오늘의 학습")
+        st.info("먼저 Courses에서 공부할 Course를 선택해라. 선택한 Course만 오늘 계획과 복습에 포함돼.")
+        if st.button("Courses에서 학습 Course 선택", type="primary", width="stretch"):
+            go("courses")
+        return
+
     if due_reviews:
-        st.header("Today's Review")
+        st.header("오늘의 복습")
         st.caption("기억이 흐려지기 전에 짧게 확인할 문항이야.")
         if st.button(
             f"복습 {min(len(due_reviews), 10)}문항 시작",
@@ -470,7 +645,7 @@ def dashboard(app: LearningRuntime) -> None:
                 parent="dashboard",
             )
 
-    st.header("Today's Study")
+    st.header("오늘의 학습")
     saved_plan = app.progress.load_daily_plan(today_id)
     default_minutes = saved_plan.available_minutes if saved_plan else stored_study_minutes(app)
     minutes_key = f"study-minutes:{today_id}"
@@ -483,25 +658,52 @@ def dashboard(app: LearningRuntime) -> None:
     )
     available_minutes = int(available or default_minutes)
     allowed_languages = stored_languages(app)
-    if saved_plan is None:
+    selection_basis_key = f"daily-plan-selection:{today_id}"
+    stored_basis = app.learning.get_setting(selection_basis_key)
+    normalized_basis = normalize_selected_course_ids(app.catalog.courses, stored_basis)
+    selection_changed = (
+        not isinstance(stored_basis, (list, tuple))
+        or normalized_basis != selected_ids
+    )
+    if saved_plan is None or selection_changed:
         completed_before_plan = tuple(
             item
             for item in app.progress.completed_lessons_on(today_id)
-            if app.course(item.course_id) is not None
+            if item.course_id in selected_id_set
+            and app.course(item.course_id) is not None
             and app.lesson(item.course_id, item.lesson_id) is not None
         )
+        retained_items = tuple(
+            item
+            for item in (saved_plan.items if saved_plan else completed_before_plan)
+            if item.course_id in selected_id_set
+            and app.course(item.course_id) is not None
+            and app.lesson(item.course_id, item.lesson_id) is not None
+        )
+        represented_course_ids = {item.course_id for item in retained_items}
+        courses_to_add = tuple(
+            course
+            for course in learning_courses
+            if course.id not in represented_course_ids
+        )
+        retained_minutes = sum(
+            lesson.duration_minutes
+            for item in retained_items
+            if (lesson := app.lesson(item.course_id, item.lesson_id)) is not None
+        )
+        remaining_budget = max(0, available_minutes - retained_minutes)
         initial = (
-            ()
-            if completed_before_plan
-            else build_curriculum_plan(
-                app.catalog.courses,
+            build_curriculum_plan(
+                tuple(adaptive_course(app, course) for course in courses_to_add),
                 statuses,
-                available_minutes,
+                remaining_budget,
                 weakness_by_course=app.learning.weakness_by_course(),
                 allowed_languages=allowed_languages,
             )
+            if courses_to_add and remaining_budget > 0
+            else ()
         )
-        initial_items = completed_before_plan or tuple(
+        initial_items = retained_items + tuple(
             DailyStudyPlanItem(item.course.id, item.lesson.id) for item in initial
         )
         saved_plan = app.progress.save_daily_plan(
@@ -509,6 +711,7 @@ def dashboard(app: LearningRuntime) -> None:
             available_minutes,
             initial_items,
         )
+        app.learning.set_setting(selection_basis_key, list(selected_ids))
     elif saved_plan.available_minutes != available_minutes:
         saved_plan = app.progress.save_daily_plan(
             today_id,
@@ -519,8 +722,17 @@ def dashboard(app: LearningRuntime) -> None:
     valid_items = tuple(
         item
         for item in saved_plan.items
-        if app.course(item.course_id) is not None
+        if item.course_id in selected_id_set
+        and (course := app.course(item.course_id)) is not None
         and app.lesson(item.course_id, item.lesson_id) is not None
+        and item.lesson_id
+        in {
+            lesson.id
+            for lesson in eligible_lessons(
+                course,
+                stored_placement_result(app, course),
+            )
+        }
     )
     if valid_items != saved_plan.items:
         saved_plan = app.progress.save_daily_plan(today_id, available_minutes, valid_items)
@@ -531,7 +743,7 @@ def dashboard(app: LearningRuntime) -> None:
         icon=":material/refresh:",
     ):
         refreshed = build_curriculum_plan(
-            app.catalog.courses,
+            tuple(adaptive_course(app, course) for course in learning_courses),
             statuses,
             available_minutes,
             weakness_by_course=app.learning.weakness_by_course(),
@@ -546,38 +758,35 @@ def dashboard(app: LearningRuntime) -> None:
             dict.fromkeys(item.course.id for item in refreshed)
         )
 
-    selectable_courses = tuple(
-        course for course in app.catalog.courses if course.status != "disabled"
-    )
-    selectable_ids = [course.id for course in selectable_courses]
-    course_by_id = {course.id: course for course in selectable_courses}
+    selectable_ids = [course.id for course in learning_courses]
+    course_by_id = {course.id: course for course in learning_courses}
     course_key = f"daily-plan-courses:{today_id}"
     st.session_state.setdefault(
         course_key,
         list(dict.fromkeys(item.course_id for item in saved_plan.items)),
     )
-    selected_course_ids = st.multiselect(
-        "오늘 계획 조정",
+    daily_course_ids = st.multiselect(
+        "오늘 학습 범위 조정",
         options=selectable_ids,
         format_func=lambda course_id: (
             course_by_id[course_id].title
             + (" · 준비 예정" if course_by_id[course_id].status == "planned" else "")
         ),
         key=course_key,
-        help="등록된 Course를 고르면 해당 Course의 다음 미완료 Lesson이 오늘 범위에 추가돼.",
+        help="Courses에서 선택한 항목 중 오늘 공부할 Course를 조정할 수 있어.",
     )
 
-    selected_set = set(selected_course_ids)
+    selected_set = set(daily_course_ids)
     adjusted_items = [
         item for item in saved_plan.items if item.course_id in selected_set
     ]
     courses_with_item = {item.course_id for item in adjusted_items}
     unavailable_courses: list[str] = []
-    for course_id in selected_course_ids:
+    for course_id in daily_course_ids:
         if course_id in courses_with_item:
             continue
         course = course_by_id[course_id]
-        next_lesson = next_required_lesson(course, statuses, allowed_languages)
+        next_lesson = next_required_lesson(app, course, statuses, allowed_languages)
         if next_lesson is None:
             unavailable_courses.append(course.title)
             continue
@@ -595,9 +804,9 @@ def dashboard(app: LearningRuntime) -> None:
 
     planned_refs = {(item.course_id, item.lesson_id) for item in saved_plan.items}
     additions: list[DailyStudyPlanItem] = []
-    for course_id in selected_course_ids:
+    for course_id in daily_course_ids:
         course = course_by_id[course_id]
-        candidate = next_required_lesson(course, statuses, allowed_languages)
+        candidate = next_required_lesson(app, course, statuses, allowed_languages)
         if candidate is not None and (course.id, candidate.id) not in planned_refs:
             additions.append(DailyStudyPlanItem(course.id, candidate.id))
     if additions and st.button(
@@ -664,10 +873,10 @@ def dashboard(app: LearningRuntime) -> None:
                 is_next=ref == next_ref,
             )
     else:
-        st.info("오늘 범위가 비어 있어. 위의 ‘오늘 계획 조정’에서 Course를 선택해라.")
+        st.info("오늘 범위가 비어 있어. 위의 ‘오늘 학습 범위 조정’에서 Course를 선택해라.")
 
-    st.header("Course Progress")
-    for course in app.catalog.courses:
+    st.header("선택한 Course 진도")
+    for course in learning_courses:
         render_progress(app, course)
         if st.button("Course 열기", key=f"course:{course.id}"):
             go("course", course_id=course.id)
@@ -681,12 +890,38 @@ def dashboard(app: LearningRuntime) -> None:
 def courses_page(app: LearningRuntime) -> None:
     st.markdown('<div class="eyebrow">CURRICULUM</div>', unsafe_allow_html=True)
     st.title("Courses")
-    st.markdown('<div class="page-lead">Course와 콘텐츠는 Manifest로 연결되고, 진도는 별도로 안전하게 저장된다.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-lead">공부할 Course를 고르면 오늘의 학습과 복습이 그 선택에 맞춰 구성된다.</div>', unsafe_allow_html=True)
+    available_courses = selectable_courses(app.catalog.courses)
+    available_ids = [course.id for course in available_courses]
+    course_by_id = {course.id: course for course in available_courses}
+    stored_ids = stored_selected_course_ids(app)
+    chosen_ids = st.multiselect(
+        "학습할 Course 선택",
+        options=available_ids,
+        default=list(stored_ids),
+        format_func=lambda course_id: (
+            course_by_id[course_id].title
+            + (" · 준비 예정" if course_by_id[course_id].status == "planned" else "")
+        ),
+        help="선택은 로컬에 저장되고 오늘의 학습과 복습에 함께 적용돼.",
+        key="selected-course-picker",
+    )
+    normalized_ids = normalize_selected_course_ids(app.catalog.courses, chosen_ids)
+    if normalized_ids != stored_ids:
+        app.learning.set_setting(SELECTED_COURSE_IDS_SETTING, list(normalized_ids))
+        st.success("학습 Course 선택을 저장했어. 오늘의 학습과 복습에 바로 반영돼.")
+    selected_id_set = set(normalized_ids)
+    st.caption(f"선택 {len(normalized_ids)}개 · 언제든 다시 바꿀 수 있어.")
+    st.divider()
     for course in app.catalog.courses:
         left, right = st.columns([5, 1.25], vertical_alignment="center")
         with left:
             render_progress(app, course)
             st.caption(course.description)
+            if course.id in selected_id_set:
+                st.caption("오늘의 학습 · 복습에 포함")
+            elif course.status != "disabled":
+                st.caption("학습 Course로 선택하지 않음")
         with right:
             if st.button("살펴보기", key=f"browse:{course.id}", width="stretch"):
                 go("course", course_id=course.id)
@@ -714,26 +949,114 @@ def course_page(app: LearningRuntime, course: Course) -> None:
 
     render_source_status(app, course)
 
+    placement = placement_config(course)
+    result = stored_placement_result(app, course)
+    learning_course = adaptive_course(app, course)
     course_questions = app.questions.for_course(course.id)
-    if course_questions:
+    if placement is not None:
+        st.subheader("레벨 진단")
+        if result is None:
+            st.info(
+                f"첫 학습은 {placement.question_count}문항 진단평가야. "
+                "결과에 맞는 단계부터 학습 경로가 열려."
+            )
+            placement_label = "진단평가 시작"
+        else:
+            st.success(
+                f"권장 시작 단계 · {result.level_label} · "
+                f"{result.score_percent}% ({result.correct_count}/{result.question_count})"
+            )
+            st.caption(
+                "이 결과는 코스 난이도를 정하기 위한 진단이야. 공인 성적이나 말하기·듣기 "
+                "능력 전체를 대신하지 않아. 진단 전 단계는 학습 경로에서 숨겼어."
+            )
+            placement_label = "진단평가 다시 보기"
+        if st.button(
+            placement_label,
+            type="primary" if result is None else "secondary",
+            key=f"placement:{course.id}",
+        ):
+            start_placement_assessment(app, course)
+
+    exam_sets = mock_exam_sets(course)
+    if course_questions and (placement is None or result is not None):
         st.subheader("Practice")
-        profile = profile_for(course, "mock_exam")
-        st.caption(
-            f"문항 은행 {len(course_questions)}개 · Mock 목표 {profile.target_score}%"
-            + (f" · {profile.duration_minutes}분" if profile.duration_minutes else "")
-        )
-        quiz_col, mock_col = st.columns(2)
-        with quiz_col:
-            if st.button("빠른 Quiz", type="primary", width="stretch", key=f"quiz:{course.id}"):
+        if exam_sets:
+            selected_set_id = st.selectbox(
+                "종합 모의고사 회차",
+                options=[item.id for item in exam_sets],
+                format_func=lambda set_id: next(
+                    item.title for item in exam_sets if item.id == set_id
+                ),
+                key=f"mock-set:{course.id}",
+            )
+            selected_set = next(item for item in exam_sets if item.id == selected_set_id)
+            actual_count = len(app.questions.for_set(course.id, selected_set.id))
+            st.caption(
+                f"{actual_count}문항 · {selected_set.duration_minutes}분 · "
+                f"목표 {selected_set.target_score}% · 각 회차는 고정 문항으로 다시 풀 수 있어."
+            )
+            latest_result = app.learning.get_setting(
+                mock_result_setting_key(course.id, selected_set.id)
+            )
+            if isinstance(latest_result, dict):
+                st.info(
+                    f"최근 결과 · {latest_result.get('score_percent', 0)}% · "
+                    f"{latest_result.get('correct_count', 0)}/{latest_result.get('question_count', 0)}"
+                )
+            quiz_col, mock_col = st.columns(2)
+            with quiz_col:
+                if st.button("빠른 Quiz", width="stretch", key=f"quiz:{course.id}"):
+                    start_course_practice(app, course, "quiz")
+            with mock_col:
+                if st.button(
+                    f"{selected_set.title} 시작",
+                    type="primary",
+                    width="stretch",
+                    key=f"mock:{course.id}:{selected_set.id}",
+                ):
+                    start_mock_exam_set(app, course, selected_set)
+        elif placement is not None:
+            learning_level = current_learning_level(app, course, result) if result else ""
+            level_label = next(
+                (
+                    item.label
+                    for item in placement.levels
+                    if item.id == learning_level
+                ),
+                learning_level,
+            )
+            current_count = (
+                sum(question.level == learning_level for question in course_questions)
+                if result
+                else 0
+            )
+            st.caption(f"현재 학습 단계 {level_label} · {current_count}개 문항")
+            if st.button(
+                "현재 레벨 Quiz",
+                type="primary",
+                width="stretch",
+                key=f"quiz:{course.id}",
+            ):
                 start_course_practice(app, course, "quiz")
-        with mock_col:
-            if st.button("Mock Exam", width="stretch", key=f"mock:{course.id}"):
-                start_course_practice(app, course, "mock_exam")
+        else:
+            profile = profile_for(course, "mock_exam")
+            st.caption(
+                f"문항 은행 {len(course_questions)}개 · Mock 목표 {profile.target_score}%"
+                + (f" · {profile.duration_minutes}분" if profile.duration_minutes else "")
+            )
+            quiz_col, mock_col = st.columns(2)
+            with quiz_col:
+                if st.button("빠른 Quiz", type="primary", width="stretch", key=f"quiz:{course.id}"):
+                    start_course_practice(app, course, "quiz")
+            with mock_col:
+                if st.button("Mock Exam", width="stretch", key=f"mock:{course.id}"):
+                    start_course_practice(app, course, "mock_exam")
 
     allowed_languages = stored_languages(app)
     course_statuses = app.progress.statuses()
-    next_lesson = next_required_lesson(course, course_statuses, allowed_languages)
-    for module in course.modules:
+    next_lesson = next_required_lesson(app, course, course_statuses, allowed_languages)
+    for module in learning_course.modules:
         st.header(module.title)
         visible_lessons = tuple(
             lesson
@@ -767,6 +1090,9 @@ def course_page(app: LearningRuntime, course: Course) -> None:
                     label = "열기"
                 if st.button(label, key=f"lesson:{course.id}:{lesson.id}", width="stretch"):
                     if lesson.type in {"quiz", "practice", "mock_exam"}:
+                        if placement is not None and lesson.id == placement.lesson_id:
+                            start_placement_assessment(app, course)
+                            continue
                         lesson_questions = tuple(
                             question
                             for question in course_questions
@@ -835,7 +1161,7 @@ def render_completed_lesson_next_steps(
         ):
             go("dashboard")
 
-    next_course_lesson = next_required_lesson(course, statuses, stored_languages(app))
+    next_course_lesson = next_required_lesson(app, course, statuses, stored_languages(app))
     if next_course_lesson is not None:
         next_ref = (course.id, next_course_lesson.id)
         st.subheader("이 Course의 다음 세션")
@@ -901,6 +1227,17 @@ def lesson_page(app: LearningRuntime, course: Course, lesson: Lesson) -> None:
             source = course.source(lesson.source_id)
             if source and source.type == "github":
                 st.info("Course 화면에서 원본 source를 준비한 뒤 다시 열어라.")
+
+    placement = placement_config(course)
+    if placement is not None and lesson.id == placement.lesson_id:
+        st.divider()
+        st.caption(
+            f"{placement.question_count}문항 · 제한 {placement.duration_minutes}분 · "
+            "도움 없이 한 번에 풀어야 배치 결과가 정확해."
+        )
+        if st.button("레벨 진단평가 시작", type="primary", width="stretch"):
+            start_placement_assessment(app, course)
+        return
 
     if lesson.notebook_path:
         if not lesson.content_path:
@@ -977,7 +1314,7 @@ def practice_page(app: LearningRuntime) -> None:
     state = st.session_state.get("practice_state")
     if not isinstance(state, dict):
         st.error("진행 중인 연습을 찾을 수 없어.")
-        if st.button("Review로 이동"):
+        if st.button("복습으로 이동"):
             go("review")
         return
 
@@ -988,22 +1325,126 @@ def practice_page(app: LearningRuntime) -> None:
         correct = int(state.get("correct", 0))
         score = score_percent(correct, total)
         target_score = int(state.get("target_score") or 0)
-        st.markdown('<div class="eyebrow">PRACTICE COMPLETE</div>', unsafe_allow_html=True)
+        placement_outcome: PlacementResult | None = None
+        placement_course_id = state.get("placement_course_id")
+        if placement_course_id:
+            placement_course = app.course(str(placement_course_id))
+            if placement_course is not None:
+                correct_refs = {
+                    (str(ref[0]), str(ref[1]))
+                    for ref in state.get("correct_question_refs", [])
+                    if isinstance(ref, (list, tuple)) and len(ref) == 2
+                }
+                correct_by_level: dict[str, int] = defaultdict(int)
+                total_by_level: dict[str, int] = defaultdict(int)
+                for ref_course_id, ref_question_id in refs:
+                    placement_question = app.questions.get(
+                        str(ref_course_id),
+                        str(ref_question_id),
+                    )
+                    if placement_question is None or placement_question.level is None:
+                        continue
+                    total_by_level[placement_question.level] += 1
+                    if (str(ref_course_id), str(ref_question_id)) in correct_refs:
+                        correct_by_level[placement_question.level] += 1
+                placement_outcome = recommend_placement(
+                    placement_course,
+                    score_percent=score,
+                    correct_count=correct,
+                    question_count=total,
+                    correct_by_level=correct_by_level,
+                    total_by_level=total_by_level,
+                )
+                if not state.get("placement_saved"):
+                    app.learning.set_setting(
+                        placement_setting_key(placement_course.id),
+                        placement_outcome.as_dict(),
+                    )
+                    placement_lesson_id = state.get("placement_lesson_id")
+                    if placement_lesson_id:
+                        app.progress.mark_completed(
+                            placement_course.id,
+                            str(placement_lesson_id),
+                        )
+                        lesson_session_key = (
+                            f"session:{placement_course.id}:{placement_lesson_id}"
+                        )
+                        lesson_session_id = st.session_state.pop(
+                            lesson_session_key,
+                            None,
+                        )
+                        if lesson_session_id is not None:
+                            app.progress.complete_session(int(lesson_session_id))
+                    state["placement_saved"] = True
+                    st.session_state.practice_state = state
+
+        eyebrow = "PLACEMENT COMPLETE" if placement_outcome else "PRACTICE COMPLETE"
+        st.markdown(f'<div class="eyebrow">{eyebrow}</div>', unsafe_allow_html=True)
         st.title(f"{score}%")
         st.markdown(
             f'<div class="page-lead">{total}문항 중 {correct}문항을 맞혔어. '
             "오답과 낮은 자신감 문항은 복습 일정에 자동 반영됐어.</div>",
             unsafe_allow_html=True,
         )
+        if placement_outcome is not None:
+            st.success(f"권장 시작 단계 · {placement_outcome.level_label}")
+            st.caption(
+                "정답률 기반의 코스 배치 결과야. 듣기·말하기까지 포함한 공인 등급 판정은 아니며, "
+                "필요하면 언제든 다시 진단할 수 있어."
+            )
+            if placement_outcome.level_scores:
+                result_course = app.course(placement_outcome.course_id)
+                config = placement_config(result_course) if result_course else None
+                labels = (
+                    {item.id: item.label for item in config.levels}
+                    if config
+                    else {}
+                )
+                with st.expander("단계별 진단 근거"):
+                    for level_id, level_correct, level_total in placement_outcome.level_scores:
+                        level_percent = score_percent(level_correct, level_total)
+                        st.write(
+                            f"{labels.get(level_id, level_id)} · "
+                            f"{level_correct}/{level_total} · {level_percent}%"
+                        )
         if target_score:
             if score >= target_score:
                 st.success(f"목표 {target_score}%를 달성했어.")
             else:
                 st.info(f"목표 {target_score}%까지 {target_score - score}%p 남았어.")
-        if st.button("Review에서 다음 복습 확인", type="primary"):
+        exam_set_title = state.get("exam_set_title")
+        if exam_set_title:
+            exam_set_id = str(state.get("exam_set_id"))
+            exam_course_id = str(refs[0][0]) if refs else ""
+            if exam_course_id and exam_set_id and not state.get("exam_saved"):
+                app.learning.set_setting(
+                    mock_result_setting_key(exam_course_id, exam_set_id),
+                    {
+                        "course_id": exam_course_id,
+                        "set_id": exam_set_id,
+                        "score_percent": score,
+                        "correct_count": correct,
+                        "question_count": total,
+                        "completed_at": datetime.now(timezone.utc).isoformat(
+                            timespec="seconds"
+                        ),
+                    },
+                )
+                state["exam_saved"] = True
+                st.session_state.practice_state = state
+            st.info(f"완료한 회차 · {exam_set_title}")
+        action_label = (
+            "권장 단계에서 학습 시작"
+            if placement_outcome
+            else "복습에서 다음 일정 확인"
+        )
+        if st.button(action_label, type="primary"):
             st.session_state.pop("practice_state", None)
             st.session_state.pop("practice_feedback", None)
-            go("review")
+            if placement_outcome:
+                go("course", course_id=placement_outcome.course_id)
+            else:
+                go("review")
         return
 
     course_id, question_id = refs[position]
@@ -1014,10 +1455,14 @@ def practice_page(app: LearningRuntime) -> None:
 
     mode_label = {
         "quiz": "Quick Quiz",
-        "review": "Today's Review",
+        "review": "복습",
         "practice": "Practice",
         "mock_exam": "Mock Exam",
     }.get(str(state.get("mode")), "Practice")
+    if state.get("placement_course_id"):
+        mode_label = "Placement Assessment"
+    elif state.get("exam_set_title"):
+        mode_label = str(state["exam_set_title"])
     st.markdown(f'<div class="eyebrow">{html.escape(mode_label)} · {position + 1}/{len(refs)}</div>', unsafe_allow_html=True)
     st.title(question.topic)
     st.progress((position + 1) / len(refs))
@@ -1081,6 +1526,9 @@ def practice_page(app: LearningRuntime) -> None:
                 )
                 if result.correct:
                     state["correct"] = int(state.get("correct", 0)) + 1
+                    correct_refs = list(state.get("correct_question_refs", []))
+                    correct_refs.append((question.course_id, question.id))
+                    state["correct_question_refs"] = correct_refs
                 st.session_state.practice_state = state
                 st.session_state.practice_feedback = {
                     "correct": result.correct,
@@ -1113,14 +1561,27 @@ def practice_page(app: LearningRuntime) -> None:
 
 def review_page(app: LearningRuntime) -> None:
     st.markdown('<div class="eyebrow">RECALL</div>', unsafe_allow_html=True)
-    st.title("Review")
+    st.title("복습")
     st.markdown(
-        '<div class="page-lead">오답과 자신감이 낮았던 내용을 정해진 간격으로 다시 확인한다.</div>',
+        '<div class="page-lead">선택한 Course에서 전에 풀었던 문항을 퀴즈로 다시 확인한다.</div>',
         unsafe_allow_html=True,
     )
-    due = app.due_reviews()
+    selected_ids = stored_selected_course_ids(app)
+    learning_courses = selected_courses(app.catalog.courses, selected_ids)
+    selected_id_set = set(selected_ids)
+    if not learning_courses:
+        st.info("먼저 Courses에서 공부할 Course를 선택해라. 선택한 Course의 복습만 이곳에 모여.")
+        if st.button("Courses에서 학습 Course 선택", type="primary", width="stretch"):
+            go("courses")
+        return
+
+    due = tuple(
+        item
+        for item in app.due_reviews()
+        if item.question.course_id in selected_id_set
+    )
     if due:
-        st.subheader(f"오늘 복습 {len(due)}문항")
+        st.subheader(f"오늘의 복습 · {len(due)}문항")
         for item in due[:10]:
             st.markdown(
                 f'<div class="study-row"><div class="study-course">{html.escape(item.question.course_id)}</div>'
@@ -1129,7 +1590,7 @@ def review_page(app: LearningRuntime) -> None:
                 f'{item.schedule.interval_days}일 간격 · 자신감 {item.schedule.last_confidence}/5</div></div>',
                 unsafe_allow_html=True,
             )
-        if st.button("Today's Review 시작", type="primary", width="stretch"):
+        if st.button("오늘의 복습 시작", type="primary", width="stretch"):
             start_practice_flow(
                 app,
                 tuple(item.question for item in due[:10]),
@@ -1139,8 +1600,9 @@ def review_page(app: LearningRuntime) -> None:
     else:
         st.success("오늘 마감인 복습은 없어. 빠른 Quiz로 새 복습 주기를 만들 수 있어.")
 
-    st.subheader("Quick Practice")
-    for course in app.catalog.courses:
+    st.subheader("선택한 Course 퀴즈")
+    st.caption("새 문항을 풀면 결과와 확신 정도를 바탕으로 다음 복습 일정이 생성돼.")
+    for course in learning_courses:
         count = len(app.questions.for_course(course.id))
         if not count:
             continue
@@ -1595,9 +2057,9 @@ def sidebar() -> str:
     target = st.session_state.pop("_navigation_target", None)
     destinations = ["dashboard", "courses", "review", "notes", "insights", "settings"]
     labels = {
-        "dashboard": "오늘",
+        "dashboard": "오늘의 학습",
         "courses": "Courses",
-        "review": "Review",
+        "review": "복습",
         "notes": "Notes",
         "insights": "Insights",
         "settings": "Settings",

@@ -46,6 +46,13 @@ class QuestionCatalog:
             None,
         )
 
+    def for_set(self, course_id: str, set_id: str) -> tuple[QuizQuestion, ...]:
+        return tuple(
+            question
+            for question in self.questions
+            if question.course_id == course_id and set_id in question.sets
+        )
+
 
 def _mapping(value: Any, context: str) -> dict[str, Any]:
     if not isinstance(value, dict):
@@ -117,6 +124,13 @@ def _question(raw: Any, course: Course, context: str) -> QuizQuestion:
         raise QuestionBankError(f"{context}.correct_answers: single_choice는 정답 하나가 필요하다")
 
     incorrect_raw = _mapping(data.get("incorrect_explanations", {}), f"{context}.incorrect_explanations")
+    level = _id(data["level"], f"{context}.level") if data.get("level") else None
+    sets = tuple(
+        _id(item, f"{context}.sets[{index}]")
+        for index, item in enumerate(_list(data.get("sets", []), f"{context}.sets"))
+    )
+    if len(sets) != len(set(sets)):
+        raise QuestionBankError(f"{context}.sets: set ID가 중복됐다")
     canonical = json.dumps(data, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return QuizQuestion(
         id=question_id,
@@ -134,6 +148,8 @@ def _question(raw: Any, course: Course, context: str) -> QuizQuestion:
             (str(key), str(value)) for key, value in incorrect_raw.items()
         ),
         source_ref=str(data["source_ref"]) if data.get("source_ref") else None,
+        level=level,
+        sets=sets,
         content_hash=hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
     )
 

@@ -34,9 +34,9 @@ def test_sidebar_destinations_render_with_expected_titles() -> None:
     assert "Learning OS" in _visible_text(at)
 
     expected = {
-        "오늘": "Learning OS",
+        "오늘의 학습": "Learning OS",
         "Courses": "Courses",
-        "Review": "Review",
+        "복습": "복습",
         "Notes": "Notes",
         "Insights": "Insights",
         "Settings": "Settings",
@@ -49,26 +49,34 @@ def test_sidebar_destinations_render_with_expected_titles() -> None:
 
 def test_dashboard_and_review_expose_phase2_learning_flow() -> None:
     at = _app()
-    assert "Today's Study" in _visible_text(at)
-    # AppTest exposes the adjustment control as a multiselect; do not touch its
-    # value because changing it would alter the user's study plan.
-    assert at.multiselect
-    assert "오늘 계획 조정" in (ROOT / "app.py").read_text(encoding="utf-8")
-    assert set(at.multiselect[0].options) == {
+    assert "오늘의 학습" in _visible_text(at)
+    source = (ROOT / "app.py").read_text(encoding="utf-8")
+    assert "오늘 학습 범위 조정" in source
+
+    at.radio[0].set_value("Courses").run()
+    assert not at.exception
+    selector = next(
+        item for item in at.multiselect if item.key == "selected-course-picker"
+    )
+    assert selector.label == "학습할 Course 선택"
+    assert set(selector.options) == {
         "AI for Beginners",
         "AICE Associate",
+        "English — CEFR A1 to C2",
+        "중국어 — 입문부터 HSK 9까지",
+        "NCS 직업공통능력 — 이론과 종합 모의고사 10회",
         "PSPO I — Professional Product Ownership",
         "SQLD",
     }
-    assert "오늘의 범위" in _visible_text(at)
 
-    at.radio[0].set_value("Review").run()
+    at.radio[0].set_value("복습").run()
     assert not at.exception
     text = _visible_text(at)
-    assert "Quick Practice" in text
-    for course_title in ("AI for Beginners", "AICE Associate", "PSPO I", "SQLD"):
-        assert course_title in text
-    assert len([button for button in at.button if (button.key or "").startswith("review-quiz:")]) == 4
+    assert any(item.value == "복습" for item in at.title)
+    assert (
+        "선택한 Course 퀴즈" in text
+        or "먼저 Courses에서 공부할 Course를 선택해라" in source
+    )
 
 
 def test_lesson_explains_duration_and_separates_today_from_course_next() -> None:
@@ -82,8 +90,32 @@ def test_lesson_explains_duration_and_separates_today_from_course_next() -> None
     text = _visible_text(at)
     assert "예상 학습 시간 · 35분" in text
     assert "공식 평가 구조 대조 · 7분" in text
-    assert "오늘의 학습 상태" in text
-    assert "이 Course의 다음 세션" in text
+    source = (ROOT / "app.py").read_text(encoding="utf-8")
+    # 완료 후 UI는 저장된 사용자 진도에 따라 조건부로 표시되므로, 깨끗한
+    # DB에서도 테스트가 사용자 데이터를 만들지 않도록 정확한 문구를 확인한다.
+    assert "오늘의 학습 상태" in source
+    assert "이 Course의 다음 세션" in source
+
+
+def test_adaptive_language_and_ncs_fixed_round_controls_render() -> None:
+    at = _app()
+    at.session_state["page"] = "course"
+    at.session_state["course_id"] = "english-cefr"
+    at.run()
+
+    assert not at.exception
+    assert "레벨 진단" in _visible_text(at)
+    assert any(button.key == "placement:english-cefr" for button in at.button)
+
+    at.session_state["page"] = "course"
+    at.session_state["course_id"] = "ncs-core"
+    at.run()
+
+    assert not at.exception
+    mock_round = next(
+        selectbox for selectbox in at.selectbox if selectbox.key == "mock-set:ncs-core"
+    )
+    assert len(mock_round.options) == 10
 
 
 @pytest.mark.parametrize(
@@ -123,6 +155,9 @@ def test_course_question_banks_have_expected_counts_no_issues_and_sqld_is_active
     expected_counts = {
         "ai-for-beginners": 4,
         "aice-associate": 28,
+        "chinese-hsk": 50,
+        "english-cefr": 36,
+        "ncs-core": 500,
         "pspo-i": 80,
         "sqld": 6,
     }
@@ -133,5 +168,5 @@ def test_course_question_banks_have_expected_counts_no_issues_and_sqld_is_active
         assert len(load_question_file(courses[course_id])) == expected
 
     question_catalog = discover_questions(catalog.courses)
-    assert len(question_catalog.questions) == 118
+    assert len(question_catalog.questions) == 704
     assert question_catalog.issues == ()

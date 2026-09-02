@@ -93,27 +93,35 @@ North-star metric은 **주간 완료 학습 세션 수**다. 시험 합격과 �
 
 1. 사용자가 `start.bat`을 실행한다.
 2. 앱이 환경과 DB를 초기화하고 브라우저를 연다.
-3. Dashboard에 활성 Course와 Today's Study가 표시된다.
-4. 외부 source가 준비되지 않았으면 해당 Course에만 준비 버튼을 보여준다.
-5. 사용자가 첫 Lesson을 연다.
+3. Courses에서 학습할 Course를 선택한다.
+4. `오늘의 학습`에 선택한 Course 기반 계획이 표시된다.
+5. 외부 source가 준비되지 않았으면 해당 Course에만 준비 버튼을 보여준다.
+6. 사용자가 첫 Lesson을 연다.
 
 ### 6.2 매일 학습
 
-1. Dashboard에서 오늘 가능한 시간을 선택한다.
-2. Today's Study가 시간 범위에 맞는 미완료 Lesson을 보여준다.
+1. `오늘의 학습`에서 오늘 가능한 시간을 선택한다.
+2. 선택한 Course의 미완료 Lesson을 시간 범위에 맞춰 보여준다.
 3. 사용자가 `오늘 공부 시작`을 누른다.
 4. Lesson을 읽고 필요하면 Notebook을 연다.
 5. `완료`를 누르면 진도와 학습 세션이 저장된다.
-6. Dashboard의 Course progress가 즉시 갱신된다.
+6. `오늘의 학습`의 선택 Course 진도가 즉시 갱신된다.
 
-### 6.3 외부 Course 학습
+### 6.3 복습
+
+1. 사용자가 `복습`을 연다.
+2. 선택한 Course에서 이전에 풀었고 복습일이 된 문항만 표시된다.
+3. 사용자가 퀴즈를 풀고 확신 정도를 기록한다.
+4. 결과에 따라 다음 복습일이 다시 계산된다.
+
+### 6.4 외부 Course 학습
 
 1. AI-For-Beginners Course를 연다.
 2. source가 없으면 clone, 있으면 상태와 마지막 sync 시각을 확인한다.
 3. 원본 Markdown 또는 Notebook을 연다.
 4. source 갱신에 실패해도 다른 Course는 계속 사용한다.
 
-### 6.4 재실행
+### 6.5 재실행
 
 1. 앱을 종료한다.
 2. 다시 `start.bat`을 실행한다.
@@ -147,15 +155,16 @@ North-star metric은 **주간 완료 학습 세션 수**다. 시험 합격과 �
 
 ### FR-03 Dashboard — P0
 
-- 제품명, Today's Study, `오늘 공부 시작`, Course progress를 보여줘야 한다.
+- 제품명, 오늘의 학습, `오늘 공부 시작`, 선택한 Course progress를 보여줘야 한다.
 - AICE Associate, PSPO I, Microsoft AI-For-Beginners를 활성 Course로 표시해야 한다.
 - SQLD skeleton은 planned 상태로 표시할 수 있다.
 - Course progress는 required Lesson 중 완료 비율로 계산해야 한다.
 
 수용 기준: 완료 버튼을 누르면 동일 세션 안에서 progress가 갱신된다.
 
-### FR-04 Today's Study — P0
+### FR-04 오늘의 학습 — P0
 
+- Courses에서 선택한 Course만 계획 후보로 사용해야 한다.
 - 사용자는 15, 30, 45, 60, 90, 120분 중 가용 시간을 선택할 수 있어야 한다.
 - 시스템은 활성 Course의 미완료 Lesson을 최대 3개 제안해야 한다.
 - priority, target date, Lesson order를 안정적으로 반영해야 한다.
@@ -166,6 +175,8 @@ North-star metric은 **주간 완료 학습 세션 수**다. 시험 합격과 �
 
 ### FR-05 Course List와 Curriculum — P0
 
+- 사용자는 학습할 Course를 복수 선택할 수 있어야 하며 선택값은 로컬에 저장돼야 한다.
+- 선택 변경은 다음 `오늘의 학습` 계획과 `복습` 목록에 반영돼야 한다.
 - Course별 제목, 설명, 상태, 일정, 예상 시간, 진도를 보여줘야 한다.
 - Course를 열면 module과 lesson이 Manifest 순서대로 나타나야 한다.
 - 완료/미완료 Lesson을 구분해야 한다.
@@ -212,7 +223,7 @@ North-star metric은 **주간 완료 학습 세션 수**다. 시험 합격과 �
 
 ### FR-10 Study Session — P0
 
-- Today's Study에서 Lesson을 시작한 시각을 저장해야 한다.
+- 오늘의 학습에서 Lesson을 시작한 시각을 저장해야 한다.
 - 완료 시 종료 시각과 실제 경과 시간을 저장해야 한다.
 - 비정상 종료된 session이 다음 실행을 막으면 안 된다.
 
@@ -325,6 +336,15 @@ Course completion과 Skill mastery를 별도로 계산한다. mastery는 Quiz, P
 
 Lesson별 Markdown/code/URL Note와 전체 검색을 지원한다. AI Tutor는 `AIProvider` abstraction 뒤의 optional module이며 키가 없어도 Core 학습 기능은 모두 동작해야 한다.
 
+### 11.6 적응형 외국어 Course와 NCS 종합 모의고사
+
+- 영어 첫 Lesson은 CEFR A1~C2 진단, 중국어 첫 Lesson은 입문~HSK 9 진단이어야 한다.
+- 단계별 정답률 60%와 누적 정답률 65%를 모두 충족할 때만 다음 단계로 배치한다. 처음 미달한 단계에서 멈춰 상위 문항의 추측 정답이 기초 결손을 가리지 않게 한다.
+- 진단 후 권장 단계보다 낮은 Lesson은 현재 학습 경로·진도·Today 추천에서 제외하고, 재진단 결과에 따라 다시 계산한다.
+- 진단은 읽기·어휘·문법·상황 판단 기반의 권장 시작점이며 공인 등급이나 듣기·말하기 수행평가로 표시하면 안 된다.
+- NCS는 2026 직업공통능력 7개 영역을 회차마다 모두 포함한 50문항·60분 고정 모의고사 10회를 제공한다.
+- NCS 회차별 최근 결과를 로컬에 저장하고, 공개 문제를 복제하지 않은 독창 문항임을 명시한다.
+
 ## 12. Non-functional Requirements
 
 ### NFR-01 신뢰성
@@ -395,7 +415,7 @@ P0 오류는 앱 실행 불가, progress 손실, Course loading 불가, Lesson/N
 | AT-01 | `start.bat` 실행 | 깨끗한 Windows shell에서 실행 | 프로세스와 브라우저 시작 |
 | AT-02 | 브라우저 앱 표시 | health/startup smoke test | Learning OS Dashboard 표시 |
 | AT-03 | 세 Course 표시 | Catalog UI 확인 | AICE, PSPO, AI-For-Beginners 표시 |
-| AT-04 | Today's Study | 기본 60분으로 Dashboard 확인 | 1~3개 Lesson과 시간 표시 |
+| AT-04 | 오늘의 학습 | Course 선택 후 기본 60분으로 확인 | 선택 Course의 1~3개 Lesson과 시간 표시 |
 | AT-05 | Lesson 열람 | AICE/PSPO Markdown 열기 | 콘텐츠 정상 렌더링 |
 | AT-06 | AICE Notebook | Notebook action 실행 | Jupyter에서 파일 열림 |
 | AT-07 | AI 원본 콘텐츠 | source clone 후 첫 항목 열기 | 원본 Markdown/Notebook 접근 |

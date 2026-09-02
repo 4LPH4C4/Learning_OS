@@ -1,0 +1,862 @@
+schema_version: 1
+course_id: chinese-hsk
+questions:
+  - id: placement-beginner-tone-mark
+    lesson_id: placement-diagnostic
+    level: beginner
+    sets: [placement]
+    skill_id: chinese-pinyin
+    topic: 입문 병음과 성조
+    difficulty: 1
+    type: single_choice
+    prompt: "‘你好’의 표준 병음 표기로 가장 알맞은 것은?"
+    options:
+      - {id: ni-hao-third, text: "nǐ hǎo"}
+      - {id: ni-hao-first, text: "nī hāo"}
+      - {id: ni-hao-fourth, text: "nì hào"}
+      - {id: ni-hao-no-tone, text: "ni hao"}
+    correct_answers: [ni-hao-third]
+    explanation: 你와 好의 사전 성조는 모두 3성이다. 실제 발화에서는 3성 변조가 일어나도 병음 표기는 nǐ hǎo로 쓴다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-beginner-thanks
+    lesson_id: placement-diagnostic
+    level: beginner
+    sets: [placement]
+    skill_id: chinese-vocabulary
+    topic: 입문 생존 표현
+    difficulty: 1
+    type: single_choice
+    prompt: "상대방에게 ‘고맙습니다’라고 말할 때 알맞은 표현은?"
+    options:
+      - {id: zaijian, text: "再见"}
+      - {id: xiexie, text: "谢谢"}
+      - {id: duibuqi, text: "对不起"}
+      - {id: meiguanxi, text: "没关系"}
+    correct_answers: [xiexie]
+    explanation: 谢谢는 감사, 再见은 작별, 对不起는 사과, 没关系는 괜찮다는 응답이다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-beginner-pronouns
+    lesson_id: placement-diagnostic
+    level: beginner
+    sets: [placement]
+    skill_id: chinese-vocabulary
+    topic: 입문 인칭 표현
+    difficulty: 1
+    type: single_choice
+    prompt: "‘나는 학생입니다’에 해당하는 중국어 문장은?"
+    options:
+      - {id: ni-shi-xuesheng, text: "你是学生。"}
+      - {id: wo-you-xuesheng, text: "我有学生。"}
+      - {id: wo-shi-xuesheng, text: "我是学生。"}
+      - {id: ta-zai-xuesheng, text: "他在学生。"}
+    correct_answers: [wo-shi-xuesheng]
+    explanation: 我는 나, 是는 신분이나 분류를 잇고, 学生은 학생이다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-beginner-number
+    lesson_id: placement-diagnostic
+    level: beginner
+    sets: [placement]
+    skill_id: chinese-vocabulary
+    topic: 입문 숫자
+    difficulty: 1
+    type: single_choice
+    prompt: "숫자 28을 중국어로 바르게 쓴 것은?"
+    options:
+      - {id: baershi, text: "八二十"}
+      - {id: ershibaib, text: "二十八百"}
+      - {id: liangba, text: "两八"}
+      - {id: ershiba, text: "二十八"}
+    correct_answers: [ershiba]
+    explanation: 28은 2개의 십과 8이므로 二十八이라고 한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-beginner-repair
+    lesson_id: placement-diagnostic
+    level: beginner
+    sets: [placement]
+    skill_id: chinese-communication
+    topic: 입문 대화 수리
+    difficulty: 1
+    type: single_choice
+    prompt: "상대방의 말을 못 알아들어 ‘다시 한 번 말해 주세요’라고 요청하려 한다. 가장 알맞은 표현은?"
+    options:
+      - {id: say-again, text: "请再说一遍。"}
+      - {id: write-name, text: "请写名字。"}
+      - {id: go-now, text: "现在去吧。"}
+      - {id: no-need, text: "不用了。"}
+    correct_answers: [say-again]
+    explanation: 请再说一遍은 상대에게 같은 내용을 다시 말해 달라고 정중히 요청하는 표현이다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+
+  - id: placement-hsk1-word-order
+    lesson_id: placement-diagnostic
+    level: hsk1
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 1 기본 어순
+    difficulty: 1
+    type: single_choice
+    prompt: "‘나는 오늘 학교에서 중국어를 공부한다’의 가장 자연스러운 어순은?"
+    options:
+      - {id: verb-subject-place, text: "学习我在学校今天汉语。"}
+      - {id: subject-time-place-verb, text: "我今天在学校学习汉语。"}
+      - {id: object-time-subject, text: "汉语今天我学习在学校。"}
+      - {id: place-object-verb, text: "在学校汉语学习我今天。"}
+    correct_answers: [subject-time-place-verb]
+    explanation: 기본적으로 주어 뒤에 시간과 장소가 오고, 이어 동사와 목적어가 온다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk1-you-zai
+    lesson_id: placement-diagnostic
+    level: hsk1
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 1 존재와 위치
+    difficulty: 1
+    type: single_choice
+    prompt: "빈칸에 알맞은 말은? 学校___一个图书馆。"
+    options:
+      - {id: zai, text: "在"}
+      - {id: shi, text: "是"}
+      - {id: you, text: "有"}
+      - {id: qu, text: "去"}
+    correct_answers: [you]
+    explanation: 어떤 장소에 무엇이 존재한다고 말할 때 장소+有+대상을 쓴다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk1-measure-word
+    lesson_id: placement-diagnostic
+    level: hsk1
+    sets: [placement]
+    skill_id: chinese-vocabulary
+    topic: HSK 1 양사
+    difficulty: 1
+    type: single_choice
+    prompt: "‘책 두 권’의 자연스러운 표현은?"
+    options:
+      - {id: er-ge-shu, text: "二个书"}
+      - {id: liang-zhang-shu, text: "两张书"}
+      - {id: er-bei-shu, text: "二杯书"}
+      - {id: liang-ben-shu, text: "两本书"}
+    correct_answers: [liang-ben-shu]
+    explanation: 책을 세는 대표 양사는 本이며 양사 앞의 둘은 흔히 两을 쓴다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk1-location
+    lesson_id: placement-diagnostic
+    level: hsk1
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 1 위치
+    difficulty: 1
+    type: single_choice
+    prompt: "手机在包里。 이 문장이 뜻하는 것은?"
+    options:
+      - {id: phone-in-bag, text: "휴대전화가 가방 안에 있다."}
+      - {id: bag-in-phone, text: "가방이 휴대전화 안에 있다."}
+      - {id: take-phone-out, text: "휴대전화를 가방에서 꺼낸다."}
+      - {id: buy-new-bag, text: "새 가방을 산다."}
+    correct_answers: [phone-in-bag]
+    explanation: A在B里는 A가 B 안에 있다는 위치 관계를 나타낸다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk1-shopping
+    lesson_id: placement-diagnostic
+    level: hsk1
+    sets: [placement]
+    skill_id: chinese-communication
+    topic: HSK 1 구매 상황
+    difficulty: 1
+    type: single_choice
+    prompt: "A: 这个多少钱？ B: 十五块。 두 사람은 무엇을 확인하고 있는가?"
+    options:
+      - {id: time, text: "시각"}
+      - {id: price, text: "가격"}
+      - {id: address, text: "주소"}
+      - {id: name, text: "이름"}
+    correct_answers: [price]
+    explanation: 多少钱은 얼마인지 가격을 묻고, 十五块는 15위안이라는 구어적 답이다.
+    source_ref: https://www.chinesetest.cn/syllabus
+
+  - id: placement-hsk2-experience
+    lesson_id: placement-diagnostic
+    level: hsk2
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 2 경험상
+    difficulty: 2
+    type: single_choice
+    prompt: "‘나는 베이징에 가 본 적이 있다’에 알맞은 문장은?"
+    options:
+      - {id: zai-qu, text: "我在去北京。"}
+      - {id: mei-qu-le, text: "我没去了北京。"}
+      - {id: qu-guo, text: "我去过北京。"}
+      - {id: shi-qu, text: "我是去北京。"}
+    correct_answers: [qu-guo]
+    explanation: 동사 뒤의 过는 과거의 경험이 있음을 나타낸다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk2-modal
+    lesson_id: placement-diagnostic
+    level: hsk2
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 2 가능과 허가
+    difficulty: 2
+    type: single_choice
+    prompt: "촬영 허가를 정중하게 물을 때 가장 알맞은 문장은?"
+    options:
+      - {id: hui-paizhao, text: "这里会拍照吗？"}
+      - {id: shi-paizhao, text: "这里是拍照吗？"}
+      - {id: you-paizhao, text: "这里有拍照吗？"}
+      - {id: keyi-paizhao, text: "这里可以拍照吗？"}
+    correct_answers: [keyi-paizhao]
+    explanation: 可以…吗는 상황상 허용되는지 허가를 묻는 데 적합하다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk2-comparison
+    lesson_id: placement-diagnostic
+    level: hsk2
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 2 비교
+    difficulty: 2
+    type: single_choice
+    prompt: "‘오늘은 어제보다 춥다’의 자연스러운 표현은?"
+    options:
+      - {id: jintian-bi, text: "今天比昨天冷。"}
+      - {id: zuotian-bi, text: "昨天比今天冷。"}
+      - {id: jintian-bi-hen, text: "今天比昨天很冷。"}
+      - {id: jintian-yiyang, text: "今天跟昨天一样冷。"}
+    correct_answers: [jintian-bi]
+    explanation: A比B+형용사는 A가 B보다 해당 성질의 정도가 높음을 나타낸다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk2-message
+    lesson_id: placement-diagnostic
+    level: hsk2
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 2 계획 변경
+    difficulty: 2
+    type: single_choice
+    prompt: "王老师，我今天有点儿不舒服，不能来上课。明天我再给您打电话。 화자가 오늘 하려는 일은?"
+    options:
+      - {id: teach-class, text: "오늘 수업을 직접 진행한다."}
+      - {id: miss-class, text: "수업에 가지 않고 선생님께 상황을 알린다."}
+      - {id: travel-today, text: "오늘 여행을 떠난다."}
+      - {id: call-yesterday, text: "어제 선생님께 전화한다."}
+    correct_answers: [miss-class]
+    explanation: 不舒服와 不能来上课가 오늘 결석함을, 明天再打电话가 다음 행동을 나타낸다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk2-progressive
+    lesson_id: placement-diagnostic
+    level: hsk2
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 2 진행상
+    difficulty: 2
+    type: single_choice
+    prompt: "전화를 받은 사람이 ‘지금 회의 중입니다’라고 말하려 한다. 가장 알맞은 문장은?"
+    options:
+      - {id: kaihui-guo, text: "我开会过。"}
+      - {id: mei-kaihui-le, text: "我没开会了。"}
+      - {id: zhengzai-kaihui, text: "我正在开会。"}
+      - {id: bi-kaihui, text: "我比开会。"}
+    correct_answers: [zhengzai-kaihui]
+    explanation: 正在+동사는 말하는 시점에 동작이 진행 중임을 나타낸다.
+    source_ref: https://www.chinesetest.cn/syllabus
+
+  - id: placement-hsk3-result-complement
+    lesson_id: placement-diagnostic
+    level: hsk3
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 3 결과 보어
+    difficulty: 2
+    type: single_choice
+    prompt: "설명을 들었지만 이해하지 못했다는 뜻을 가장 정확히 나타낸 문장은?"
+    options:
+      - {id: mei-ting, text: "我没听，也懂了。"}
+      - {id: ting-zai, text: "我听在了。"}
+      - {id: dong-ting, text: "我懂听了。"}
+      - {id: mei-tingdong, text: "我听了，但是没听懂。"}
+    correct_answers: [mei-tingdong]
+    explanation: 听은 듣는 행동, 听懂은 들어서 이해한 결과다. 没听懂은 그 결과에 이르지 못했음을 뜻한다.
+    source_ref: https://www.chinesetest.cn/HSK/3
+  - id: placement-hsk3-ba-construction
+    lesson_id: placement-diagnostic
+    level: hsk3
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 3 把자문
+    difficulty: 2
+    type: single_choice
+    prompt: "‘이 책을 다 읽었다’에서 대상의 처리 결과를 강조하는 자연스러운 문장은?"
+    options:
+      - {id: ba-kanwan, text: "我把这本书看完了。"}
+      - {id: ba-kan, text: "我把一本书看。"}
+      - {id: shu-ba, text: "这本书把我看完了。"}
+      - {id: bei-kan, text: "我被这本书看完了。"}
+    correct_answers: [ba-kanwan]
+    explanation: 把 뒤에는 특정 목적어가 오며 동사 뒤의 看完이 읽기를 마친 결과를 나타낸다.
+    source_ref: https://www.chinesetest.cn/HSK/3
+  - id: placement-hsk3-direction
+    lesson_id: placement-diagnostic
+    level: hsk3
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 3 방향 보어
+    difficulty: 2
+    type: single_choice
+    prompt: "화자가 방 안에 있으며 밖의 사람에게 ‘들어오세요’라고 말한다. 알맞은 표현은?"
+    options:
+      - {id: jinqu, text: "请进去。"}
+      - {id: jinlai, text: "请进来。"}
+      - {id: chulai, text: "请出来。"}
+      - {id: chuqu, text: "请出去。"}
+    correct_answers: [jinlai]
+    explanation: 进은 안으로, 来는 화자 또는 기준점 쪽으로 이동함을 나타낸다.
+    source_ref: https://www.chinesetest.cn/HSK/3
+  - id: placement-hsk3-notice
+    lesson_id: placement-diagnostic
+    level: hsk3
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 3 공지 독해
+    difficulty: 2
+    type: single_choice
+    prompt: "通知：星期日上午图书馆不开门，下午两点正常开放。 이 공지를 바르게 이해한 것은?"
+    options:
+      - {id: closed-all-day, text: "일요일 하루 종일 문을 닫는다."}
+      - {id: opens-morning, text: "일요일 오전에만 연다."}
+      - {id: opens-two, text: "일요일 오후 2시에는 정상적으로 연다."}
+      - {id: opens-monday, text: "월요일 오후 2시에만 연다."}
+    correct_answers: [opens-two]
+    explanation: 上午不开门은 오전 휴관, 下午两点正常开放은 오후 2시 정상 개관이라는 뜻이다.
+    source_ref: https://www.chinesetest.cn/HSK/3
+  - id: placement-hsk3-cai-sequence
+    lesson_id: placement-diagnostic
+    level: hsk3
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 3 사건 순서
+    difficulty: 2
+    type: single_choice
+    prompt: "小李到了公司才发现没带电脑。 무엇이 먼저 일어났는가?"
+    options:
+      - {id: discover-first, text: "컴퓨터를 안 가져온 사실을 먼저 발견했다."}
+      - {id: buy-first, text: "새 컴퓨터를 먼저 샀다."}
+      - {id: return-first, text: "집으로 먼저 돌아갔다."}
+      - {id: arrive-first, text: "회사에 도착했다."}
+    correct_answers: [arrive-first]
+    explanation: 到了公司才发现은 회사에 도착한 뒤에야 비로소 발견했다는 사건 순서를 나타낸다.
+    source_ref: https://www.chinesetest.cn/HSK/3
+
+  - id: placement-hsk4-condition
+    lesson_id: placement-diagnostic
+    level: hsk4
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 4 조건 복문
+    difficulty: 3
+    type: single_choice
+    prompt: "‘사용자 요구를 이해해야만 문제를 해결할 수 있다’의 필요조건을 정확히 나타낸 문장은?"
+    options:
+      - {id: zhiyou-cai, text: "只有了解用户需求，才能解决问题。"}
+      - {id: zhiyao-jiu, text: "只要了解用户需求，就一定解决了问题。"}
+      - {id: suiran-danshi, text: "虽然了解用户需求，但是解决问题。"}
+      - {id: yibian-yibian, text: "一边了解用户需求，一边才问题。"}
+    correct_answers: [zhiyou-cai]
+    explanation: 只有A才B는 B가 성립하려면 A가 필요하다는 필요조건을 나타낸다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk4-passive
+    lesson_id: placement-diagnostic
+    level: hsk4
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 4 피동
+    difficulty: 3
+    type: single_choice
+    prompt: "회의가 취소됐다는 결과를 중심으로 가장 자연스럽게 말한 문장은?"
+    options:
+      - {id: huiyi-bei-quxiao-ren, text: "会议被取消人了。"}
+      - {id: huiyi-quxiao, text: "会议被取消了。"}
+      - {id: huiyi-ba-quxiao, text: "会议把取消了。"}
+      - {id: quxiao-bei-huiyi, text: "取消被会议了。"}
+    correct_answers: [huiyi-quxiao]
+    explanation: 영향을 받은 대상 会议를 주제로 삼고 행위자를 생략한 被자문이 자연스럽다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk4-concession
+    lesson_id: placement-diagnostic
+    level: hsk4
+    sets: [placement]
+    skill_id: chinese-grammar
+    topic: HSK 4 양보 복문
+    difficulty: 3
+    type: single_choice
+    prompt: "빈칸의 짝으로 가장 알맞은 것은? ___时间很紧，___我们还是完成了任务。"
+    options:
+      - {id: yinwei-suoyi, text: "因为 / 所以"}
+      - {id: zhiyou-cai, text: "只有 / 才"}
+      - {id: suiran-danshi, text: "虽然 / 但是"}
+      - {id: yibian-yibian, text: "一边 / 一边"}
+    correct_answers: [suiran-danshi]
+    explanation: 시간이 빠듯했는데도 과제를 완수했다는 기대와 반대되는 결과이므로 양보 관계다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk4-request-email
+    lesson_id: placement-diagnostic
+    level: hsk4
+    sets: [placement]
+    skill_id: chinese-communication
+    topic: HSK 4 업무 요청
+    difficulty: 3
+    type: single_choice
+    prompt: "거래처에 자료를 금요일까지 보내 달라고 정중하고 명확하게 요청하는 문장은?"
+    options:
+      - {id: vague-fast, text: "你快点儿弄一下吧。"}
+      - {id: no-request, text: "材料好像很多。"}
+      - {id: unclear-someday, text: "有时间的话以后再说。"}
+      - {id: polite-deadline, text: "如您方便，烦请于本周五前发送相关材料。"}
+    correct_answers: [polite-deadline]
+    explanation: 상대를 배려하는 표현과 함께 요청 대상과 기한을 명확히 제시한다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk4-meeting-note
+    lesson_id: placement-diagnostic
+    level: hsk4
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 4 회의 기록
+    difficulty: 3
+    type: single_choice
+    prompt: "会议决定先在上海试点，由陈经理负责，结果下月十日前提交。 다음 중 맞는 것은?"
+    options:
+      - {id: chen-responsible, text: "천 매니저가 시범 운영을 담당하고 다음 달 10일 전 결과를 낸다."}
+      - {id: nationwide-now, text: "전국에서 즉시 운영하기로 했다."}
+      - {id: no-decision, text: "회의에서는 아무것도 결정하지 않았다."}
+      - {id: result-today, text: "결과는 오늘 제출해야 한다."}
+    correct_answers: [chen-responsible]
+    explanation: 上海试点, 由陈经理负责, 下月十日前가 각각 범위, 담당자, 기한을 나타낸다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+
+  - id: placement-hsk5-reference-word
+    lesson_id: placement-diagnostic
+    level: hsk5
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 5 지시어와 응집
+    difficulty: 3
+    type: single_choice
+    prompt: "越来越多的公司允许员工远程办公。然而，这种安排也可能增加沟通成本。 ‘这种安排’이 가리키는 것은?"
+    options:
+      - {id: communication-cost, text: "의사소통 비용의 증가"}
+      - {id: remote-work, text: "직원의 원격근무"}
+      - {id: more-companies, text: "회사의 수가 늘어나는 현상 자체"}
+      - {id: office-rent, text: "사무실 임대"}
+    correct_answers: [remote-work]
+    explanation: 这种安排은 바로 앞에서 제시된 회사가 직원에게 허용한 원격근무 방식을 받는다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk5-register
+    lesson_id: placement-diagnostic
+    level: hsk5
+    sets: [placement]
+    skill_id: chinese-communication
+    topic: HSK 5 문체
+    difficulty: 3
+    type: single_choice
+    prompt: "기관에 보내는 공식 이메일의 첫 문장으로 가장 적절한 것은?"
+    options:
+      - {id: casual-hey, text: "嗨，那个东西怎么交啊？"}
+      - {id: command-now, text: "你现在马上告诉我。"}
+      - {id: formal-inquiry, text: "您好，我想就报名材料的提交方式咨询如下。"}
+      - {id: unrelated-weather, text: "今天天气真的不错。"}
+    correct_answers: [formal-inquiry]
+    explanation: 인사 뒤 문의 주제와 목적을 명확히 밝히며 공식 관계에 맞는 레지스터를 사용한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk5-source-attribution
+    lesson_id: placement-diagnostic
+    level: hsk5
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 5 뉴스 출처
+    difficulty: 3
+    type: single_choice
+    prompt: "据研究团队公布的数据，参与者的平均睡眠时间有所增加，但研究人员强调样本较小。 가장 정확한 요약은?"
+    options:
+      - {id: universal-proof, text: "모든 사람의 수면 시간이 반드시 늘어난다는 사실이 증명됐다."}
+      - {id: no-increase, text: "연구에서는 수면 시간 증가가 전혀 없었다."}
+      - {id: large-sample, text: "대규모 표본이어서 제한이 없다고 연구진이 밝혔다."}
+      - {id: cautious-summary, text: "연구팀 자료에서는 평균 수면 시간이 늘었지만 표본이 작아 해석에 주의가 필요하다."}
+    correct_answers: [cautious-summary]
+    explanation: 증가라는 관찰과 작은 표본이라는 연구진의 제한을 모두 보존한 요약이다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk5-causation
+    lesson_id: placement-diagnostic
+    level: hsk5
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 5 인과 해석
+    difficulty: 3
+    type: single_choice
+    prompt: "一项调查发现，经常阅读的人在词汇测试中得分较高。 이 문장만으로 확정할 수 없는 결론은?"
+    options:
+      - {id: reading-causes-all, text: "자주 읽는 행동만이 높은 점수의 직접적이고 유일한 원인이다."}
+      - {id: association-found, text: "조사에서 독서 빈도와 어휘 점수 사이의 관련성이 관찰됐다."}
+      - {id: readers-scored-higher, text: "자주 읽는 집단의 점수가 더 높았다."}
+      - {id: need-more-evidence, text: "인과 판단에는 추가 증거가 필요할 수 있다."}
+    correct_answers: [reading-causes-all]
+    explanation: 조사에서 관찰된 관련성만으로 다른 원인을 배제한 직접·유일 인과를 확정할 수 없다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk5-paragraph-order
+    lesson_id: placement-diagnostic
+    level: hsk5
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 5 문장 배열
+    difficulty: 3
+    type: single_choice
+    prompt: "다음 문장의 가장 자연스러운 순서는? (甲)因此，公司决定延长试点期。 (乙)不过，部分用户仍反映操作复杂。 (丙)新系统上线后，处理速度明显提高。"
+    options:
+      - {id: jia-bing-yi, text: "甲→丙→乙"}
+      - {id: bing-yi-jia, text: "丙→乙→甲"}
+      - {id: yi-jia-bing, text: "乙→甲→丙"}
+      - {id: jia-yi-bing, text: "甲→乙→丙"}
+    correct_answers: [bing-yi-jia]
+    explanation: 먼저 긍정적 결과를 제시하고 不过로 남은 문제를 전환한 뒤 因此로 결정에 이른다.
+    source_ref: https://www.chinesetest.cn/syllabus
+
+  - id: placement-hsk6-collocation
+    lesson_id: placement-diagnostic
+    level: hsk6
+    sets: [placement]
+    skill_id: chinese-vocabulary
+    topic: HSK 6 어휘 결합
+    difficulty: 4
+    type: single_choice
+    prompt: "빈칸에 가장 자연스러운 동사는? 公司准备通过培训进一步___员工的数据分析能力。"
+    options:
+      - {id: gaishan, text: "改善"}
+      - {id: fasheng, text: "发生"}
+      - {id: tigao, text: "提高"}
+      - {id: quxiao, text: "取消"}
+    correct_answers: [tigao]
+    explanation: 能力, 水平, 效率 등은 提高와 자연스럽게 결합한다. 改善은 환경·조건·관계와 자주 결합한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk6-evaluative-nuance
+    lesson_id: placement-diagnostic
+    level: hsk6
+    sets: [placement]
+    skill_id: chinese-vocabulary
+    topic: HSK 6 유의어 뉘앙스
+    difficulty: 4
+    type: single_choice
+    prompt: "상대가 합리적 근거 없이 자기 의견을 바꾸지 않는다는 부정적 평가에 가장 가까운 단어는?"
+    options:
+      - {id: jianchi, text: "坚持"}
+      - {id: wenjian, text: "稳健"}
+      - {id: qinxu, text: "谦虚"}
+      - {id: guzhi, text: "固执"}
+    correct_answers: [guzhi]
+    explanation: 固执은 융통성 없이 고집한다는 부정적 평가가 강하고, 坚持는 문맥에 따라 긍정적인 끈기를 나타낸다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk6-summary-strength
+    lesson_id: placement-diagnostic
+    level: hsk6
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 6 요약 정확성
+    difficulty: 4
+    type: single_choice
+    prompt: "原文：现有证据在一定程度上支持该方法有效，但长期影响仍有待验证。 원문의 강도를 가장 잘 보존한 요약은?"
+    options:
+      - {id: limited-support, text: "证据有限度地支持其有效性，长期效果尚不确定。"}
+      - {id: fully-proved, text: "该方法已经被完全证明长期有效。"}
+      - {id: totally-useless, text: "所有证据都证明该方法无效。"}
+      - {id: no-evidence, text: "目前没有任何相关证据。"}
+    correct_answers: [limited-support]
+    explanation: 在一定程度上와 有待验证가 나타내는 제한적 지지와 장기 불확실성을 유지한다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk6-sampling
+    lesson_id: placement-diagnostic
+    level: hsk6
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 6 논증 평가
+    difficulty: 4
+    type: single_choice
+    prompt: "한 온라인 강좌 만족도 조사가 자발적으로 응답한 수강생 30명만을 조사해 ‘전체 수강생이 만족한다’고 결론 냈다. 가장 핵심적인 문제는?"
+    options:
+      - {id: too-many-respondents, text: "응답자가 지나치게 많다."}
+      - {id: selection-bias, text: "자발적 소수 응답이 전체 수강생을 대표한다고 보기 어렵다."}
+      - {id: no-language, text: "중국어로 작성됐다는 사실 자체가 문제다."}
+      - {id: no-percentage, text: "결론에 반드시 백분율 기호가 있어야 한다."}
+    correct_answers: [selection-bias]
+    explanation: 자발적 응답자는 만족이나 불만이 강한 사람으로 치우칠 수 있어 표본 대표성이 제한된다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk6-long-reading
+    lesson_id: placement-diagnostic
+    level: hsk6
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 6 장문 논지
+    difficulty: 4
+    type: single_choice
+    prompt: "很多机构用下载量评价知识产品，但下载并不等于使用，更不等于解决了问题。因此，下载量可以反映传播范围，却不宜单独作为价值指标。 필자의 핵심 주장은?"
+    options:
+      - {id: downloads-useless, text: "다운로드 수는 어떤 정보도 주지 못한다."}
+      - {id: use-equals-value, text: "사용만 하면 반드시 문제가 해결된다."}
+      - {id: metric-limited, text: "다운로드 수는 도달 범위를 보여 줄 수 있지만 가치의 단독 지표로는 부족하다."}
+      - {id: maximize-downloads, text: "모든 기관은 다운로드 수만 최대화해야 한다."}
+    correct_answers: [metric-limited]
+    explanation: 필자는 다운로드 수의 일부 효용을 인정하면서 가치 평가를 그것 하나로 제한하는 데 반대한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+
+  - id: placement-hsk7-method-result
+    lesson_id: placement-diagnostic
+    level: hsk7
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 7 학술 독해
+    difficulty: 4
+    type: single_choice
+    prompt: "研究者随机将参与者分为两组，仅实验组使用新工具。八周后实验组平均成绩更高，但两组差异较小。 다음 중 연구 결과와 해석을 구분한 것은?"
+    options:
+      - {id: universal-large, text: "새 도구는 모든 사람에게 큰 효과가 있음이 확정됐다."}
+      - {id: no-comparison, text: "연구에는 비교 집단이 없었다."}
+      - {id: ten-years, text: "효과는 10년 동안 측정됐다."}
+      - {id: result-cautious, text: "평균 차이는 관찰됐지만 차이가 작아 실제 중요성은 추가 검토해야 한다."}
+    correct_answers: [result-cautious]
+    explanation: 평균 점수 차이는 결과지만 그 크기와 일반화 가능성에 대한 판단은 신중해야 한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk7-author-stance
+    lesson_id: placement-diagnostic
+    level: hsk7
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 7 저자 태도
+    difficulty: 4
+    type: single_choice
+    prompt: "该解释具有启发性，但其证据尚不足以排除其他可能。 저자의 태도로 가장 알맞은 것은?"
+    options:
+      - {id: qualified-approval, text: "가치를 일부 인정하지만 증거의 한계를 지적한다."}
+      - {id: complete-rejection, text: "설명을 전면적으로 거부한다."}
+      - {id: unconditional-support, text: "다른 가능성 없이 완전히 지지한다."}
+      - {id: no-opinion, text: "어떤 평가도 하지 않는다."}
+    correct_answers: [qualified-approval]
+    explanation: 具有启发性은 장점을 인정하고, 但与尚不足以는 증거가 충분하지 않다는 유보를 나타낸다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk7-conflict-mediation
+    lesson_id: placement-diagnostic
+    level: hsk7
+    sets: [placement]
+    skill_id: chinese-communication
+    topic: HSK 7 회의 조정
+    difficulty: 4
+    type: single_choice
+    prompt: "마케팅팀은 출시 속도, 기술팀은 안정성을 우려한다. 갈등을 생산적으로 조정하는 발언은?"
+    options:
+      - {id: blame-tech, text: "技术团队总是拖延，别再讨论了。"}
+      - {id: shared-criteria, text: "双方都希望降低整体风险。我们先确定上市时间和稳定性的共同标准，再比较方案，怎么样？"}
+      - {id: ignore-market, text: "市场团队完全不懂技术，所以没有必要听。"}
+      - {id: vague-later, text: "这个问题以后再说，今天不作任何记录。"}
+    correct_answers: [shared-criteria]
+    explanation: 양쪽 관심사와 공통 목표를 정확히 재구성하고 비교할 공동 기준이라는 다음 행동을 제안한다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk7-term-in-context
+    lesson_id: placement-diagnostic
+    level: hsk7
+    sets: [placement]
+    skill_id: chinese-vocabulary
+    topic: HSK 7 전문용어 추론
+    difficulty: 4
+    type: single_choice
+    prompt: "本文把‘韧性’定义为系统受到冲击后维持关键功能并恢复的能力。 문맥상 韧性의 의미는?"
+    options:
+      - {id: speed-only, text: "평상시 처리 속도만 높이는 능력"}
+      - {id: no-change, text: "어떤 변화도 절대 허용하지 않는 상태"}
+      - {id: resilience, text: "충격 속에서 핵심 기능을 유지하고 회복하는 능력"}
+      - {id: lower-cost, text: "비용을 무조건 줄이는 정책"}
+    correct_answers: [resilience]
+    explanation: 텍스트가 维持关键功能并恢复的能力라는 명시적 정의를 제공하므로 일상적 추측보다 이를 따른다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk7-briefing
+    lesson_id: placement-diagnostic
+    level: hsk7
+    sets: [placement]
+    skill_id: chinese-communication
+    topic: HSK 7 전문 브리핑
+    difficulty: 4
+    type: single_choice
+    prompt: "의사결정자에게 시범사업 확대 여부를 보고하는 첫 문장으로 가장 효과적인 것은?"
+    options:
+      - {id: long-history, text: "三年前我们开过很多会，后来天气也发生了变化……"}
+      - {id: hide-request, text: "材料很多，大家可以随便看看。"}
+      - {id: certainty-no-data, text: "不用看数据，扩大一定成功。"}
+      - {id: decision-first, text: "今天需要决定是否扩大试点；根据现有数据，我建议暂缓两周并补充稳定性测试。"}
+    correct_answers: [decision-first]
+    explanation: 청중이 결정할 일, 현재 권고, 근거를 보완할 다음 행동을 첫 문장에 명확히 제시한다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+
+  - id: placement-hsk8-rhetorical-question
+    lesson_id: placement-diagnostic
+    level: hsk8
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 8 수사
+    difficulty: 5
+    type: single_choice
+    prompt: "难道短期效率就是衡量教育的唯一标准吗？ 이 반문의 기능은?"
+    options:
+      - {id: challenge-premise, text: "단기 효율만을 유일한 기준으로 삼는 전제에 도전한다."}
+      - {id: ask-number, text: "효율의 정확한 숫자만 묻는다."}
+      - {id: accept-only, text: "단기 효율이 유일한 기준임을 그대로 수용한다."}
+      - {id: change-topic, text: "교육과 무관한 새 주제를 소개한다."}
+    correct_answers: [challenge-premise]
+    explanation: 难道…吗 형식의 반문은 독자가 부정적 답을 예상하게 하며 기존 전제에 의문을 제기한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk8-understatement
+    lesson_id: placement-diagnostic
+    level: hsk8
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 8 함의
+    difficulty: 5
+    type: single_choice
+    prompt: "발표자가 제안에 대해 ‘这个方案不能说没有优点，不过实施条件还不成熟’라고 말했다. 가장 타당한 해석은?"
+    options:
+      - {id: immediate-approval, text: "조건 없이 즉시 시행을 강하게 지지한다."}
+      - {id: reserved-support, text: "장점은 인정하지만 현재 시행에는 유보적이다."}
+      - {id: no-merit, text: "어떤 장점도 없다고 단언한다."}
+      - {id: conditions-ready, text: "시행 조건이 완전히 갖춰졌다고 본다."}
+    correct_answers: [reserved-support]
+    explanation: 이중부정으로 장점을 제한적으로 인정한 뒤 不过와 条件还不成熟로 현재 시행을 유보한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk8-synthesis-conflict
+    lesson_id: placement-diagnostic
+    level: hsk8
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 8 자료 종합
+    difficulty: 5
+    type: single_choice
+    prompt: "보고서 A는 대기업에서 원격근무 생산성이 올랐다고 하고, 보고서 B는 신입사원의 협업 학습이 낮아졌다고 한다. 가장 좋은 종합은?"
+    options:
+      - {id: a-cancels-b, text: "A가 맞으므로 B의 관찰은 자동으로 거짓이다."}
+      - {id: b-proves-all, text: "B만으로 모든 직원에게 원격근무가 해롭다고 확정한다."}
+      - {id: conditional-synthesis, text: "원격근무의 효과는 조직 규모와 경력·과업에 따라 달라질 수 있어 조건별 설계가 필요하다."}
+      - {id: simple-average, text: "두 보고서의 문장 수를 평균내 결론을 정한다."}
+    correct_answers: [conditional-synthesis]
+    explanation: 두 결과의 대상과 측정 결과가 달라 모순으로만 보지 않고 효과가 달라지는 조건을 도출한다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk8-framing
+    lesson_id: placement-diagnostic
+    level: hsk8
+    sets: [placement]
+    skill_id: chinese-vocabulary
+    topic: HSK 8 프레이밍
+    difficulty: 5
+    type: single_choice
+    prompt: "같은 예산 변화를 ‘优化支出结构’와 ‘削减公共服务’로 표현할 때 가장 적절한 분석은?"
+    options:
+      - {id: identical-neutral, text: "두 표현은 언제나 완전히 중립적이고 함의가 같다."}
+      - {id: first-always-true, text: "첫 표현을 쓰면 정책이 항상 성공했다는 사실이 된다."}
+      - {id: second-no-attitude, text: "削减은 평가나 관점과 전혀 관계가 없다."}
+      - {id: different-framing, text: "첫 표현은 효율적 조정을, 둘째는 서비스 손실을 부각해 서로 다른 평가 틀을 만든다."}
+    correct_answers: [different-framing]
+    explanation: 단어 선택은 같은 변화의 효율성과 손실 중 무엇을 전면에 놓는지 달리해 독자의 평가를 유도한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk8-counterargument
+    lesson_id: placement-diagnostic
+    level: hsk8
+    sets: [placement]
+    skill_id: chinese-writing
+    topic: HSK 8 설득 논증
+    difficulty: 5
+    type: single_choice
+    prompt: "설득문에서 강한 반론을 가장 공정하고 효과적으로 다루는 방법은?"
+    options:
+      - {id: steelman-and-answer, text: "반론의 조건과 근거를 정확히 재진술하고 내 제안이 그 위험을 줄이는 방식을 설명한다."}
+      - {id: distort, text: "반론을 더 약하고 우스운 주장으로 바꿔 공격한다."}
+      - {id: omit, text: "내 결론에 불리한 자료는 출처와 함께 모두 삭제한다."}
+      - {id: insult, text: "반론을 낸 사람의 동기를 공격하고 내용에는 답하지 않는다."}
+    correct_answers: [steelman-and-answer]
+    explanation: 강한 반론을 정확히 다루면 논증의 적용 조건과 완화책을 검증할 수 있다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+
+  - id: placement-hsk9-domain-term
+    lesson_id: placement-diagnostic
+    level: hsk9
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 9 분야 횡단 의미
+    difficulty: 5
+    type: single_choice
+    prompt: "서로 다른 전문 글에서 ‘治理’가 등장했다. 가장 신뢰할 수 있는 해석 절차는?"
+    options:
+      - {id: one-korean-word, text: "첫 사전 번역 하나를 모든 분야에 그대로 대입한다."}
+      - {id: define-in-context, text: "각 글의 정의, 행위 주체, 대상, 측정 방식을 확인한 뒤 공통점과 차이를 명시한다."}
+      - {id: ignore-context, text: "앞뒤 문맥을 읽지 않고 글자 모양만으로 확정한다."}
+      - {id: assume-identical, text: "두 글의 용법은 반드시 완전히 같다고 가정한다."}
+    correct_answers: [define-in-context]
+    explanation: 전문 용어는 분야별 범위가 다르므로 텍스트 내부 정의와 운용 방식을 먼저 확인해야 한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk9-cultural-idiom
+    lesson_id: placement-diagnostic
+    level: hsk9
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 9 문화적 함의
+    difficulty: 5
+    type: single_choice
+    prompt: "정책 문맥에서 ‘摸着石头过河’를 해석하는 가장 적절한 접근은?"
+    options:
+      - {id: literal-only, text: "실제로 돌을 만지며 강을 건너는 동작만 뜻한다고 본다."}
+      - {id: fixed-failure, text: "모든 정책이 실패했다는 고정된 뜻으로 본다."}
+      - {id: gradual-experiment, text: "점진적으로 시험하고 경험에 따라 조정한다는 비유로 읽되 해당 문맥의 정책 대상을 확인한다."}
+      - {id: no-context-needed, text: "역사적·담화적 배경은 어떤 경우에도 확인하지 않는다."}
+    correct_answers: [gradual-experiment]
+    explanation: 표현의 비유적 핵심을 파악하면서도 실제 문맥의 대상과 발화 목적을 함께 확인해야 한다.
+    source_ref: https://www.chinesetest.cn/syllabus
+  - id: placement-hsk9-purposeful-interpretation
+    lesson_id: placement-diagnostic
+    level: hsk9
+    sets: [placement]
+    skill_id: chinese-communication
+    topic: HSK 9 목적별 해석
+    difficulty: 5
+    type: single_choice
+    prompt: "같은 전문 문단을 일반 시민용 안내문으로 바꿀 때 가장 적절한 원칙은?"
+    options:
+      - {id: remove-conditions, text: "읽기 쉽도록 모든 조건과 예외를 삭제한다."}
+      - {id: add-certainty, text: "원문이 추정한 내용도 확정된 사실로 바꾼다."}
+      - {id: copy-jargon, text: "독자의 배경과 상관없이 전문용어를 설명 없이 모두 복사한다."}
+      - {id: preserve-and-explain, text: "조건과 핵심 개념은 보존하되 전문용어를 설명하고 독자가 취할 행동을 명확히 한다."}
+    correct_answers: [preserve-and-explain]
+    explanation: 산출물 목적에 맞게 표현을 풀어도 원문의 조건, 확실성, 핵심 관계는 보존해야 한다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk9-source-triangulation
+    lesson_id: placement-diagnostic
+    level: hsk9
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 9 자료 삼각검증
+    difficulty: 5
+    type: single_choice
+    prompt: "기사 세 편이 모두 같은 통계를 인용하지만 최초 출처는 하나의 기관 보고서다. 가장 정확한 판단은?"
+    options:
+      - {id: one-underlying-source, text: "표면상 세 기사여도 핵심 수치의 독립된 원천은 하나이므로 원보고서를 검토해야 한다."}
+      - {id: three-independent, text: "기사가 세 편이므로 자동으로 독립된 증거 세 개다."}
+      - {id: no-source-needed, text: "수치가 반복되면 최초 출처와 방법은 확인할 필요가 없다."}
+      - {id: majority-proves, text: "다수 기사에 실렸으므로 인과관계까지 증명된다."}
+    correct_answers: [one-underlying-source]
+    explanation: 같은 원천을 반복 인용한 자료는 독립적인 삼각검증이 아니며 원보고서의 방법과 범위를 확인해야 한다.
+    source_ref: https://www.chinesetest.cn/Development?lang=cn
+  - id: placement-hsk9-nuanced-policy
+    lesson_id: placement-diagnostic
+    level: hsk9
+    sets: [placement]
+    skill_id: chinese-reading
+    topic: HSK 9 정교한 논지
+    difficulty: 5
+    type: single_choice
+    prompt: "技术并非天然中立，但这也不意味着其社会后果在设计完成时就已注定。制度、使用方式与利益分配会持续重塑其影响。 필자의 관점은?"
+    options:
+      - {id: neutral-fixed, text: "기술은 완전히 중립이며 사회적 영향이 없다."}
+      - {id: socio-technical, text: "기술은 가치와 무관하지 않지만 그 결과는 제도와 사용 과정에서 계속 형성된다."}
+      - {id: fully-determined, text: "모든 결과는 설계가 끝날 때 영원히 확정된다."}
+      - {id: institutions-irrelevant, text: "제도와 이익 배분은 기술 영향에 아무 역할도 하지 않는다."}
+    correct_answers: [socio-technical]
+    explanation: 필자는 기술의 비중립성과 결과의 비결정성을 동시에 주장하며 제도·사용·분배의 지속적 역할을 강조한다.
+    source_ref: https://www.chinesetest.cn/syllabus
